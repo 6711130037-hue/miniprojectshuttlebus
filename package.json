@@ -1,0 +1,52 @@
+{
+  "name": "react-example",
+  "private": true,
+  "version": "0.0.0",
+  "type": "module",
+  "scripts": {
+    "dev": "node scripts/dev.mjs",
+    "dev:web": "vite --port=3000 --host=0.0.0.0",
+    "dev:api": "tsx watch server/index.ts",
+    "seed:dev": "tsx scripts/seed-development.ts",
+    "seed:booking-demo": "tsx scripts/seed-booking-demo.ts",
+    "seed:trips": "tsx scripts/seed-trip-schedule.ts",
+    "test:e2e:dev": "tsx scripts/test-e2e-development.ts",
+    "build": "vite build",
+    "build:api": "tsc --noEmit --target ES2022 --module ESNext --moduleResolution bundler --esModuleInterop --skipLibCheck server/index.ts server/app.ts server/config/env.ts server/db/pool.ts server/db/query.ts server/http/errors.ts server/auth/password.ts server/auth/sessions.ts server/routes/auth.ts server/routes/admin.ts server/routes/bookings.ts server/routes/catalog.ts server/routes/driver.ts server/routes/health.ts server/middleware/errorHandler.ts server/middleware/requireAuth.ts",
+    "start:api": "tsx server/index.ts",
+    "preview": "vite preview",
+    "clean": "rm -rf dist server.js",
+    "lint": "tsc --noEmit"
+  },
+  "dependencies": {
+    "@google/genai": "^2.4.0",
+    "@tailwindcss/vite": "^4.1.14",
+    "@types/canvas-confetti": "^1.9.0",
+    "@vitejs/plugin-react": "^5.0.4",
+    "canvas-confetti": "^1.9.4",
+    "dotenv": "^17.2.3",
+    "express": "^4.21.2",
+    "html5-qrcode": "^2.3.8",
+    "lucide-react": "^0.546.0",
+    "motion": "^12.23.24",
+    "oracledb": "^7.0.1",
+    "qrcode": "^1.5.4",
+    "react": "^19.0.1",
+    "react-dom": "^19.0.1",
+    "vite": "^6.2.3"
+  },
+  "devDependencies": {
+    "@types/express": "^4.17.21",
+    "@types/node": "^22.14.0",
+    "@types/qrcode": "^1.5.6",
+    "@types/react": "^19.0.0",
+    "@types/react-dom": "^19.0.0",
+    "autoprefixer": "^10.4.21",
+    "esbuild": "^0.25.0",
+    "jsqr": "^1.4.0",
+    "tailwindcss": "^4.1.14",
+    "tsx": "^4.21.0",
+    "typescript": "~5.8.2",
+    "vite": "^6.2.3"
+  }
+}

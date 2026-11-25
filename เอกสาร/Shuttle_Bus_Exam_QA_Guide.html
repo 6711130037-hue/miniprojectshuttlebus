@@ -1,0 +1,801 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+<meta charset="utf-8">
+<title>คู่มือซ้อมตอบอาจารย์ — Shuttle Bus Exam Q&amp;A Guide</title>
+<style>
+
+* { box-sizing: border-box; }
+body { font-family: "Leelawadee UI","Tahoma","Noto Sans Thai",sans-serif;
+  font-size: 10.5pt; line-height: 1.55; color: #14213d; margin: 0; }
+.doc-title { font-size: 26pt; text-align: center; margin: 60mm 0 6mm; color: #0b3d5c; }
+.topic-title { font-size: 15pt; color: #0b3d5c; border-left: 6px solid #0b3d5c;
+  padding: 2mm 0 2mm 4mm; margin: 0 0 4mm; page-break-after: avoid;
+  page-break-before: always; }
+h1 { font-size: 22pt; color: #0b3d5c; margin: 0 0 4mm; }
+h2 { font-size: 14pt; color: #12395b; margin: 6mm 0 2mm; page-break-after: avoid; }
+h3 { font-size: 12pt; color: #0b3d5c; margin: 5mm 0 1.5mm; page-break-after: avoid;
+  border-bottom: 1px dotted #b7c7d3; padding-bottom: 1mm; }
+h4 { font-size: 11pt; color: #14213d; margin: 4mm 0 1mm; page-break-after: avoid; }
+p { margin: 0 0 2mm; text-align: justify; }
+ul, ol { margin: 0 0 2.5mm; padding-left: 7mm; }
+li { margin-bottom: 1mm; }
+code { font-family: "Consolas","Courier New",monospace; font-size: 9pt;
+  background: #eef3f7; padding: 0 1mm; border-radius: 2px; color: #0b3d5c; word-break: break-all; }
+pre { background: #f4f7fa; border: 1px solid #d7e1ea; border-left: 3px solid #0b3d5c;
+  padding: 2.5mm 3mm; margin: 0 0 3mm; white-space: pre-wrap; word-break: break-word;
+  font-size: 8.6pt; line-height: 1.4; page-break-inside: avoid; }
+pre code { background: none; padding: 0; font-size: 8.6pt; color: #14213d; word-break: normal; }
+.tblwrap { margin: 0 0 3.5mm; page-break-inside: avoid; overflow: hidden; }
+table { border-collapse: collapse; width: 100%; font-size: 9pt; table-layout: fixed; }
+th, td { border: 1px solid #c4d2de; padding: 1.4mm 2mm; text-align: left;
+  vertical-align: top; word-break: break-word; }
+th { background: #e7eff5; color: #0b3d5c; font-weight: 700; }
+tbody tr:nth-child(even) td { background: #f8fafc; }
+blockquote { margin: 0 0 3mm; padding: 2mm 3mm; background: #fff8e6;
+  border-left: 3px solid #e0a800; font-size: 9.8pt; }
+hr { border: none; border-top: 1px solid #d7e1ea; margin: 5mm 0; }
+strong { color: #0b3d5c; }
+
+@page { size: A4; margin: 18mm 15mm 16mm 15mm; }
+@media print { .doc-title { margin-top: 0; padding-top: 40mm; } }
+</style>
+</head>
+<body>
+<h1 class="doc-title" id="คู่มือซ้อมตอบอาจารย์">คู่มือซ้อมตอบอาจารย์</h1>
+<h2 id="ระบบจองตั๋วรถโดยสาร-mut-shuttle-bus-system">ระบบจองตั๋วรถโดยสาร MUT Shuttle Bus System</h2>
+<p>เอกสารนี้เป็น "คู่มือซ้อมตอบ" สำหรับสอบปากเปล่า/ตอบคำถามอาจารย์ ทุกคำตอบสร้างจาก<strong>โค้ดจริงของโปรเจกต์นี้เท่านั้น</strong> ไม่ได้เดา และไม่ได้สร้างชื่อ File / Function / API / Table / Column ขึ้นเอง ชื่อ code ทั้งหมดเป็นภาษาอังกฤษตามโค้ด ส่วนคำอธิบายเป็นภาษาไทย</p>
+<p><strong>วิธีใช้:</strong> อ่านหัวข้อ "ภาพรวม" ให้เข้าใจก่อน แล้วซ้อมตอบในส่วน "คำถาม–คำตอบ" โดยพูดตอบด้วยประโยคในช่อง "คำตอบแบบพูดตอบอาจารย์" และยิงหลักฐานด้วย "หลักฐานในโค้ด" ถ้าอาจารย์ถามต่อ ให้ใช้ "คำถามต่อยอด–คำตอบต่อยอด"</p>
+<h3 id="สารบัญ">สารบัญ</h3>
+<div class="tblwrap"><table><thead><tr><th>หัวข้อ</th><th>เรื่อง</th><th>คะแนนตอบคำถาม</th></tr></thead><tbody><tr><td>1</td><td>Login / Logout ตามสิทธิ์ที่กำหนด</td><td>2</td></tr><tr><td>2</td><td>จัดการสิทธิ์แบบ dynamic เพิ่ม–ลบ–แก้ไข–ค้นหา</td><td>3</td></tr><tr><td>3</td><td>จัดการพนักงาน เพิ่ม–ลบ–แก้ไข–ค้นหา</td><td>3</td></tr><tr><td>4</td><td>ระบบการจอง + ตรวจสอบเงื่อนไขในการจอง</td><td>5</td></tr><tr><td>5</td><td>ระบบการจอง + Gen QR Code และดูรอบที่จะมาถึง</td><td>1</td></tr><tr><td>6</td><td>ระบบการจอง + ยกเลิกตามเงื่อนไขและคืนที่นั่ง</td><td>3</td></tr><tr><td>7</td><td>ระบบคนขับ + แสดงตารางงานรายวัน</td><td>1</td></tr><tr><td>8</td><td>ระบบคนขับ + เริ่มงานและดูผู้โดยสารตามจุดจอด</td><td>1</td></tr><tr><td>9</td><td>ระบบคนขับ + เช็ค QR Code ของผู้โดยสาร</td><td>1</td></tr><tr><td>10</td><td>ระบบคนขับ + แสดง/สแกน QR ผู้โดยสารที่มาใช้จริง</td><td>3</td></tr></tbody></table></div>
+<h3 id="โครงสร้างไฟล์ระบบที่ต้องรู้จัก">โครงสร้างไฟล์ระบบที่ต้องรู้จัก</h3>
+<div class="tblwrap"><table><thead><tr><th>ส่วน</th><th>ไฟล์หลัก</th></tr></thead><tbody><tr><td>Backend (Express + Oracle)</td><td><code>server/app.ts</code>, <code>server/routes/*.ts</code>, <code>server/auth/*.ts</code>, <code>server/middleware/*.ts</code></td></tr><tr><td>Frontend (React + TypeScript)</td><td><code>src/App.tsx</code>, <code>src/context/BusContext.tsx</code>, <code>src/api/client.ts</code>, <code>src/components/**</code></td></tr><tr><td>ฐานข้อมูล</td><td><code>database.sql</code>, <code>migrations/*.sql</code></td></tr></tbody></table></div>
+<p>การติดตั้ง route ใน <code>server/app.ts</code> (บรรทัด 16–22):</p>
+<pre><code>app.use('/api/auth', createAuthRouter(pool));
+app.use('/api/admin', createAdminRouter(pool));
+app.use('/api', createCatalogRouter(pool));
+app.use('/api/bookings', createBookingsRouter(pool));
+app.use('/api/driver', createDriverRouter(pool));
+app.use('/api', createHealthRouter(pool));
+app.use(errorHandler);</code></pre>
+<blockquote>หมายเหตุ: ระบบมี 2 โหมดคือ <strong>API mode</strong> (ข้อมูลจริงจาก Oracle) และ <strong>โหมดจำลอง/ออกแบบ</strong> (ข้อมูลใน <code>src/data/mockDatabase.ts</code>) คำตอบทั้งหมดในเอกสารนี้อ้างอิง<strong>โหมด API</strong> เพราะเป็นส่วนที่เขียนลงฐานข้อมูลจริง</blockquote>
+<h1 class="topic-title" id="หัวข้อ-1-login-logout-ตามสิทธิ์ที่กำหนด-2-คะแนน">หัวข้อ 1: Login / Logout ตามสิทธิ์ที่กำหนด (2 คะแนน)</h1>
+<h2 id="ภาพรวม">ภาพรวม</h2>
+<p>ระบบแยกปลายทางล็อกอินออกเป็น 3 endpoint ตามบทบาท คือผู้โดยสาร คนขับ และผู้ดูแลระบบ ทุกเคสอ่านบัญชีจาก Oracle แล้วตรวจรหัสผ่านด้วย <code>verifyPassword</code> (scrypt) ก่อนสร้าง session แบบ Bearer token คนขับและแอดมินจะต้องมีสิทธิ์หน้าจอในตาราง <code>ROLE_PERMISSION</code> ด้วย จึงจะล็อกอินผ่าน ฝั่งเว็บเก็บ token ไว้ใน <code>sessionStorage</code> แนบทุกคำขอ และ logout คือการลบ session ฝั่งเซิร์ฟเวอร์ + ล้าง token ฝั่งเว็บ</p>
+<h2 id="จุดสำคัญในโค้ด">จุดสำคัญในโค้ด</h2>
+<div class="tblwrap"><table><thead><tr><th>เรื่อง</th><th>ไฟล์</th><th>Function / Route</th><th>บรรทัด</th></tr></thead><tbody><tr><td>ติดตั้ง router</td><td><code>server/app.ts</code></td><td><code>app.use('/api/auth', ...)</code></td><td>16</td></tr><tr><td>เช็ก body</td><td><code>server/routes/auth.ts</code></td><td><code>credentials()</code></td><td>12–24</td></tr><tr><td>ล็อกอินผู้โดยสาร</td><td><code>server/routes/auth.ts</code></td><td><code>POST /api/auth/passenger/login</code></td><td>85–118</td></tr><tr><td>ล็อกอินคนขับ</td><td><code>server/routes/auth.ts</code></td><td><code>POST /api/auth/driver/login</code></td><td>120–169</td></tr><tr><td>ล็อกอินแอดมิน</td><td><code>server/routes/auth.ts</code></td><td><code>POST /api/auth/admin/login</code></td><td>171–220</td></tr><tr><td>สมัครผู้โดยสาร</td><td><code>server/routes/auth.ts</code></td><td><code>POST /api/auth/passenger/register</code></td><td>29–83</td></tr><tr><td>ออกจากระบบ</td><td><code>server/routes/auth.ts</code></td><td><code>POST /api/auth/logout</code></td><td>226–230</td></tr><tr><td>แฮช/ตรวจรหัสผ่าน</td><td><code>server/auth/password.ts</code></td><td><code>hashPassword()</code>, <code>verifyPassword()</code></td><td>24–35, 37–58</td></tr><tr><td>เก็บ session</td><td><code>server/auth/sessions.ts</code></td><td><code>createSession()</code>, <code>getSession()</code>, <code>deleteSession()</code></td><td>18–41</td></tr><tr><td>เช็ก token ทุกคำขอ</td><td><code>server/middleware/requireAuth.ts</code></td><td><code>requireAuth(kind?)</code></td><td>9–21</td></tr><tr><td>เรียก API ฝั่งเว็บ</td><td><code>src/api/client.ts</code></td><td><code>apiLogin()</code>, <code>api()</code></td><td>30–36, 19–28</td></tr><tr><td>ฟอร์มล็อกอิน</td><td><code>src/components/auth/LoginScreen.tsx</code></td><td><code>handleFormSubmit</code></td><td>44–96</td></tr><tr><td>ล็อกอินแล้วโหลดข้อมูล</td><td><code>src/context/BusContext.tsx</code></td><td><code>apiLoginComplete</code>, <code>apiAdminLoginComplete</code></td><td>1390, 1649</td></tr><tr><td>logout ฝั่งเว็บ</td><td><code>src/context/BusContext.tsx</code></td><td><code>logout()</code></td><td>1938–1944</td></tr></tbody></table></div>
+<p><strong>Database:</strong> <code>SYSTEM_USER</code> (PK <code>USER_ID</code>, columns <code>USERNAME</code>, <code>PASSWORD_HASH</code>, <code>IS_ACTIVE</code>), <code>EMPLOYEE</code> (PK <code>EMPLOYEE_ID</code>, columns <code>USERNAME</code>, <code>PASSWORD_HASH</code>, <code>POSITION_ID</code> FK → <code>POSITION</code>, <code>IS_ACTIVE</code>), <code>ROLE_PERMISSION</code> (PK <code>PERMISSION_ID</code>, FK <code>POSITION_ID</code>, <code>SCREEN_ID</code>), <code>SCREEN</code> (PK <code>SCREEN_ID</code>, unique <code>SCREEN_CODE</code>)</p>
+<h2 id="คำถามและคำตอบ">คำถามและคำตอบ</h2>
+<h3 id="ข้อ-1-1-ระดับ-1-ระบบมี-endpoint-ล็อกอินอะไรบ้าง-และอยู่ไฟล์ไหน">ข้อ 1.1 (ระดับ 1) ระบบมี endpoint ล็อกอินอะไรบ้าง และอยู่ไฟล์ไหน?</h3>
+<p><strong>คำตอบแบบพูดตอบอาจารย์:</strong> "มี 3 ตัวครับ อยู่ใน <code>server/routes/auth.ts</code> ทั้งหมด คือ <code>POST /api/auth/passenger/login</code>, <code>POST /api/auth/driver/login</code>, และ <code>POST /api/auth/admin/login</code> ครับ"</p>
+<p><strong>หลักฐานในโค้ด:</strong> File <code>server/routes/auth.ts</code> บรรทัด 85, 120, 171 — ทั้งสาม route อยู่ใน <code>createAuthRouter(pool)</code> และ <code>server/app.ts</code> บรรทัด 16 mount ไว้ที่ <code>/api/auth</code></p>
+<p><strong>คำถามต่อยอด:</strong> "ทำไมต้องแยก 3 endpoint ไม่ใช้ตัวเดียวแล้วเช็ก role ทีหลัง?"<br><strong>คำตอบต่อยอด:</strong> "เพราะแต่ละบทบาทอ่านคนละตารางและมีเงื่อนไขต่างกัน ผู้โดยสารอ่าน <code>SYSTEM_USER</code> ส่วนคนขับ/แอดมินอ่าน <code>EMPLOYEE</code> และคนขับต้องเช็กสิทธิ์หน้าจอ 8820 แอดมินต้องเช็กหน้าจอ 1101/1102/1103 ครับ"</p>
+<h3 id="ข้อ-1-2-ระดับ-2-ล็อกอินผู้โดยสารทำงานอย่างไร-ทีละขั้น">ข้อ 1.2 (ระดับ 2) ล็อกอินผู้โดยสารทำงานอย่างไร ทีละขั้น?</h3>
+<p><strong>คำตอบแบบพูดตอบอาจารย์:</strong> "ผู้ใช้กรอก username/password ใน <code>LoginScreen</code> แล้วฟอร์มเรียก <code>apiLogin('passenger', ...)</code> ซึ่งยิง <code>POST /api/auth/passenger/login</code> ฝั่งเซิร์ฟเวอร์เช็ก body ด้วย <code>credentials()</code> แล้ว SELECT จาก <code>SYSTEM_USER</code> เงื่อนไข <code>USERNAME = :username AND IS_ACTIVE = 'Y'</code> ถ้าไม่พบหรือรหัสผ่านไม่ผ่านจะได้ 401 ถ้าผ่านก็ <code>createSession()</code> แล้วคืน token กลับมา ฝั่งเว็บเก็บ token ลง <code>sessionStorage</code> ครับ"</p>
+<p><strong>หลักฐานในโค้ด:</strong></p>
+<ul>
+<li>File <code>server/routes/auth.ts</code> บรรทัด 85–118 — SQL <code>SELECT USER_ID, NAME, USERNAME, PASSWORD_HASH, USER_TYPE, PHONE FROM SYSTEM_USER WHERE USERNAME = :username AND IS_ACTIVE = 'Y'</code> (88–92) และ <code>if (!user || !(await verifyPassword(...))) throw new HttpError(401, ...)</code> (96–98)</li>
+<li>File <code>src/api/client.ts</code> บรรทัด 30–36 — <code>const result = await api(.../auth/${role}/login...); apiToken.set(result.token)</code></li>
+</ul>
+<p><strong>Flow:</strong> <code>LoginScreen.handleFormSubmit</code> → <code>apiLogin()</code> → <code>POST /api/auth/passenger/login</code> → ค้น <code>SYSTEM_USER</code> → <code>verifyPassword</code> → <code>createSession</code> → คืน <code>token</code> → <code>apiToken.set()</code> เก็บใน <code>sessionStorage</code></p>
+<p><strong>คำถามต่อยอด:</strong> "ถ้าผู้ใช้ถูกปิดบัญชี (<code>IS_ACTIVE = 'N'</code>) จะเกิดอะไรขึ้น?"<br><strong>คำตอบต่อยอด:</strong> "SELECT มีเงื่อนไข <code>IS_ACTIVE = 'Y'</code> ด้วย แถวจะไม่ถูกดึงมาจึงได้ 401 Invalid username or password ครับ"</p>
+<h3 id="ข้อ-1-3-ระดับ-2-รหัสผ่านถูกเก็บอย่างไร-และตรวจอย่างไร">ข้อ 1.3 (ระดับ 2) รหัสผ่านถูกเก็บอย่างไร และตรวจอย่างไร?</h3>
+<p><strong>คำตอบแบบพูดตอบอาจารย์:</strong> "ไม่เก็บ plaintext ครับ ใช้ <code>scrypt</code> N=16384, r=8, p=1, key 64 bytes และ salt สุ่ม 16 byte เก็บในคอลัมน์ <code>PASSWORD_HASH</code> รูปแบบ <code>scrypt$16384$8$1$&lt;salt&gt;$&lt;key&gt;</code> ตอนตรวจ ฟังก์ชัน <code>verifyPassword</code> จะแตก string เป็น 6 ส่วน ตรวจพารามิเตอร์ให้ตรง แล้ว derive key ใหม่จาก salt เดิม แล้วเทียบด้วย <code>timingSafeEqual</code> ซึ่งปลอดภัยกว่าการเทียบ string ตรง ๆ ครับ"</p>
+<p><strong>หลักฐานในโค้ด:</strong> File <code>server/auth/password.ts</code> — ค่าคงที่บรรทัด 3–7, <code>hashPassword()</code> บรรทัด 24–35, <code>verifyPassword()</code> บรรทัด 37–58 (คืน <code>false</code> ทันทีถ้า salt ยาวไม่ใช่ 16 หรือ key ไม่ใช่ 64 บรรทัด 52 และคืน <code>timingSafeEqual(actual, expected)</code> บรรทัด 54)</p>
+<p><strong>คำถามต่อยอด:</strong> "ถ้าข้อมูลในฐานข้อมูลถูกแก้ <code>PASSWORD_HASH</code> เป็นค่าอื่น จะเข้าสู่ระบบได้ไหม?"<br><strong>คำตอบต่อยอด:</strong> "ถ้าแก้เป็นข้อความธรรมดาจะไม่ผ่าน เพราะ <code>verifyPassword</code> เช็กว่ามี 6 ส่วนและขึ้นต้นด้วย <code>scrypt</code> พร้อมพารามิเตอร์ตรงเงื่อนไข ไม่ตรงก็คืน <code>false</code> แล้วได้ 401 ครับ"</p>
+<h1 class="topic-title" id="หัวข้อ-1-ต่อ-คำถามระดับ-2-3">หัวข้อ 1 (ต่อ): คำถามระดับ 2–3</h1>
+<h3 id="ข้อ-1-4-ระดับ-2-รหัสผ่านถูกต้องแล้ว-ทำไมบางคนยังล็อกอินไม่ได้">ข้อ 1.4 (ระดับ 2) รหัสผ่านถูกต้องแล้ว ทำไมบางคนยังล็อกอินไม่ได้?</h3>
+<p><strong>คำตอบแบบพูดตอบอาจารย์:</strong> "สำหรับคนขับ ระบบจะตรวจสิทธิ์หน้าจอต่อครับ — หลัง <code>verifyPassword</code> ผ่านแล้ว <code>POST /driver/login</code> จะ query <code>ROLE_PERMISSION JOIN SCREEN</code> เงื่อนไข <code>POSITION_ID ของพนักงาน</code> + <code>SCREEN_CODE = '8820'</code> + <code>CAN_VIEW = 'Y'</code> ถ้าไม่พบจะได้ 403 พร้อมข้อความบอกว่ารหัสผ่านถูกต้องแต่ยังไม่ได้รับสิทธิ์หน้าจอคนขับ ให้ผู้ดูแลไปกำหนดสิทธิ์ก่อน ครับ ส่วนแอดมินต้องมีสิทธิ์อย่างน้อยหนึ่งใน <code>1101</code>, <code>1102</code>, <code>1103</code> ครับ"</p>
+<p><strong>Relevant Code</strong> (<code>server/routes/auth.ts</code> 135–149):</p>
+<pre><code>SELECT 1 AS ALLOWED
+FROM ROLE_PERMISSION RP JOIN SCREEN S ON S.SCREEN_ID = RP.SCREEN_ID
+WHERE RP.POSITION_ID = :positionId
+  AND S.SCREEN_CODE = :screenCode      -- '8820'
+  AND RP.CAN_VIEW = 'Y'</code></pre>
+<pre><code>if (!hasDriverScreenPermission) {
+  throw new HttpError(403, 'ชื่อผู้ใช้และรหัสผ่านถูกต้อง แต่ตำแหน่งนี้ยังไม่ได้รับสิทธิ์หน้าจอคนขับ (8820) ...');
+}</code></pre>
+<p><strong>คำถามต่อยอด:</strong> ถ้าแอดมินเพิกถอนสิทธิ์ 8820 ของคนขับคนนี้ คนขับที่ล็อกอินค้างอยู่จะเป็นอย่างไร?<br><strong>คำตอบต่อยอด:</strong> "session เดิมยังใช้ได้จนหมดอายุ (12 ชั่วโมง) แต่ทุกคำขอใน <code>driver.ts</code> มี <code>requireScreenPermission</code> ที่ query <code>ROLE_PERMISSION</code> ใหม่ทุกครั้ง จึงจะโดน 403 ทันทีในคำขอถัดไปครับ ต่างจากตอนล็อกอินที่เช็กเฉพาะตอนเริ่ม"</p>
+<h3 id="ข้อ-1-5-ระดับ-2-token-มาจากไหน-เก็บที่ไหน-หมดอายุเมื่อไหร่">ข้อ 1.5 (ระดับ 2) Token มาจากไหน เก็บที่ไหน หมดอายุเมื่อไหร่?</h3>
+<p><strong>คำตอบแบบพูดตอบอาจารย์:</strong> "ตอนล็อกอิน <code>createSession</code> สุ่ม <code>randomBytes(32).toString('base64url')</code> เป็น token แล้วเก็บใน <code>Map</code> ของเซิร์ฟเวอร์พร้อม <code>expiresAt = Date.now() + 12 ชั่วโมง</code> (<code>SESSION_LIFETIME_MS = 12 * 60 * 60 * 1000</code>) ฝั่งเว็บเก็บใน <code>sessionStorage</code> คีย์ <code>shuttle_api_token</code> แล้ว <code>api()</code> จะแนบ <code>Authorization: Bearer &lt;token&gt;</code> ทุกคำขอครับ"</p>
+<p><strong>หลักฐานในโค้ด:</strong> <code>server/auth/sessions.ts</code> 15–27 (<code>SESSION_LIFETIME_MS</code>, <code>sessions = new Map()</code>, <code>createSession</code>), 29–37 (<code>getSession</code> ลบ token ที่หมดอายุ), <code>src/api/client.ts</code> 13–17, 22–23</p>
+<p><strong>คำถามต่อยอด:</strong> ถ้า token หมดอายุ ระบบตอบอย่างไร?<br><strong>คำตอบต่อยอด:</strong> "<code>getSession</code> คืน <code>undefined</code> เมื่อ <code>expiresAt &lt;= Date.now()</code> แล้วลบออกจาก Map ทำให้ <code>requireAuth</code> คืน 401 'Authentication required' ครับ"</p>
+<h3 id="ข้อ-1-6-ระดับ-2-ระบบตรวจสอบสิทธิ์ทุกคำขออย่างไร">ข้อ 1.6 (ระดับ 2) ระบบตรวจสอบสิทธิ์ทุกคำขออย่างไร?</h3>
+<p><strong>คำตอบแบบพูดตอบอาจารย์:</strong> "ด้วย middleware <code>requireAuth(kind)</code> ครับ — ดึง header <code>authorization</code> จับด้วย regex <code>/^Bearer\s+([A-Za-z0-9_-]+)$/i</code> แล้วเรียก <code>getSession(token)</code> ถ้าไม่เจอ session หรือ <code>kind</code> ไม่ตรงกับที่ route ต้องการ จะ <code>next(new HttpError(401))</code> ถ้าผ่านจะใส่ session ไว้ที่ <code>response.locals.authSession</code> ให้ handler เรียกผ่าน <code>sessionFrom(response)</code> ครับ"</p>
+<p><strong>Relevant Code</strong> (<code>server/middleware/requireAuth.ts</code> 9–21):</p>
+<pre><code>export function requireAuth(kind?: SessionKind): RequestHandler {
+  return (request, response, next) =&gt; {
+    const authorization = request.header('authorization') ?? '';
+    const match = /^Bearer\s+([A-Za-z0-9_-]+)$/i.exec(authorization);
+    const session = match ? getSession(match[1]) : undefined;
+    if (!session || (kind &amp;&amp; session.kind !== kind)) {
+      next(new HttpError(401, 'Authentication required'));
+      return;
+    }
+    response.locals.authSession = session;
+    next();
+  };
+}</code></pre>
+<p><strong>คำถามต่อยอด:</strong> ถ้าแอดมินเอา token ของผู้โดยสารไปใช้?<br><strong>คำตอบต่อยอด:</strong> "ไม่ได้ครับ เพราะ <code>router.use(requireAuth('admin'))</code> (<code>admin.ts</code> 62) และ <code>requireAuth('passenger')</code> (<code>bookings.ts</code> 27) เช็ก <code>session.kind</code> ไม่ตรงกัน → 401"</p>
+<h3 id="ข้อ-1-7-ระดับ-2-กด-logout-เกิดอะไรขึ้นทั้งสองฝั่ง">ข้อ 1.7 (ระดับ 2) กด Logout เกิดอะไรขึ้นทั้งสองฝั่ง?</h3>
+<p><strong>คำตอบแบบพูดตอบอาจารย์:</strong> "ฝั่งเว็บ <code>logout()</code> ใน <code>BusContext</code> จะยิง <code>POST /api/auth/logout</code> ก่อน แล้วล้าง token ด้วย <code>apiToken.clear()</code> ตั้ง <code>setApiMode(false)</code> รีเซ็ต state เป็นผู้โดยสาร ส่วนเซิร์ฟเวอร์ <code>POST /logout</code> เรียก <code>deleteSession(session.token)</code> ซึ่งลบออกจาก <code>Map</code> ทันที ทำให้ token นั้นใช้ต่อไม่ได้เลยครับ"</p>
+<p><strong>หลักฐานในโค้ด:</strong> <code>src/context/BusContext.tsx</code> 1938–1944, <code>server/routes/auth.ts</code> 226–230, <code>server/auth/sessions.ts</code> 39–41</p>
+<p><strong>คำถามต่อยอด:</strong> ถ้าไม่เรียก API logout แล้วปิด browser เลย?<br><strong>คำตอบต่อยอด:</strong> "token ยังอยู่ใน <code>Map</code> ฝั่งเซิร์ฟเวอร์จนกว่าจะหมดอายุ 12 ชั่วโมง แต่ <code>sessionStorage</code> ของ tab นั้นถูกล้างเมื่อปิด จึงไม่มี token ให้ใช้ต่อ อย่างไรก็ตาม token ที่ถูก copy ไปจะยังใช้ได้จนหมดอายุ ซึ่งเป็นลักษณะของ token ที่ไม่มีกลไกลบฝั่ง client ครับ"</p>
+<h3 id="ข้อ-1-8-ระดับ-3-ถ้า-restart-api-ระหว่างที่คนใช้งาน-จะเกิดอะไรขึ้น">ข้อ 1.8 (ระดับ 3) ถ้า restart API ระหว่างที่คนใช้งาน จะเกิดอะไรขึ้น?</h3>
+<p><strong>คำตอบแบบพูดตอบอาจารย์:</strong> "ผู้ใช้ทุกคนจะถูก logout ออกเพราะ <code>sessions</code> เป็น <code>Map</code> ในหน่วยความจำของ process พอ process ใหม่เริ่มต้น Map ว่าง คำขอถัดไปจะได้ 401 ครับ ข้อมูลใน Oracle ไม่ได้รับผลกระทบ และ token ที่ client เก็บไว้จะกลายเป็น token ที่ใช้ไม่ได้ ต้องล็อกอินใหม่"</p>
+<p><strong>หลักฐานในโค้ด:</strong> <code>server/auth/sessions.ts</code> 16 (<code>const sessions = new Map&lt;string, AuthSession&gt;();</code>) — ไม่มีการ persist ลงฐานข้อมูลหรือไฟล์</p>
+<p><strong>คำถามต่อยอด:</strong> ถ้าอยากให้ session อยู่รอดตอน restart ต้องทำอย่างไร?<br><strong>คำตอบต่อยอด:</strong> "ต้องย้ายไปเก็บในตาราง Oracle (เช่น ตาราง SESSION ที่มี TOKEN, EXPIRES_AT) แล้วเปลี่ยน <code>createSession/getSession/deleteSession</code> ให้ query แทน หรือใช้ JWT ที่ตรวจสอบได้เองโดยไม่ต้องเก็บฝั่งเซิร์ฟเวอร์ ครับ"</p>
+<h2 id="สิ่งที่ต้องจำ-หัวข้อ-1">สิ่งที่ต้องจำ (หัวข้อ 1)</h2>
+<ol>
+<li>3 endpoint ล็อกอินใน <code>server/routes/auth.ts</code> (85 / 120 / 171) + <code>POST /logout</code> (226) + <code>GET /me</code> (222)</li>
+<li><code>verifyPassword</code> = scrypt + <code>timingSafeEqual</code> — ไม่เทียบ plaintext</li>
+<li>คนขับต้องมี <code>SCREEN_CODE='8820'</code> และแอดมินต้องมี <code>1101/1102/1103</code> อย่างน้อยหนึ่งตัว (<code>CAN_VIEW='Y'</code>) ไม่เช่นนั้น 403</li>
+<li>Token = <code>randomBytes(32)</code> base64url, อายุ 12 ชม., เก็บใน <code>Map</code> ฝั่งเซิร์ฟเวอร์ + <code>sessionStorage</code> ฝั่งเว็บ (คีย์ <code>shuttle_api_token</code>)</li>
+<li><code>requireAuth(kind)</code> ตรวจ regex Bearer + <code>session.kind</code> → 401</li>
+<li>Logout = <code>deleteSession()</code> + <code>apiToken.clear()</code></li>
+<li><strong>ข้อจำกัด:</strong> session อยู่ในหน่วยความจำ → restart แล้วหาย</li>
+</ol>
+<h1 class="topic-title" id="หัวข้อ-2-จัดการสิทธิ์แบบ-dynamic-เพิ่ม-ลบ-แก้ไข-ค้นหา-3-คะแนน">หัวข้อ 2: จัดการสิทธิ์แบบ dynamic เพิ่ม–ลบ–แก้ไข–ค้นหา (3 คะแนน)</h1>
+<h2 id="ภาพรวม">ภาพรวม</h2>
+<p>สิทธิ์ถูกกำหนดแบบ <strong>RBAC</strong> คือผูก <code>EMPLOYEE.POSITION_ID</code> → <code>POSITION</code> → ตารางกลาง <code>ROLE_PERMISSION</code> → <code>SCREEN</code> โดยแต่ละคู่ (ตำแหน่ง, หน้าจอ) มี <code>CAN_VIEW</code> และ <code>CAN_EDIT</code> คำว่า "dynamic" หมายถึงผู้ดูแลเพิ่ม/แก้/ลบคู่ตำแหน่ง–หน้าจอได้จากหน้าเว็บโดยไม่ต้องแก้โค้ด ฝั่งเซิร์ฟเวอร์ตรวจสิทธิ์ซ้ำทุกครั้งที่เรียก endpoint ที่มีการแก้ข้อมูล ไม่ได้พึ่งการซ่อนปุ่มอย่างเดียว</p>
+<h2 id="จุดสำคัญในโค้ด">จุดสำคัญในโค้ด</h2>
+<div class="tblwrap"><table><thead><tr><th>เรื่อง</th><th>ไฟล์</th><th>Function / Route</th><th>บรรทัด</th></tr></thead><tbody><tr><td>หน้าจอทั้งหมด (โค้ดหน้าจอ)</td><td><code>src/data/mockDatabase.ts</code></td><td><code>initialScreens</code></td><td>70–78</td></tr><tr><td>ตารางสิทธิ์ตัวอย่าง</td><td><code>src/data/mockDatabase.ts</code></td><td><code>initialPermissions</code></td><td>83–97</td></tr><tr><td>เช็กสิทธิ์ฝั่งเว็บ</td><td><code>src/context/BusContext.tsx</code></td><td><code>canViewScreen()</code>, <code>canEditScreen()</code>, <code>getPermittedScreens()</code></td><td>709–741</td></tr><tr><td>เพิ่มสิทธิ์ (เว็บ)</td><td><code>src/context/BusContext.tsx</code></td><td><code>addPermission()</code></td><td>743–798</td></tr><tr><td>แก้สิทธิ์ (เว็บ)</td><td><code>src/context/BusContext.tsx</code></td><td><code>updatePermission()</code></td><td>805–837</td></tr><tr><td>ลบสิทธิ์ (เว็บ)</td><td><code>src/context/BusContext.tsx</code></td><td><code>deletePermission()</code></td><td>800–803</td></tr><tr><td>หน้าจัดการสิทธิ์</td><td><code>src/components/live/screens/RbacManagementView.tsx</code></td><td><code>handleAddPermissionSubmit</code>, ปุ่ม toggle, ค้นหา</td><td>48–64, 255–316, 66–84</td></tr><tr><td>เรียก API สิทธิ์</td><td><code>src/api/client.ts</code></td><td><code>apiUpsertPermission()</code>, <code>apiHideAdminRecord()</code></td><td>253–262, 241–245</td></tr><tr><td>เพิ่ม/อัปเดตสิทธิ์ (เซิร์ฟ)</td><td><code>server/routes/admin.ts</code></td><td><code>POST /api/admin/permissions</code></td><td>618–661</td></tr><tr><td>ซ่อนสิทธิ์ (เซิร์ฟ)</td><td><code>server/routes/admin.ts</code></td><td><code>POST /api/admin/visibility/hide</code></td><td>910–954</td></tr><tr><td>ตรวจสิทธิ์ก่อนแก้ข้อมูล</td><td><code>server/routes/admin.ts</code></td><td><code>requireScreenEdit(pool, screenCode)</code></td><td>16–37</td></tr><tr><td>ตรวจสิทธิ์คนขับ</td><td><code>server/routes/driver.ts</code></td><td><code>requireScreenPermission(pool, canEdit)</code></td><td>19–39</td></tr></tbody></table></div>
+<p><strong>Database:</strong> <code>SCREEN</code> (PK <code>SCREEN_ID</code>, unique <code>SCREEN_CODE</code>), <code>ROLE_PERMISSION</code> (PK <code>PERMISSION_ID</code>, FK <code>POSITION_ID</code> → <code>POSITION</code>, FK <code>SCREEN_ID</code> → <code>SCREEN</code>, columns <code>CAN_VIEW</code>, <code>CAN_EDIT</code>), <code>WEB_HIDDEN_RECORD</code> (PK <code>(ENTITY_NAME, RECORD_KEY, OWNER_ID)</code>)</p>
+<p><strong>Constraint สำคัญใน <code>database.sql</code>:</strong> <code>CK_RP_CAN_VIEW</code>, <code>CK_RP_CAN_EDIT</code>, <code>CK_RP_EDIT_REQUIRES_VIEW CHECK (CAN_EDIT = 'N' OR CAN_VIEW = 'Y')</code>, <code>UQ_RP_POSITION_SCREEN UNIQUE (POSITION_ID, SCREEN_ID)</code></p>
+<h3 id="คำถามและคำตอบ">คำถามและคำตอบ</h3>
+<h3 id="ข้อ-2-1-ระดับ-1-ข้อมูลสิทธิ์เก็บอยู่ตารางไหน-มีคอลัมน์อะไรบ้าง">ข้อ 2.1 (ระดับ 1) ข้อมูลสิทธิ์เก็บอยู่ตารางไหน มีคอลัมน์อะไรบ้าง?</h3>
+<p><strong>คำตอบแบบพูดตอบอาจารย์:</strong> "เก็บในตาราง <code>ROLE_PERMISSION</code> ครับ คอลัมน์หลักคือ <code>PERMISSION_ID</code> (PK), <code>POSITION_ID</code> (FK ไป <code>POSITION</code>), <code>SCREEN_ID</code> (FK ไป <code>SCREEN</code>), <code>CAN_VIEW</code> และ <code>CAN_EDIT</code> ส่วนตาราง <code>SCREEN</code> เก็บ <code>SCREEN_CODE</code> เป็น string 4 ตัวอักษร เช่น 9102, 8820 ครับ"</p>
+<p><strong>หลักฐานในโค้ด:</strong> <code>database.sql</code> — <code>PK_ROLE_PERMISSION</code>, <code>UQ_RP_POSITION_SCREEN</code>, <code>CK_RP_CAN_VIEW</code>, <code>CK_RP_CAN_EDIT</code>, <code>CK_RP_EDIT_REQUIRES_VIEW</code>, <code>FK_RP_POSITION</code>, <code>FK_RP_SCREEN</code></p>
+<p><strong>คำถามต่อยอด:</strong> ถ้าตั้ง <code>CAN_EDIT='Y'</code> แต่ <code>CAN_VIEW='N'</code> ระบบยอมไหม?<br><strong>คำตอบต่อยอด:</strong> "ไม่ยอม 2 ชั้นครับ ที่ฐานข้อมูลมี <code>CK_RP_EDIT_REQUIRES_VIEW</code> และที่ API <code>server/routes/admin.ts</code> บรรทัด 627 <code>if (canEdit &amp;&amp; !canView) throw new HttpError(400, 'สิทธิ์แก้ไขต้องเปิดสิทธิ์ดูด้วย')</code>"</p>
+<h1 class="topic-title" id="หัวข้อ-2-ต่อ-คำถามระดับ-2">หัวข้อ 2 (ต่อ): คำถามระดับ 2</h1>
+<h3 id="ข้อ-2-2-ระดับ-2-กด-เพิ่มการกำหนดสิทธิ์ใหม่-ในหน้าเว็บ-แล้วเกิดอะไรขึ้นบ้าง">ข้อ 2.2 (ระดับ 2) กด "เพิ่มการกำหนดสิทธิ์ใหม่" ในหน้าเว็บ แล้วเกิดอะไรขึ้นบ้าง?</h3>
+<p><strong>คำตอบแบบพูดตอบอาจารย์:</strong> "ฟอร์มเรียก <code>handleAddPermissionSubmit</code> ใน <code>RbacManagementView</code> แล้วส่งต่อให้ <code>addPermission(positionId, screenId, canView, canEdit)</code> ใน <code>BusContext</code> ซึ่งถ้าเป็น API mode จะแปลง <code>screen_id</code> เป็น <code>screen_code</code> แล้วเรียก <code>POST /api/admin/permissions</code> ฝั่งเซิร์ฟเวอร์ตรวจรูปแบบ <code>screen_code</code> ต้องเป็นเลข 4 หลัก ค้น <code>SCREEN</code> เอา <code>SCREEN_ID</code> แล้ว <code>MERGE</code> เข้า <code>ROLE_PERMISSION</code> — คู่นี้มีอยู่แล้วจะ UPDATE ไม่มีจะ INSERT แล้วคืนแถวที่บันทึกกลับมาให้หน้าเว็บอัปเดต state ครับ"</p>
+<p><strong>หลักฐานในโค้ด:</strong></p>
+<ul>
+<li><code>src/components/live/screens/RbacManagementView.tsx</code> 48–64: <code>await addPermission(newPermPosId, newPermScreenId, newPermCanView, newPermCanEdit)</code></li>
+<li><code>src/api/client.ts</code> 253–262: <code>POST /admin/permissions</code> body <code>{ position_id, screen_code, can_view, can_edit }</code></li>
+<li><code>server/routes/admin.ts</code> 618–661: ตรวจ input (624–627) → <code>SELECT SCREEN_ID FROM SCREEN WHERE SCREEN_CODE = :screenCode</code> (630–633, ไม่พบ → 404) → <code>MERGE INTO ROLE_PERMISSION</code> (635–647)</li>
+</ul>
+<p><strong>Relevant Code</strong> (<code>server/routes/admin.ts</code> 635–647):</p>
+<pre><code>await connection.execute(`
+  MERGE INTO ROLE_PERMISSION target
+  USING (SELECT :positionId POSITION_ID, :oracleScreenId SCREEN_ID FROM dual) source
+  ON (target.POSITION_ID = source.POSITION_ID AND target.SCREEN_ID = source.SCREEN_ID)
+  WHEN MATCHED THEN UPDATE SET target.CAN_VIEW = :canView, target.CAN_EDIT = :canEdit
+  WHEN NOT MATCHED THEN INSERT (POSITION_ID, SCREEN_ID, CAN_VIEW, CAN_EDIT)
+    VALUES (:positionId, :oracleScreenId, :canView, :canEdit)
+`, { positionId, oracleScreenId, canView: canView ? 'Y' : 'N', canEdit: canEdit ? 'Y' : 'N' });</code></pre>
+<p><strong>Flow:</strong> ปุ่ม "เพิ่ม" → modal → <code>handleAddPermissionSubmit</code> → <code>addPermission</code> → <code>apiUpsertPermission</code> → <code>POST /api/admin/permissions</code> → <code>requireScreenEdit('9102')</code> ตรวจ <code>CAN_EDIT</code> → <code>MERGE ROLE_PERMISSION</code> → คืน <code>permission</code> → <code>setPermissions()</code> อัปเดตหน้าจอ</p>
+<p><strong>คำถามต่อยอด:</strong> ทำไมใช้ <code>MERGE</code> ไม่ใช้ <code>INSERT</code> ตรง ๆ?<br><strong>คำตอบต่อยอด:</strong> "เพราะ PK ของ <code>ROLE_PERMISSION</code> คือ <code>PERMISSION_ID</code> ไม่ใช่คู่ (position, screen) ถ้า INSERT ตรง ๆ แล้วคู่เดิมซ้ำจะเกิดแถวซ้ำ หน้าเดียวมีสิทธิ์ 2 แถว <code>MERGE</code> เงื่อนไข <code>ON (POSITION_ID, SCREEN_ID)</code> ทำให้คู่เดิมถูกอัปเดตแทนครับ"</p>
+<h3 id="ข้อ-2-3-ระดับ-2-แก้สิทธิ์ด้วยปุ่ม-toggle-ดู-แก้ไข-ทำอย่างไร">ข้อ 2.3 (ระดับ 2) แก้สิทธิ์ด้วยปุ่ม toggle "ดู" / "แก้ไข" ทำอย่างไร?</h3>
+<p><strong>คำตอบแบบพูดตอบอาจารย์:</strong> "ปุ่มเรียก <code>updatePermission(permissionId, 'can_view', ...)</code> หรือ <code>'can_edit'</code> ครับ ตัว function คำนวณค่าใหม่ก่อนว่า ถ้า <code>can_view</code> เป็น false จะต้องบังคับ <code>can_edit = can_edit &amp;&amp; can_view</code> ด้วย ไม่ให้เหลือสิทธิ์แก้ไขโดยไม่มีสิทธิ์ดู แล้วเรียก <code>POST /api/admin/permissions</code> ตัวเดียวกับการเพิ่ม (upsert) แล้วอัปเดต state ครับ"</p>
+<p><strong>หลักฐานในโค้ด:</strong> <code>src/context/BusContext.tsx</code> 805–837 โดยเฉพาะ:</p>
+<pre><code>const nextCanView = field === 'can_view' ? val : current.can_view;
+const nextCanEdit = field === 'can_edit' ? val : current.can_edit &amp;&amp; nextCanView;</code></pre>
+<p>ปุ่มอยู่ที่ <code>RbacManagementView.tsx</code> 255–305 และ <code>disabled={!canEdit}</code></p>
+<p><strong>คำถามต่อยอด:</strong> ถ้าผู้ใช้ไม่มีสิทธิ์แก้ (<code>CAN_EDIT='N'</code>) ระบบป้องกันอย่างไร?<br><strong>คำตอบต่อยอด:</strong> "3 ชั้นครับ (1) หน้าเว็บ <code>disabled={!canEdit}</code> กดไม่ได้ (2) <code>server/routes/admin.ts</code> endpoint <code>POST /permissions</code> มี <code>requireScreenEdit(pool, RBAC_SCREEN)</code> ตรวจ <code>CAN_EDIT='Y'</code> ใน Oracle → 403 (3) constraint ที่ฐานข้อมูล ถ้าข้ามหน้าเว็บยิง API ตรง ๆ จะโดน 403 ครับ"</p>
+<h1 class="topic-title" id="หัวข้อ-2-ต่อ-คำถามระดับ-2-3">หัวข้อ 2 (ต่อ): คำถามระดับ 2–3</h1>
+<h3 id="ข้อ-2-4-ระดับ-2-ลบสิทธิ์-ลบแถว-role_permission-จริงไหม-ทำงานอย่างไร">ข้อ 2.4 (ระดับ 2) "ลบสิทธิ์" ลบแถว <code>ROLE_PERMISSION</code> จริงไหม ทำงานอย่างไร?</h3>
+<p><strong>คำตอบแบบพูดตอบอาจารย์:</strong> "ไม่ลบครับ ฝั่งเว็บ <code>deletePermission(permissionId)</code> เรียก <code>apiHideAdminRecord('permission', permissionId)</code> → <code>POST /api/admin/visibility/hide</code> ซึ่งจะ <code>MERGE</code> เข้า <code>WEB_HIDDEN_RECORD</code> ด้วย <code>ENTITY_NAME='permission'</code>, <code>OWNER_ID='*'</code> แถวสิทธิ์ใน Oracle ยังอยู่ครบ แต่ <code>GET /admin/masters</code> จะไม่คืนแถวที่ถูกซ่อน และ <code>requireScreenEdit</code> ก็เช็ก <code>NOT EXISTS</code> ใน <code>WEB_HIDDEN_RECORD</code> ด้วย จึงถือว่าไม่มีสิทธิ์จริงครับ"</p>
+<p><strong>หลักฐานในโค้ด:</strong></p>
+<ul>
+<li><code>src/context/BusContext.tsx</code> 800–803: <code>const deletePermission = async (permissionId) =&gt; { if (apiMode) await apiHideAdminRecord('permission', permissionId); setPermissions(prev =&gt; prev.filter(p =&gt; p.permission_id !== permissionId)); }</code></li>
+<li><code>server/routes/admin.ts</code> 910–954 (entity <code>permission</code> ใช้ screen <code>9102</code>, table <code>ROLE_PERMISSION</code>) และ 945–951 <code>MERGE INTO WEB_HIDDEN_RECORD</code></li>
+<li><code>server/routes/admin.ts</code> 27–30 ใน <code>requireScreenEdit</code>: <code>AND NOT EXISTS (SELECT 1 FROM WEB_HIDDEN_RECORD H WHERE H.ENTITY_NAME = 'permission' AND H.RECORD_KEY = TO_CHAR(RP.PERMISSION_ID) AND H.OWNER_ID = '*')</code></li>
+</ul>
+<p><strong>คำถามต่อยอด:</strong> ถ้ากด "เพิ่มสิทธิ์" คู่เดิมที่เคยลบไปแล้ว ระบบคืนสิทธิ์ไหม?<br><strong>คำตอบต่อยอด:</strong> "คืนครับ เพราะ <code>POST /permissions</code> มี <code>DELETE FROM WEB_HIDDEN_RECORD WHERE ENTITY_NAME = 'permission' AND RECORD_KEY = TO_CHAR(:permissionId) AND OWNER_ID = '*'</code> ที่ <code>server/routes/admin.ts</code> 653–656 แปลว่า upsert รอบเดียวก็ยกเลิกการซ่อนให้ด้วย"</p>
+<h3 id="ข้อ-2-5-ระดับ-2-ค้นหา-กรองสิทธิ์ทำงานอย่างไร">ข้อ 2.5 (ระดับ 2) ค้นหา/กรองสิทธิ์ทำงานอย่างไร?</h3>
+<p><strong>คำตอบแบบพูดตอบอาจารย์:</strong> "เป็นการกรองฝั่ง client ใน <code>RbacManagementView</code> ครับ มี 2 ตัวกรอง คือ <code>permFilterPosId</code> เลือกตำแหน่ง และ <code>searchQuery</code> ที่เทียบกับ 3 字段 คือชื่อตำแหน่ง ชื่อหน้าจอ และ <code>screen_code</code> ผลลัพธ์ถูกจับกลุ่มตามตำแหน่งด้วย <code>groupedByPosition</code> ครับ"</p>
+<p><strong>หลักฐานในโค้ด:</strong> <code>src/components/live/screens/RbacManagementView.tsx</code> 66–84:</p>
+<pre><code>const filteredPermissions = permissions.filter((p) =&gt; {
+  if (permFilterPosId !== 'all' &amp;&amp; p.position_id !== permFilterPosId) return false;
+  if (!searchQuery) return true;
+  const pos = positions.find((x) =&gt; x.position_id === p.position_id);
+  const scr = screens.find((x) =&gt; x.screen_id === p.screen_id);
+  const q = searchQuery.toLowerCase();
+  return (pos?.name || '').toLowerCase().includes(q)
+      || (scr?.name || '').toLowerCase().includes(q)
+      || (scr?.code || '').toLowerCase().includes(q);
+});</code></pre>
+<p><strong>คำถามต่อยอด:</strong> รายการสิทธิ์ที่เอามากรองมาจาก API ตัวไหน?<br><strong>คำตอบต่อยอด:</strong> "<code>GET /api/admin/masters</code> ครับ คอลัมน์ <code>permissions</code> ที่ <code>server/routes/admin.ts</code> 89–97 ซึ่ง JOIN <code>SCREEN</code> เอา <code>SCREEN_CODE</code>, <code>CAN_VIEW</code>, <code>CAN_EDIT</code> มาด้วย และกรองแถวที่ถูกซ่อนออกแล้ว"</p>
+<h3 id="ข้อ-2-6-ระดับ-3-ทำไมระบบถึงเรียกว่า-dynamic-ไม่ใช่-hard-code">ข้อ 2.6 (ระดับ 3) ทำไมระบบถึงเรียกว่า "dynamic" ไม่ใช่ hard-code?</h3>
+<p><strong>คำตอบแบบพูดตอบอาจารย์:</strong> "เพราะคู่ตำแหน่ง–หน้าจอและค่า <code>CAN_VIEW</code>/<code>CAN_EDIT</code> เก็บเป็นข้อมูลในตาราง <code>ROLE_PERMISSION</code> ไม่ได้เขียนเป็น if ในโค้ดครับ เวลาเพิ่มตำแหน่งใหม่หรือเพิ่มหน้าจอใหม่ แค่เพิ่มแถวในตาราง ระบบก็ทำงานทันที ฝั่งเซิร์ฟเวอร์ก็ตรวจด้วย <code>SCREEN_CODE</code> จากฐานข้อมูล ไม่ใช่ค่าคงที่ในโค้ด ยกเว้นจอเฉพาะทาง เช่น 8820 ของคนขับ ที่กำหนดไว้เป็น <code>DRIVER_SCREEN_CODE</code> ครับ"</p>
+<p><strong>หลักฐานในโค้ด:</strong> <code>server/routes/admin.ts</code> 9–14 ประกาศ <code>EMPLOYEE_SCREEN='1101'</code>, <code>RBAC_SCREEN='9102'</code>, <code>TRIP_SCREEN='3456'</code>, <code>ROUTE_SCREEN='6794'</code> แล้วส่งเข้า <code>requireScreenEdit()</code> ซึ่ง query <code>WHERE S.SCREEN_CODE = :screenCode AND RP.CAN_EDIT='Y'</code> (20–31)</p>
+<p><strong>คำถามต่อยอด:</strong> จุดอ่อนของระบบนี้มีอะไรบ้าง?<br><strong>คำตอบต่อยอด:</strong> "(1) หน้าเว็บยังโหลด <code>initialScreens</code> จาก <code>src/data/mockDatabase.ts</code> (BusContext บรรทัด 300 <code>useState&lt;ScreenItem[]&gt;(initialScreens)</code>) จึงต้องให้ <code>SCREEN_CODE</code> ตรงกับฐานข้อมูล (2) <code>canViewScreen</code> มี fallback <code>if (targetPosId === 1) return true;</code> ซึ่งตำแหน่ง 1 ได้สิทธิ์ทุกหน้า (3) session เก็บในหน่วยความจำเซิร์ฟเวอร์ ทำให้สิทธิ์ที่เปลี่ยนระหว่าง login มีผลกับคำขอถัดไปเพราะตรวจจาก DB ทุกครั้ง แต่สิทธิ์ที่ frontend cache ไว้ใน state ต้อง reload ครับ"</p>
+<h1 class="topic-title" id="หัวข้อ-3-จัดการพนักงาน-เพิ่ม-ลบ-แก้ไข-ค้นหา-3-คะแนน">หัวข้อ 3: จัดการพนักงาน เพิ่ม–ลบ–แก้ไข–ค้นหา (3 คะแนน)</h1>
+<h2 id="ภาพรวม">ภาพรวม</h2>
+<p>หน้า <code>FleetStaffManagementView</code> (แท็บ "พนักงาน") ใช้เพิ่ม แก้ไข ค้นหา และซ่อนพนักงาน การเพิ่ม/แก้ไขใน API mode ส่งไป <code>POST /api/admin/employees</code> และ <code>PUT /api/admin/employees/:employeeId</code> ซึ่งทั้งคู่ถูกป้องกันด้วย <code>requireScreenEdit('1101')</code> ส่วนการ "ลบ" ในระบบนี้คือการซ่อนด้วย <code>WEB_HIDDEN_RECORD</code> <strong>ไม่ใช่การลบแถว</strong> รหัสผ่านถูกแฮชด้วย <code>hashPassword</code> ที่เซิร์ฟเวอร์เสมอ</p>
+<h2 id="จุดสำคัญในโค้ด">จุดสำคัญในโค้ด</h2>
+<div class="tblwrap"><table><thead><tr><th>เรื่อง</th><th>ไฟล์</th><th>Function / Route</th><th>บรรทัด</th></tr></thead><tbody><tr><td>เพิ่มพนักงาน (เว็บ)</td><td><code>src/components/live/screens/FleetStaffManagementView.tsx</code></td><td><code>handleCreateEmployee</code></td><td>77–100</td></tr><tr><td>แก้พนักงาน (เว็บ)</td><td><code>src/components/live/screens/FleetStaffManagementView.tsx</code></td><td><code>handleUpdateEmployee</code></td><td>164–179</td></tr><tr><td>ค้นหาพนักงาน (เว็บ)</td><td><code>src/components/live/screens/FleetStaffManagementView.tsx</code></td><td><code>filteredEmployees</code></td><td>181–194</td></tr><tr><td>เรียก API</td><td><code>src/api/client.ts</code></td><td><code>apiCreateEmployee</code>, <code>apiUpdateEmployee</code>, <code>apiHideEmployee</code></td><td>185–197, 199–211, 213–215</td></tr><tr><td>เพิ่มพนักงาน (เซิร์ฟ)</td><td><code>server/routes/admin.ts</code></td><td><code>POST /api/admin/employees</code></td><td>130–165</td></tr><tr><td>แก้พนักงาน (เซิร์ฟ)</td><td><code>server/routes/admin.ts</code></td><td><code>PUT /api/admin/employees/:employeeId</code></td><td>167–232</td></tr><tr><td>ซ่อนพนักงาน (เซิร์ฟ)</td><td><code>server/routes/admin.ts</code></td><td><code>POST /api/admin/employees/:employeeId/hide</code></td><td>234–248</td></tr><tr><td>โหลดรายชื่อ</td><td><code>server/routes/admin.ts</code></td><td><code>GET /api/admin/masters</code></td><td>67–74</td></tr><tr><td>แปลง error Oracle</td><td><code>server/routes/admin.ts</code></td><td><code>mapOracleError()</code></td><td>51–58</td></tr><tr><td>ตรวจนามสกุล</td><td><code>server/routes/admin.ts</code></td><td><code>textField()</code></td><td>39–49</td></tr></tbody></table></div>
+<p><strong>Database:</strong> <code>EMPLOYEE</code> — PK <code>EMPLOYEE_ID</code>, FK <code>DEPARTMENT_ID</code> → <code>DEPARTMENT</code>, FK <code>POSITION_ID</code> → <code>POSITION</code>, columns <code>FULL_NAME</code>, <code>USERNAME</code> (unique), <code>PASSWORD_HASH</code>, <code>PHONE</code>, <code>EMAIL</code>, <code>IS_ACTIVE</code>, <code>CREATED_AT</code>, <code>UPDATED_AT</code></p>
+<h2 id="คำถามและคำตอบ">คำถามและคำตอบ</h2>
+<h3 id="ข้อ-3-1-ระดับ-1-โค้ดส่วนเพิ่มพนักงานอยู่ตรงไหน">ข้อ 3.1 (ระดับ 1) โค้ดส่วนเพิ่มพนักงานอยู่ตรงไหน?</h3>
+<p><strong>คำตอบแบบพูดตอบอาจารย์:</strong> "ฝั่งหน้าเว็บอยู่ที่ <code>FleetStaffManagementView.tsx</code> ฟังก์ชัน <code>handleCreateEmployee</code> บรรทัด 77 ส่วน API อยู่ที่ <code>server/routes/admin.ts</code> <code>POST /api/admin/employees</code> บรรทัด 130 ครับ"</p>
+<p><strong>Flow:</strong> กรอกฟอร์ม → <code>handleCreateEmployee</code> (เช็ก <code>if (!canEdit) return</code> บรรทัด 79) → <code>apiCreateEmployee</code> → <code>POST /api/admin/employees</code> → <code>requireScreenEdit('1101')</code> → <code>textField()</code> validate → <code>hashPassword</code> → gen <code>EMPLOYEE_ID</code> → <code>INSERT INTO EMPLOYEE</code> → <code>201 { employee }</code> → ปิด modal</p>
+<p><strong>คำถามต่อยอด:</strong> <code>employee_id</code> ตรวจสอบซ้ำตรงไหน?<br><strong>คำตอบต่อยอด:</strong> "ที่ <code>server/routes/admin.ts</code> 149–154 ครับ สุ่ม <code>E</code> + เลข 9 หลัก (<code>randomInt(0, 1_000_000_000).toString().padStart(9,'0')</code>) แล้ว <code>SELECT 1 FROM EMPLOYEE WHERE EMPLOYEE_ID = :candidate</code> ถ้ามีอยู่แล้วสุ่มใหม่ สูงสุด 5 ครั้ง ถ้าหมดก็คืน HTTP 503 ครับ"</p>
+<h3 id="ข้อ-3-2-ระดับ-2-validation-อะไรบ้างตอนเพิ่มพนักงาน">ข้อ 3.2 (ระดับ 2) Validation อะไรบ้างตอนเพิ่มพนักงาน?</h3>
+<p><strong>คำตอบแบบพูดตอบอาจารย์:</strong> "เริ่มจาก <code>textField()</code> เช็กเป็น string ไม่เว้นว่างและไม่ยาวเกิน (ชื่อ 150, username 50, โทรศัพท์ 20, อีเมล 100) แล้วเช็ก <code>department_id</code>/<code>position_id</code> ต้องเป็นจำนวนเต็มบวก รหัสผ่านอย่างน้อย 8 ตัว และรูปแบบอีเมลต้องผ่าน regex ไม่ผ่านจะได้ 400 ก่อนถึงฐานข้อมูลครับ"</p>
+<p><strong>Relevant Code</strong> (<code>server/routes/admin.ts</code> 139–145):</p>
+<pre><code>if (!Number.isSafeInteger(departmentId) || departmentId &lt;= 0 ||
+    !Number.isSafeInteger(positionId) || positionId &lt;= 0) {
+  throw new HttpError(400, 'ฝ่าย/แผนกและตำแหน่งไม่ถูกต้อง');
+}
+if (password.length &lt; 8) throw new HttpError(400, 'รหัสผ่านต้องมีอย่างน้อย 8 ตัวอักษร');
+if (email &amp;&amp; !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) throw new HttpError(400, 'รูปแบบอีเมลไม่ถูกต้อง');
+const passwordHash = await hashPassword(password);</code></pre>
+<p><strong>คำถามต่อยอด:</strong> ถ้า username ซ้ำจะเกิดอะไรขึ้น?<br><strong>คำตอบต่อยอด:</strong> "Oracle คืน errorNum = 1 แล้ว <code>mapOracleError</code> (51–58) แปลงเป็น 409 'ข้อมูลซ้ำ กรุณาตรวจสอบรหัสหรือชื่อที่กรอก' ฝั่งเว็บรับ error ที่ <code>setEmployeeCreateError</code> บรรทัด 98 ครับ"</p>
+<h1 class="topic-title" id="หัวข้อ-3-ต่อ-คำถามระดับ-2">หัวข้อ 3 (ต่อ): คำถามระดับ 2</h1>
+<h3 id="ข้อ-3-3-ระดับ-2-ตอนเพิ่ม-แก้ไข-รหัสผ่านถูกบันทึกอย่างไร">ข้อ 3.3 (ระดับ 2) ตอนเพิ่ม/แก้ไข รหัสผ่านถูกบันทึกอย่างไร?</h3>
+<p><strong>คำตอบแบบพูดตอบอาจารย์:</strong> "เซิร์ฟเวอร์แฮชก่อน INSERT เสมอด้วย <code>hashPassword</code> แล้วเก็บลง <code>PASSWORD_HASH</code> ไม่มี plaintext ลง Oracle ส่วนตอนแก้ไข ถ้าผู้ใช้ไม่กรอกรหัสผ่านใหม่ (<code>password</code> เป็นค่าว่าง) ระบบจะไม่สร้าง <code>passwordUpdate</code> จึงไม่แตะ <code>PASSWORD_HASH</code> เลยครับ"</p>
+<p><strong>Relevant Code</strong> (<code>server/routes/admin.ts</code> 145, 156–158 และ 191–202):</p>
+<pre><code>const passwordHash = await hashPassword(password);            // ตอนเพิ่ม
+INSERT INTO EMPLOYEE (..., PASSWORD_HASH, ...) VALUES (..., :passwordHash, ...)
+
+const passwordHash = password ? await hashPassword(password) : null;   // ตอนแก้
+const passwordUpdate = passwordHash ? ', PASSWORD_HASH = :passwordHash' : '';
+UPDATE EMPLOYEE SET FULL_NAME = :fullname, ..., UPDATED_AT = SYSTIMESTAMP${passwordUpdate}
+WHERE EMPLOYEE_ID = :employeeId</code></pre>
+<p><strong>คำถามต่อยอด:</strong> รหัสผ่านตอนแก้ไม่กรอก → ฐานข้อมูลเปลี่ยนไหม?<br><strong>คำตอบต่อยอด:</strong> "ไม่เปลี่ยนครับ ตัว <code>passwordUpdate</code> จะเป็น string ว่าง ทำให้ SQL ไม่มี <code>PASSWORD_HASH = :passwordHash</code> ส่วน frontend ส่ง <code>editPassword</code> เฉพาะเมื่อผู้ใช้กรอก (<code>FleetStaffManagementView.tsx</code> บรรทัด 171)"</p>
+<h3 id="ข้อ-3-4-ระดับ-2-ขั้นตอนแก้ไขพนักงานทำงานอย่างไร">ข้อ 3.4 (ระดับ 2) ขั้นตอนแก้ไขพนักงานทำงานอย่างไร?</h3>
+<p><strong>คำตอบแบบพูดตอบอาจารย์:</strong> "หน้าเว็บเรียก <code>handleUpdateEmployee</code> แล้วส่ง <code>apiUpdateEmployee(editingEmp, editPassword)</code> → <code>PUT /api/admin/employees/:employeeId</code> ฝั่งเซิร์ฟเวอร์อยู่ใน transaction แล้ว <code>SELECT ... FOR UPDATE</code> เพื่อล็อกแถวก่อน ถ้าไม่เจอคืน 404 ถ้ามีก็ <code>UPDATE EMPLOYEE</code> ครบทุกคอลัมน์ (รวม <code>UPDATED_AT</code>) แล้ว SELECT แถวใหม่คืนกลับมาให้หน้าเว็บครับ"</p>
+<p><strong>หลักฐานในโค้ด:</strong> <code>server/routes/admin.ts</code> 167–232 — <code>SELECT EMPLOYEE_ID FROM EMPLOYEE WHERE EMPLOYEE_ID = :employeeId FOR UPDATE</code> (186–189), <code>UPDATE EMPLOYEE SET FULL_NAME, USERNAME, PHONE, EMAIL, DEPARTMENT_ID, POSITION_ID, UPDATED_AT = SYSTIMESTAMP${passwordUpdate}</code> (193–212), คืนค่าจาก SELECT ใหม่ (213–227)</p>
+<p><strong>คำถามต่อยอด:</strong> ทำไมต้อง <code>FOR UPDATE</code>?<br><strong>คำตอบต่อยอด:</strong> "เพื่อล็อกแถวไม่ให้มีคนแก้พร้อมกันแล้วข้อมูลทับกัน (lost update) และทำให้ 404 กับ UPDATE อยู่ใน transaction เดียวกันครับ"</p>
+<h3 id="ข้อ-3-5-ระดับ-2-ค้นหาพนักงานทำงานอย่างไร">ข้อ 3.5 (ระดับ 2) ค้นหาพนักงานทำงานอย่างไร?</h3>
+<p><strong>คำตอบแบบพูดตอบอาจารย์:</strong> "เป็นการกรองฝั่ง client ครับ ตัวแปร <code>empSearchQuery</code> ถูก lower case แล้วเทียบกับ 7 字段 คือ <code>employee_id</code>, <code>fullname</code>, <code>username</code>, <code>phone</code>, <code>email</code>, ชื่อตำแหน่ง และ <code>ฝ่าย {department_id}</code> ถ้า query ว่างแสดงทั้งหมด รายชื่อมาจาก <code>GET /api/admin/masters</code> ซึ่งฝั่งเซิร์ฟเวอร์กรองแล้วว่า <code>IS_ACTIVE='Y'</code> และไม่อยู่ใน <code>WEB_HIDDEN_RECORD</code> ครับ"</p>
+<p><strong>Relevant Code</strong> (<code>src/components/live/screens/FleetStaffManagementView.tsx</code> 181–194):</p>
+<pre><code>const filteredEmployees = employees.filter((emp) =&gt; {
+  const q = empSearchQuery.toLowerCase().trim();
+  if (!q) return true;
+  const pos = positions.find((p) =&gt; p.position_id === emp.position_id);
+  return (
+    emp.employee_id.toLowerCase().includes(q) ||
+    emp.fullname.toLowerCase().includes(q) ||
+    emp.username.toLowerCase().includes(q) ||
+    emp.phone.toLowerCase().includes(q) ||
+    emp.email.toLowerCase().includes(q) ||
+    (pos?.name &amp;&amp; pos.name.toLowerCase().includes(q)) ||
+    `ฝ่าย ${emp.department_id}`.toLowerCase().includes(q)
+  );
+});</code></pre>
+<p><strong>คำถามต่อยอด:</strong> ฝั่งเซิร์ฟเวอร์มี parameter ค้นหาไหม?<br><strong>คำตอบต่อยอด:</strong> "ไม่มีครับ <code>GET /admin/masters</code> ดึงทั้งหมดแล้วกรองในเบราว์เซอร์ เหมาะกับข้อมูลปริมาณน้อย ถ้าจะ scale ควรเพิ่ม query parameter ครับ"</p>
+<h1 class="topic-title" id="หัวข้อ-3-ต่อ-คำถามระดับ-3">หัวข้อ 3 (ต่อ): คำถามระดับ 3</h1>
+<h3 id="ข้อ-3-6-ระดับ-2-ปุ่ม-ลบ-พนักงาน-ลบตารางจริงไหม-ทำงานอย่างไร">ข้อ 3.6 (ระดับ 2) ปุ่ม "ลบ" พนักงาน ลบตารางจริงไหม ทำงานอย่างไร?</h3>
+<p><strong>คำตอบแบบพูดตอบอาจารย์:</strong> "ไม่ลบแถวครับ เป็นการซ่อนอย่างเดียว — <code>POST /api/admin/employees/:employeeId/hide</code> จะ <code>MERGE</code> เข้า <code>WEB_HIDDEN_RECORD</code> ด้วย <code>ENTITY_NAME='employee'</code>, <code>RECORD_KEY=EMPLOYEE_ID</code>, <code>OWNER_ID='*'</code> ทำให้ <code>GET /admin/masters</code> ไม่คืนแถวนั้นครับ"</p>
+<p><strong>Relevant Code</strong> (<code>server/routes/admin.ts</code> 234–248):</p>
+<pre><code>await connection.execute(`
+  MERGE INTO WEB_HIDDEN_RECORD target
+  USING (SELECT 'employee' ENTITY_NAME, :employeeId RECORD_KEY, '*' OWNER_ID FROM dual) source
+  ON (target.ENTITY_NAME = source.ENTITY_NAME AND target.RECORD_KEY = source.RECORD_KEY
+      AND target.OWNER_ID = source.OWNER_ID)
+  WHEN NOT MATCHED THEN INSERT (ENTITY_NAME, RECORD_KEY, OWNER_ID)
+    VALUES (source.ENTITY_NAME, source.RECORD_KEY, source.OWNER_ID)
+`, { employeeId });</code></pre>
+<p>ส่วน query รายชื่อที่ <code>server/routes/admin.ts</code> 67–74: <code>WHERE E.IS_ACTIVE = 'Y' AND NOT EXISTS (SELECT 1 FROM WEB_HIDDEN_RECORD H WHERE H.ENTITY_NAME='employee' AND H.RECORD_KEY = E.EMPLOYEE_ID AND H.OWNER_ID='*')</code></p>
+<p><strong>คำถามต่อยอด:</strong> พนักงานที่ถูกซ่อนแล้วยังล็อกอินได้ไหม?<br><strong>คำตอบต่อยอด:</strong> "ในโค้ดปัจจุบัน<strong>ยังได้ครับ</strong> เพราะการซ่อนไม่ได้ตั้ง <code>IS_ACTIVE='N'</code> และ <code>POST /driver/login</code> เช็กเฉพาะ <code>IS_ACTIVE='Y'</code> (<code>server/routes/auth.ts</code> 126) จุดนี้เป็นข้อจำกัดที่ควรบอกอาจารย์ตรง ๆ ว่า ถ้าเป็นระบบจริงต้องเพิ่มการปิดบัญชีแยกจากการซ่อนรายการครับ"</p>
+<h3 id="ข้อ-3-7-ระดับ-3-ถ้าอยากให้พนักงานที่ถูก-ลบ-ล็อกอินไม่ได้เลย-ต้องแก้ตรงไหน">ข้อ 3.7 (ระดับ 3) ถ้าอยากให้พนักงานที่ถูก "ลบ" ล็อกอินไม่ได้เลย ต้องแก้ตรงไหน?</h3>
+<p><strong>คำตอบแบบพูดตอบอาจารย์:</strong> "มี 2 ทางครับ ทางแรก เพิ่ม <code>UPDATE EMPLOYEE SET IS_ACTIVE = 'N'</code> ใน endpoint <code>/hide</code> ซึ่ง <code>IS_ACTIVE</code> ถูกใช้เป็นเงื่อนไขอยู่แล้วใน query ล็อกอิน ทางสอง คือแยกเป็น endpoint deactivate ต่างหาก เพื่อไม่ให้ "ซ่อนจากหน้าเว็บ" กับ "ปิดบัญชี" เป็นเรื่องเดียวกัน ทั้งสองทางไม่ต้องแก้ schema เพราะ <code>EMPLOYEE.IS_ACTIVE</code> มีอยู่แล้วและมี <code>CK_EMPLOYEE_ACTIVE CHECK (IS_ACTIVE IN ('Y','N'))</code> ครับ"</p>
+<p><strong>หลักฐานในโค้ด:</strong> <code>database.sql</code> <code>CK_EMPLOYEE_ACTIVE</code>, <code>server/routes/auth.ts</code> 91/126/177 (<code>AND IS_ACTIVE = 'Y'</code>), <code>server/routes/admin.ts</code> 234–248 (ไม่มี UPDATE <code>IS_ACTIVE</code>)</p>
+<p><strong>คำถามต่อยอด:</strong> ถ้าแก้แบบนี้ พนักงานที่มีรอบรถวันนี้จะเกิดอะไรขึ้น?<br><strong>คำตอบต่อยอด:</strong> "รอบรถใน <code>TRIP</code> มี FK <code>DRIVER_ID</code> → <code>EMPLOYEE</code> จึงยังอยู่ครบ แต่คนขับจะล็อกอินไม่ได้ ดังนั้นควรยกเลิก/โอนรอบก่อน ซึ่งปัจจุบัน endpoint <code>/hide</code> ไม่ได้เช็กว่ามีรอบรถค้างอยู่ (ต่างจาก <code>visibility/hide</code> ของ position/department ที่เช็กพนักงานที่ผูกอยู่ บรรทัด 937–944) ครับ"</p>
+<h2 id="สิ่งที่ต้องจำ-หัวข้อ-3">สิ่งที่ต้องจำ (หัวข้อ 3)</h2>
+<ol>
+<li>เพิ่ม: <code>POST /api/admin/employees</code> (admin.ts 130) → <code>requireScreenEdit('1101')</code> → <code>textField</code> validate → <code>hashPassword</code> → สุ่ม <code>EMPLOYEE_ID</code> 5 ครั้ง → <code>INSERT</code></li>
+<li>แก้: <code>PUT /api/admin/employees/:employeeId</code> (admin.ts 167) → <code>SELECT FOR UPDATE</code> → <code>UPDATE</code> (รหัสผ่านเปลี่ยนเฉพาะตอนกรอก)</li>
+<li>ค้นหา: ฝั่ง client <code>filteredEmployees</code> เทียบ 7 字段 + รายชื่อมาจาก <code>GET /admin/masters</code></li>
+<li>ลบ = ซ่อน: <code>WEB_HIDDEN_RECORD</code> <code>OWNER_ID='*'</code> ไม่ลบแถว แต่<strong>ยังล็อกอินได้</strong> (ข้อจำกัด)</li>
+<li>รหัสผ่านถูกแฮชที่เซิร์ฟเวอร์เสมอ ไม่มี plaintext ในฐานข้อมูล</li>
+<li>รหัสผ่านซ้ำ/ข้อมูลซ้ำ → <code>mapOracleError</code> errorNum 1 → HTTP 409</li>
+</ol>
+<h1 class="topic-title" id="หัวข้อ-4-ระบบการจอง-การจองและตรวจสอบเงื่อนไข-5-คะแนน">หัวข้อ 4: ระบบการจอง — การจองและตรวจสอบเงื่อนไข (5 คะแนน)</h1>
+<h2 id="ภาพรวม">ภาพรวม</h2>
+<p>การจองทำใน <code>PassengerPortal</code> ผู้โดยสารเลือกเส้นทาง → จุดขึ้น/จุดลง → วันที่ → เลือกรอบ → ใส่จำนวนที่นั่ง (1–4) → ยืนยัน ทุกอย่างถูกตรวจที่เซิร์ฟเวอร์ใน <code>POST /api/bookings</code> (<code>server/routes/bookings.ts</code>) ภายใน transaction เดียวพร้อม <strong>ล็อกแถว <code>TRIP</code> ด้วย <code>FOR UPDATE</code></strong> เพื่อป้องกันการจองเกินความจุพร้อมกัน เงื่อนไขที่ตรวจมี 5 กลุ่ม: (1) รอบรถเปิด/วันที่จองได้ (2) จุดขึ้น–จุดลงอยู่บนเส้นทางเดียวกันและลำดับถูกต้อง (3) ต้องจองล่วงหน้าอย่างน้อย 20 นาทีก่อนถึงจุดขึ้น (4) รถใช้งานได้ (5) ที่นั่งในช่วง那段ไม่เกินความจุ</p>
+<h2 id="จุดสำคัญในโค้ด">จุดสำคัญในโค้ด</h2>
+<div class="tblwrap"><table><thead><tr><th>เรื่อง</th><th>ไฟล์</th><th>Function / Route</th><th>บรรทัด</th></tr></thead><tbody><tr><td>ปุ่มยืนยันจอง (เว็บ)</td><td><code>src/components/live/PassengerPortal.tsx</code></td><td><code>handleConfirmAllStagedBookings</code></td><td>500–542</td></tr><tr><td>เรียก API จอง</td><td><code>src/context/BusContext.tsx</code></td><td><code>apiCreateBooking</code></td><td>1894–1901</td></tr><tr><td>ตรวจ input</td><td><code>server/routes/bookings.ts</code></td><td><code>bookingInput()</code></td><td>14–23</td></tr><tr><td>จอง (เซิร์ฟ)</td><td><code>server/routes/bookings.ts</code></td><td><code>POST /api/bookings</code></td><td>101–230</td></tr><tr><td>ที่นั่งว่าง (list)</td><td><code>server/routes/catalog.ts</code></td><td><code>GET /api/trips</code> (REMAINING_SEATS)</td><td>92–144</td></tr><tr><td>ดูที่นั่งรายรอบ</td><td><code>server/routes/catalog.ts</code></td><td><code>GET /api/trips/:tripId/seats</code></td><td>149+</td></tr></tbody></table></div>
+<p><strong>Database:</strong></p>
+<ul>
+<li><code>BOOKING</code> — PK <code>BOOKING_ID</code>, unique <code>BOOKING_CODE</code>, FK <code>USER_ID</code> → <code>SYSTEM_USER</code>, columns <code>JOURNEY_TYPE</code>, <code>BOOKING_TIME</code></li>
+<li><code>BOOKING_DETAIL</code> — PK <code>DETAIL_ID</code>, FK <code>BOOKING_ID</code>, FK <code>(TRIP_ID, ROUTE_ID)</code> → <code>TRIP</code>, columns <code>PICKUP_ROUTE_STOP_ID</code>, <code>DROPOFF_ROUTE_STOP_ID</code>, <code>SEAT_COUNT</code>, <code>STATUS_CODE</code></li>
+<li>Constraints: <code>CK_BD_SEAT_COUNT CHECK (SEAT_COUNT BETWEEN 1 AND 4)</code>, <code>CK_BD_STATUS CHECK (STATUS_CODE IN (0,1,2,3,4))</code>, <code>CK_BD_DISTINCT_ROUTE_STOPS CHECK (PICKUP &lt;&gt; DROPOFF)</code></li>
+<li><code>TRIP</code> — PK <code>TRIP_ID</code> (+ unique <code>(TRIP_ID, ROUTE_ID)</code>), FK <code>ROUTE_ID</code>, <code>DRIVER_ID</code> → <code>EMPLOYEE</code>, <code>VEHICLE_ID</code> → <code>VEHICLE</code>, <code>CK_TRIP_STATUS CHECK (STATUS IN (0,1,2,3))</code></li>
+</ul>
+<h2 id="คำถามและคำตอบ">คำถามและคำตอบ</h2>
+<h3 id="ข้อ-4-1-ระดับ-1-ผู้โดยสารกด-ยืนยันการจอง-แล้วข้อมูลไหลไปไหนบ้าง">ข้อ 4.1 (ระดับ 1) ผู้โดยสารกด "ยืนยันการจอง" แล้วข้อมูลไหลไปไหนบ้าง?</h3>
+<p><strong>คำตอบแบบพูดตอบอาจารย์:</strong> "เริ่มที่ <code>PassengerPortal.handleConfirmAllStagedBookings</code> บรรทัด 500 ซึ่งวนลูปรายการที่เลือกไว้แล้วเรียก <code>apiCreateBooking(trip_id, pickup_route_stop_id, dropoff_route_stop_id, seat_count)</code> ฝั่ง <code>BusContext</code> จะยิง <code>POST /api/bookings</code> พร้อม body 4 ฟิลด์ เซิร์ฟเวอร์ตรวจเงื่อนไขทั้งหมดใน transaction แล้ว INSERT <code>BOOKING</code> + <code>BOOKING_DETAIL</code> คืน <code>booking_code</code> กลับมา หน้าเว็บจะแสดงตั๋วพร้อม QR ครับ"</p>
+<p><strong>หลักฐานในโค้ด:</strong> <code>PassengerPortal.tsx</code> 511 (<code>issued.push(await apiCreateBooking(...))</code>), <code>BusContext.tsx</code> 1898 (<code>await api&lt;{...}&gt;('/bookings', { method: 'POST', body: JSON.stringify({ trip_id, pickup_route_stop_id, dropoff_route_stop_id, seat_count }) })</code>), <code>server/routes/bookings.ts</code> 101–230</p>
+<p><strong>Flow:</strong> <code>handleConfirmAllStagedBookings</code> → <code>apiCreateBooking</code> → <code>POST /api/bookings</code> → <code>requireAuth('passenger')</code> → <code>bookingInput()</code> → transaction: <code>SELECT TRIP FOR UPDATE</code> → 5 เงื่อนไข → <code>INSERT BOOKING</code> → <code>INSERT BOOKING_DETAIL</code> → commit → คืน <code>201 { booking_id, booking_code, qr_payload, ... }</code> → <code>apiRefreshBookings()</code> → แสดง QR</p>
+<h3 id="ข้อ-4-2-ระดับ-2-เงื่อนไขการจองมีอะไรบ้าง-และตรวจที่บรรทัดไหน">ข้อ 4.2 (ระดับ 2) เงื่อนไขการจองมีอะไรบ้าง และตรวจที่บรรทัดไหน?</h3>
+<p><strong>คำตอบแบบพูดตอบอาจารย์:</strong> "ครบทั้ง 5 กลุ่มครับ ใน <code>server/routes/bookings.ts</code>:</p>
+<ol>
+<li><strong>รอบรถมีอยู่จริง</strong> — ไม่เจอ → 404 (บรรทัด 122)</li>
+<li><strong>สถานะรอบต้องเปิด</strong> <code>TRIP.STATUS = 1</code> — ไม่ใช่ → 409 'Trip is not open for booking' (123)</li>
+<li><strong>วันที่จองได้เฉพาะวันนี้หรือพรุ่งนี้</strong> ตามเวลา <code>Asia/Bangkok</code> (CASE บรรทัด 111–116, ตรวจ 124–126)</li>
+<li><strong>จุดขึ้น/จุดลงต้องอยู่บนเส้นทางของรอบนั้น</strong> (128–141) และ <strong>ลำดับจุดขึ้นต้องน้อยกว่าจุดลง</strong> (144–146)</li>
+<li><strong>ต้องจองก่อนถึงจุดขึ้นอย่างน้อย 20 นาที</strong> (148–166)</li>
+<li><strong>รถต้องสถานะ 1</strong> และ <strong>ที่นั่งช่วงที่ซ้อนกันต้องไม่เกินความจุ</strong> (168–183)"</li>
+</ol>
+<p><strong>หลักฐานในโค้ด:</strong> ดู <code>Relevant Code</code> ในข้อ 4.3–4.5</p>
+<p><strong>คำถามต่อยอด:</strong> "ถ้าจองจุดลงก่อนจุดขึ้นระบบว่าอย่างไร?"<br><strong>คำตอบต่อยอด:</strong> "<code>if (pickupOrder &gt;= dropoffOrder) throw new HttpError(400, 'Pickup must be before drop-off on the route')</code> บรรทัด 144–146 ครับ"</p>
+<h3 id="ข้อ-4-3-ระดับ-2-สูตรตัดรอบ-20-นาที-คำนวณอย่างไร">ข้อ 4.3 (ระดับ 2) สูตรตัดรอบ 20 นาที คำนวณอย่างไร?</h3>
+<p><strong>คำตอบแบบพูดตอบอาจารย์:</strong> "ระบบคำนวณ 'เวลาที่รถจะถึงจุดขึ้น' = <code>DEPARTURE_AT</code> + ผลรวม <code>MINUTES_FROM_PREV</code> ของทุกจุดจอดตั้งแต่ต้นทางจนถึงจุดขึ้น แล้วเทียบว่าต้องมากกว่าหรือเท่ากับ <code>SYSTIMESTAMP + 20 นาที</code> ถ้าน้อยกว่าถือว่าเลย cutoff → 409 ครับ"</p>
+<p><strong>Relevant Code</strong> (<code>server/routes/bookings.ts</code> 148–166):</p>
+<pre><code>SELECT CASE WHEN T.DEPARTURE_AT + NUMTODSINTERVAL(
+  (SELECT NVL(SUM(RS.MINUTES_FROM_PREV), 0) FROM ROUTE_STOP RS
+   WHERE RS.ROUTE_ID = T.ROUTE_ID AND RS.STOP_ORDER &lt;= PICKUP.STOP_ORDER), 'MINUTE')
+  &gt;= SYSTIMESTAMP + NUMTODSINTERVAL(20, 'MINUTE') THEN 1 ELSE 0 END AS CUTOFF_OK
+FROM TRIP T JOIN ROUTE_STOP PICKUP ON ... WHERE T.TRIP_ID = :tripId</code></pre>
+<p>ถ้า <code>CUTOFF_OK != 1</code> → <code>HttpError(409, 'Booking must be made at least 20 minutes before arrival at pickup')</code> (บรรทัด 164–166)</p>
+<p><strong>คำถามต่อยอด:</strong> "ถ้าเปลี่ยน 20 เป็น 60 นาที จะเกิดอะไรขึ้น?"<br><strong>คำตอบต่อยอด:</strong> "แก้ค่าใน <code>NUMTODSINTERVAL(20, 'MINUTE')</code> บรรทัด 155 และข้อความข้อผิดพลาด 165 เท่านั้น ส่วนฝั่งหน้าเว็บที่ disable ปุ่มจองใกล้เวลาก็ต้องแก้ตามเพื่อให้ตรงกันครับ"</p>
+<h1 class="topic-title" id="หัวข้อ-4-ต่อ-คำถามระดับ-2-3">หัวข้อ 4 (ต่อ): คำถามระดับ 2–3</h1>
+<h3 id="ข้อ-4-4-ระดับ-2-ระบบคำนวณ-ที่นั่งว่าง-อย่างไร-สูตรคืออะไร">ข้อ 4.4 (ระดับ 2) ระบบคำนวณ "ที่นั่งว่าง" อย่างไร สูตรคืออะไร?</h3>
+<p><strong>คำตอบแบบพูดตอบอาจารย์:</strong> "นับแบบ <strong>ช่วงซ้อนทับ (segment overlap)</strong> ไม่ใช่นับทั้งรอบครับ ระบบ SUM <code>SEAT_COUNT</code> ของรายการจองที่ <code>STATUS_CODE &lt;&gt; 0</code> และมีช่วงขึ้น–ลงซ้อนกับช่วงที่เรากำลังจอง โดยเทียบด้วย <code>STOP_ORDER</code> ถ้าผลรวม + ที่นั่งที่จะจอง &gt; ความจุรถ ก็ไม่ให้จอง 409 ครับ"</p>
+<p><strong>Relevant Code</strong> (<code>server/routes/bookings.ts</code> 173–183):</p>
+<pre><code>SELECT NVL(SUM(BD.SEAT_COUNT), 0) AS BOOKED_COUNT
+FROM BOOKING_DETAIL BD
+JOIN ROUTE_STOP PICK_RS ON PICK_RS.ROUTE_ID = BD.ROUTE_ID AND PICK_RS.ROUTE_STOP_ID = BD.PICKUP_ROUTE_STOP_ID
+JOIN ROUTE_STOP DROP_RS ON DROP_RS.ROUTE_ID = BD.ROUTE_ID AND DROP_RS.ROUTE_STOP_ID = BD.DROPOFF_ROUTE_STOP_ID
+WHERE BD.TRIP_ID = :tripId AND BD.STATUS_CODE &lt;&gt; 0
+  AND PICK_RS.STOP_ORDER &lt; :newDropOrder AND DROP_RS.STOP_ORDER &gt; :newPickupOrder</code></pre>
+<pre><code>if (Number(occupancy[0]?.BOOKED_COUNT ?? 0) + seatCount &gt; capacity) {
+  throw new HttpError(409, 'Not enough seats remain on this trip');
+}</code></pre>
+<p><code>capacity</code> มาจาก <code>SELECT CAPACITY FROM VEHICLE WHERE VEHICLE_ID = :vehicleId AND STATUS = 1</code> (168–172) ถ้ารถถูกปิดใช้งานจะได้ 409 'Assigned vehicle is unavailable'</p>
+<p><strong>Logic สำคัญ:</strong> เงื่อนไข <code>PICK_ORDER &lt; newDropOrder AND DROP_ORDER &gt; newPickupOrder</code> คือเกณฑ์ interval overlap แบบ half-open ทำให้ผู้โดยสารที่ขึ้น–ลงคนละช่วงไม่แย่งที่นั่งกัน (เช่น คน A ลงก่อนที่ B จะขึ้น ใช้ที่นั่งเดียวกันได้)</p>
+<p><strong>คำถามต่อยอด:</strong> สูตรเดียวกันใช้แสดงที่นั่งว่างในหน้าเลือกรอบด้วยไหม?<br><strong>คำตอบต่อยอด:</strong> "ใช้ครับ <code>GET /api/trips</code> ใน <code>server/routes/catalog.ts</code> 92–144 คำนวณ <code>REMAINING_SEATS = V.CAPACITY - SUM(...)</code> ด้วยเงื่อนไข overlap เดียวกัน ถ้าส่ง <code>pickupRouteStopId</code>/<code>dropoffRouteStopId</code> มาด้วยจะนับเฉพาะช่วงซ้อน (บรรทัด 111–112) ถ้าไม่ส่งจะนับรวมทั้งรอบเพื่อไม่ให้หน้าเก่าพังครับ"</p>
+<h3 id="ข้อ-4-5-ระดับ-3-ป้องกันการจองเกินความจุพร้อมกัน-race-condition-อย่างไร">ข้อ 4.5 (ระดับ 3) ป้องกันการจองเกินความจุพร้อมกัน (race condition) อย่างไร?</h3>
+<p><strong>คำตอบแบบพูดตอบอาจารย์:</strong> "ใช้การล็อกแถว <code>TRIP</code> ด้วย <code>FOR UPDATE</code> ใน transaction เดียวกับการตรวจความจุครับ — <code>SELECT ... FROM TRIP WHERE TRIP_ID = :tripId FOR UPDATE</code> ถ้าผู้ใช้ 2 คนกดพร้อมกัน คำขอที่ 2 จะรอ lock จนคำขอที่ 1 commit แล้วจึงเห็นจำนวนจองล่าสุด ทำให้ตรวจความจุด้วยข้อมูลใหม่ นอกจากนี้ถ้าเกิด errorNum = 1 (ชนกัน) ระบบจะแปลงเป็น 409 'One or more seats were booked concurrently; refresh availability' ครับ"</p>
+<p><strong>หลักฐานในโค้ด:</strong> <code>server/routes/bookings.ts</code> — <code>FOR UPDATE</code> บรรทัด 109–120, <code>withTransaction</code> 108, <code>catch</code> + <code>oracleErrorNumber(error) === 1</code> 215–220</p>
+<p><strong>Flow:</strong> <code>withTransaction</code> เริ่ม → <code>SELECT TRIP FOR UPDATE</code> (ล็อก) → ตรวจวันที่/จุดจอด/cutoff/ความจุ → <code>INSERT BOOKING</code> → <code>INSERT BOOKING_DETAIL</code> → commit (ปล่อยล็อก) → 201</p>
+<p><strong>คำถามต่อยอด:</strong> ถ้าปล่อย lock ไม่ตรงจุด จะเกิดอะไรขึ้น?<br><strong>คำตอบต่อยอด:</strong> "ถ้าตรวจความจุโดยไม่ล็อก 2 คำขออาจอ่านค่า <code>BOOKED_COUNT</code> เดียวกันแล้วต่างฝ่ายต่าง insert ทำให้ยอดเกินความจุ การล็อก <code>TRIP</code> แถวเดียวทำให้การจองรอบนั้น ๆ ขนานกันไม่ได้ครับ ส่วนคนละรอบก็ล็อกคนละแถว ไม่ติดกันครับ"</p>
+<h3 id="ข้อ-4-6-ระดับ-2-รับมากี่ที่นั่งต่อการจอง-และใครเป็นคนบังคับ">ข้อ 4.6 (ระดับ 2) รับมากี่ที่นั่งต่อการจอง และใครเป็นคนบังคับ?</h3>
+<p><strong>คำตอบแบบพูดตอบอาจารย์:</strong> "1–4 ที่นั่งต่อ 1 รายการจองครับ บังคับ 2 ชั้น — ฝั่ง API <code>bookingInput()</code> เช็ก <code>if (seatCount &gt; 4) throw new HttpError(400, 'A booking must contain between 1 and 4 seats')</code> และที่ฐานข้อมูลมี <code>CK_BD_SEAT_COUNT CHECK (SEAT_COUNT BETWEEN 1 AND 4)</code> ครับ"</p>
+<p><strong>หลักฐานในโค้ด:</strong> <code>server/routes/bookings.ts</code> 14–23 (<code>positiveId</code> + เงื่อนไข <code>seatCount &gt; 4</code> บรรทัด 21), <code>database.sql</code> constraint <code>CK_BD_SEAT_COUNT</code></p>
+<p><strong>คำถามต่อยอด:</strong> ถ้าส่ง <code>seat_count = 0</code> หรือติดลบ?<br><strong>คำตอบต่อยอด:</strong> "<code>positiveId()</code> บรรทัด 8–12 จะคืน 400 <code>seat_count must be a positive integer</code> เพราะเช็ก <code>id &lt;= 0</code> ครับ ตัวเดียวกับที่ใช้ตรวจ <code>trip_id</code>, <code>pickup_route_stop_id</code>, <code>dropoff_route_stop_id</code>"</p>
+<h1 class="topic-title" id="หัวข้อ-4-ต่อ-คำถามระดับ-2-3-ต่อ">หัวข้อ 4 (ต่อ): คำถามระดับ 2–3 (ต่อ)</h1>
+<h3 id="ข้อ-4-7-ระดับ-1-ระบบตรวจ-สถานะรอบรถ-และ-วันที่-อย่างไร">ข้อ 4.7 (ระดับ 1) ระบบตรวจ "สถานะรอบรถ" และ "วันที่" อย่างไร?</h3>
+<p><strong>คำตอบแบบพูดตอบอาจารย์:</strong> "ตอน SELECT รอบรถครั้งแรก ระบบจะดึง <code>STATUS</code> และ <code>DEPARTURE_AT</code> มาพร้อมกันโดย <code>FOR UPDATE</code> แล้วเช็ก 2 อย่างครับ 1) <code>TRIP.STATUS = 1</code> ถ้าไม่ใช่คืน 409 'Trip is not open for booking' 2) วันที่ของรอบต้องอยู่ระหว่างวันนี้ถึงพรุ่งนี้ตามเวลา <code>Asia/Bangkok</code> ไม่เช่นนั้นคืน 409 'Trips can only be booked for today or tomorrow' ครับ"</p>
+<p><strong>Relevant Code</strong> (<code>server/routes/bookings.ts</code> 109–126):</p>
+<pre><code>SELECT TRIP_ID, ROUTE_ID, STATUS, DEPARTURE_AT, VEHICLE_ID,
+       CASE WHEN TRUNC(DEPARTURE_AT) BETWEEN
+         TO_DATE(TO_CHAR(SYSTIMESTAMP AT TIME ZONE 'Asia/Bangkok', 'YYYY-MM-DD'), 'YYYY-MM-DD')
+         AND TO_DATE(TO_CHAR(SYSTIMESTAMP AT TIME ZONE 'Asia/Bangkok', 'YYYY-MM-DD'), 'YYYY-MM-DD') + 1
+       THEN 1 ELSE 0 END AS BOOKING_DATE_OK
+FROM TRIP WHERE TRIP_ID = :tripId FOR UPDATE</code></pre>
+<pre><code>if (!trip) throw new HttpError(404, 'Trip not found');
+if (Number(trip.STATUS) !== 1) throw new HttpError(409, 'Trip is not open for booking');
+if (Number(trip.BOOKING_DATE_OK) !== 1) throw new HttpError(409, 'Trips can only be booked for today or tomorrow');</code></pre>
+<p><strong>คำถามต่อยอด:</strong> <code>TRIP.STATUS</code> แต่ละค่าหมายความว่าอย่างไร?<br><strong>คำตอบต่อยอด:</strong> "0 = ยกเลิก, 1 = เปิด/พร้อมจอง, 2 = กำลังเดินทาง, 3 = เสร็จสิ้น ตาม <code>CK_TRIP_STATUS CHECK (STATUS IN (0,1,2,3))</code> ใน <code>database.sql</code> และมีคอมเมนต์ระบุไว้ที่ <code>src/components/live/DriverPortal.tsx</code> บรรทัด 141 ครับ"</p>
+<h3 id="ข้อ-4-8-ระดับ-2-ระบบตรวจจุดขึ้น-จุดลงอย่างไร-ถ้าเลือกลงก่อนขึ้นล่ะ">ข้อ 4.8 (ระดับ 2) ระบบตรวจจุดขึ้น–จุดลงอย่างไร ถ้าเลือกลงก่อนขึ้นล่ะ?</h3>
+<p><strong>คำตอบแบบพูดตอบอาจารย์:</strong> "SELECT จาก <code>ROUTE_STOP</code> สองแถวกรองด้วย <code>ROUTE_ID</code> ของรอบรถนั้น ถ้าไม่เจอเลยแปลว่าจุดที่ส่งมาไม่อยู่บนเส้นทางนี้ → 400 'Pickup and drop-off must be stops on the trip route' ถ้าเจอแล้ว <code>STOP_ORDER</code> ของจุดขึ้น &gt;= จุดลง → 400 'Pickup must be before drop-off on the route' ครับ"</p>
+<p><strong>หลักฐานในโค้ด:</strong> <code>server/routes/bookings.ts</code> 128–146 — query <code>SELECT PICKUP.STOP_ORDER AS PICKUP_ORDER, DROPOFF.STOP_ORDER AS DROPOFF_ORDER FROM ROUTE_STOP PICKUP JOIN ROUTE_STOP DROPOFF ON DROPOFF.ROUTE_ID = PICKUP.ROUTE_ID WHERE PICKUP.ROUTE_ID = :routeId AND ...</code> แล้ว <code>if (pickupOrder &gt;= dropoffOrder) throw new HttpError(400, ...)</code> (144–146)</p>
+<p><strong>คำถามต่อยอด:</strong> ทำไมต้องใช้ <code>ROUTE_STOP_ID</code> ไม่ใช้ <code>STOP_ID</code>?<br><strong>คำตอบต่อยอด:</strong> "เพราะจุดจอดเดียวกันอาจอยู่ในหลายเส้นทางและอยู่หลายลำดับ <code>BOOKING_DETAIL</code> เก็บ <code>PICKUP_ROUTE_STOP_ID</code>/<code>DROPOFF_ROUTE_STOP_ID</code> ซึ่งเป็น FK ระดับ (route, stop) ทำให้ระบุลำดับบนเส้นทางนั้นได้แม่นยำครับ (ตาม README ที่ระบุว่า repeated stops on a route ต้องไม่กำกวม)"</p>
+<h3 id="ข้อ-4-9-ระดับ-3-ถ้าจองไม่สำเร็จ-ระบบจะรู้ได้อย่างไรว่าเกิดจากเงื่อนไขไหน">ข้อ 4.9 (ระดับ 3) ถ้าจองไม่สำเร็จ ระบบจะรู้ได้อย่างไรว่าเกิดจากเงื่อนไขไหน?</h3>
+<p><strong>คำตอบแบบพูดตอบอาจารย์:</strong> "ดูจาก HTTP status และข้อความครับ 400 = รูปแบบข้อมูล/จุดจอดผิด, 404 = ไม่พบรอบรถ, 409 = ติดเงื่อนไขธุรกิจ (รอบปิด, เลยวัน, เลย cutoff, รถใช้ไม่ได้, ที่นั่งเต็ม, จองชนกัน) ทุก error ถูกโยนด้วย <code>HttpError</code> แล้วผ่าน <code>errorHandler</code> ที่ <code>server/middleware/errorHandler.ts</code> (ติดตั้งท้าย <code>server/app.ts</code> บรรทัด 22) ฝั่งเว็บรับ <code>payload.error</code> ใน <code>src/api/client.ts</code> 26 แล้วโยนเป็น <code>ApiError</code> จนถึง <code>PassengerPortal</code> ที่แสดง <code>confirmErrorModal</code> บรรทัด 538 ครับ"</p>
+<p><strong>หลักฐานในโค้ด:</strong> <code>server/routes/bookings.ts</code> 122, 123, 125, 141, 145, 165, 171, 182, 217; <code>src/api/client.ts</code> 26 <code>if (!response.ok) throw new ApiError(response.status, payload.error || payload.message || 'API request failed')</code></p>
+<p><strong>คำถามต่อยอด:</strong> ถ้า Oracle error ที่ไม่ได้แปลง จะเกิดอะไรขึ้น?<br><strong>คำตอบต่อยอด:</strong> "จะถูก <code>errorHandler</code> จับแล้วคืน 500 ครับ ส่วน error ที่แปลงแล้วคือ errorNum 1 (ซ้ำ) ใน <code>bookings.ts</code> 216–218 และใน <code>admin.ts</code> <code>mapOracleError</code> 51–58"</p>
+<h3 id="ข้อ-4-10-ระดับ-3-ทำไมเก็บ-seat_count-ไม่เก็บเลขที่นั่งรายตัว">ข้อ 4.10 (ระดับ 3) ทำไมเก็บ <code>SEAT_COUNT</code> ไม่เก็บเลขที่นั่งรายตัว?</h3>
+<p><strong>คำตอบแบบพูดตอบอาจารย์:</strong> "เพราะเอกสาร schema ระบุไว้ว่าแต่ละแถว <code>BOOKING_DETAIL</code> เก็บ 'จำนวนที่นั่ง' ของ 1 รายการจองต่อ 1 เส้นทาง ไม่เก็บเลขที่นั่งรายตัว ข้อดีคือ logic ความจุเป็นการ SUM อย่างเดียว ตรวจสอบง่ายและตรงกับ constraint <code>CK_BD_SEAT_COUNT</code> ครับ ตัวอย่างคอมเมนต์ใน <code>database.sql</code> ท้ายไฟล์: 'BOOKING_DETAIL stores the requested seat quantity, not individual seat numbers. Capacity is checked transactionally while the associated TRIP row is locked.' ครับ"</p>
+<p><strong>หลักฐานในโค้ด:</strong> <code>database.sql</code> คอมเมนต์ท้ายไฟล์, <code>README.md</code> ย่อหน้าที่ระบุว่า individual seat numbers are not stored</p>
+<p><strong>คำถามต่อยอด:</strong> แล้วเลขที่นั่งในหน้าเว็บ (A1, B2) ล่ะ?<br><strong>คำตอบต่อยอด:</strong> "เป็นการแสดงผลฝั่ง UI สำหรับโหมดจำลองเท่านั้นครับ ส่วน API mode จะส่ง <code>seat_count</code> ไป ไม่ได้ส่งเลขที่นั่ง และ backend ไม่ได้เก็บลงฐานข้อมูล"</p>
+<h2 id="สิ่งที่ต้องจำ-หัวข้อ-4">สิ่งที่ต้องจำ (หัวข้อ 4)</h2>
+<ol>
+<li><code>POST /api/bookings</code> = <code>server/routes/bookings.ts</code> 101–230, ต้อง login เป็น passenger (<code>router.use(requireAuth('passenger'))</code> บรรทัด 27)</li>
+<li>5 เงื่อนไขหลัก: รอบเปิด (<code>STATUS=1</code>) → วันนี้/พรุ่งนี้ → จุดจอดอยู่บนเส้นทาง + ลำดับถูก → ก่อนถึงจุดขึ้น ≥ 20 นาที → ความจุช่วงซ้อน</li>
+<li>ล็อก <code>TRIP</code> ด้วย <code>FOR UPDATE</code> เพื่อป้องกันจองเกินพร้อมกัน</li>
+<li>สูตร cutoff = <code>DEPARTURE_AT + SUM(MINUTES_FROM_PREV จนถึงจุดขึ้น) &gt;= SYSTIMESTAMP + 20 นาที</code></li>
+<li>สูตรความจุ = <code>SUM(SEAT_COUNT) WHERE STATUS_CODE&lt;&gt;0 AND overlap</code> + <code>seat_count &lt;= capacity</code></li>
+<li>INSERT 2 ตาราง: <code>BOOKING</code> (คืน <code>BOOKING_ID</code>) → <code>BOOKING_DETAIL</code> (<code>STATUS_CODE = 1</code>)</li>
+<li><code>seat_count</code> 1–4 ตรวจทั้ง API และ constraint</li>
+</ol>
+<h1 class="topic-title" id="หัวข้อ-5-gen-qr-code-หลังจองสำเร็จ-และดูรอบที่กำลังจะมาถึง-1-คะแนน">หัวข้อ 5: Gen QR Code หลังจองสำเร็จ และดูรอบที่กำลังจะมาถึง (1 คะแนน)</h1>
+<h2 id="ภาพรวม">ภาพรวม</h2>
+<p>เมื่อจองสำเร็จ เซิร์ฟเวอร์คืน <code>booking_code</code> (รูป <code>SB-</code> ตามด้วย hex 32 ตัว) และ <code>qr_payload</code> ซึ่งมีค่าเท่ากับ <code>booking_code</code> หน้าเว็บนำไปสร้าง QR ด้วยไลบรารี <code>qrcode</code> ผ่านคอมโพเนนต์ <code>QrCodeSvg</code> ส่วนหน้าตั๋วจะดึงรายการจองของผู้ใช้จาก <code>GET /api/bookings/me?filter=upcoming</code> ซึ่งกรองเฉพาะรายการที่ยังไม่ถึงเวลาและรอบยังเปิดอยู่</p>
+<h2 id="จุดสำคัญในโค้ด">จุดสำคัญในโค้ด</h2>
+<div class="tblwrap"><table><thead><tr><th>เรื่อง</th><th>ไฟล์</th><th>Function / Route</th><th>บรรทัด</th></tr></thead><tbody><tr><td>สร้าง QR</td><td><code>src/components/common/QrCodeSvg.tsx</code></td><td><code>QrCodeSvg</code> (<code>QRCode.toDataURL</code>)</td><td>11–41</td></tr><tr><td>แสดง QR บนตั๋ว</td><td><code>src/components/live/PassengerPortal.tsx</code></td><td><code>&lt;QrCodeSvg value={booking_code}&gt;</code></td><td>1484, 1758</td></tr><tr><td>จองสำเร็จคืน code</td><td><code>server/routes/bookings.ts</code></td><td><code>POST /api/bookings</code> (response)</td><td>222–229</td></tr><tr><td>สุ่ม booking code</td><td><code>server/routes/bookings.ts</code></td><td><code>randomBytes(16)</code></td><td>104</td></tr><tr><td>ดูรายการจอง</td><td><code>server/routes/bookings.ts</code></td><td><code>GET /api/bookings/me</code></td><td>29–99</td></tr><tr><td>กรอง "กำลังจะมาถึง"</td><td><code>server/routes/bookings.ts</code></td><td><code>statusFilter</code> (SQL)</td><td>35–46</td></tr><tr><td>รีเฟรชรายการจอง</td><td><code>src/context/BusContext.tsx</code></td><td><code>apiRefreshBookings()</code></td><td>1880–1892</td></tr><tr><td>กรองแท็บตั๋ว</td><td><code>src/components/live/PassengerPortal.tsx</code></td><td><code>filteredBookingGroups</code>, <code>ticketStatusFilter</code></td><td>360–383, 1606–1640</td></tr></tbody></table></div>
+<p><strong>Database:</strong> <code>BOOKING.BOOKING_CODE</code> (unique), <code>BOOKING_DETAIL.STATUS_CODE</code> (<code>0</code>=ยกเลิก, <code>1</code>=จองสำเร็จ, <code>2</code>=เช็กอินแล้ว, <code>3</code>=เสร็จสิ้น, <code>4</code>=ไม่ได้ขึ้นรถ), <code>TRIP.STATUS</code></p>
+<h2 id="คำถามและคำตอบ">คำถามและคำตอบ</h2>
+<h3 id="ข้อ-5-1-ระดับ-1-qr-code-ถูกสร้างที่ไหน-ด้วยอะไร">ข้อ 5.1 (ระดับ 1) QR Code ถูกสร้างที่ไหน ด้วยอะไร?</h3>
+<p><strong>คำตอบแบบพูดตอบอาจารย์:</strong> "สร้างที่ฝั่งหน้าเว็บครับ ในคอมโพเนนต์ <code>src/components/common/QrCodeSvg.tsx</code> โดยเรียก <code>QRCode.toDataURL(value, { errorCorrectionLevel: 'M', margin: 2, width: size })</code> แล้วแสดงเป็น <code>&lt;img&gt;</code> ครับ"</p>
+<p><strong>Relevant Code</strong> (<code>src/components/common/QrCodeSvg.tsx</code> 14–30):</p>
+<pre><code>useEffect(() =&gt; {
+  let active = true;
+  setSource('');
+  if (value) {
+    void QRCode.toDataURL(value, { errorCorrectionLevel: 'M', margin: 2, width: size,
+      color: { dark: '#0f172a', light: '#ffffff' } })
+      .then((dataUrl) =&gt; { if (active) setSource(dataUrl); })
+      .catch(() =&gt; { if (active) setSource(''); });
+  }
+  return () =&gt; { active = false; };
+}, [value, size]);</code></pre>
+<p><strong>คำถามต่อยอด:</strong> ข้างใน QR ใส่อะไร?<br><strong>คำตอบต่อยอด:</strong> "ใส่ <code>booking_code</code> ครับ ที่ <code>PassengerPortal.tsx</code> บรรทัด 1484: <code>value={apiMode &amp;&amp; cur.booking_code ? cur.booking_code : 'MUT-PASS-...'} </code> โหมด API ใช้ <code>booking_code</code> จริง ส่วนค่า <code>MUT-PASS-...</code> เป็นของโหมดจำลอง"</p>
+<h3 id="ข้อ-5-2-ระดับ-2-booking_code-มาจากไหน-สร้างอย่างไร">ข้อ 5.2 (ระดับ 2) <code>booking_code</code> มาจากไหน สร้างอย่างไร?</h3>
+<p><strong>คำตอบแบบพูดตอบอาจารย์:</strong> "เซิร์ฟเวอร์สุ่มก่อนทำ transaction ครับ <code>const bookingCode = 'SB-' + randomBytes(16).toString('hex')</code> ได้ความยาว 34 อักขระ แล้ว INSERT เข้า <code>BOOKING</code> ซึ่งมี constraint <code>UQ_BOOKING_CODE UNIQUE</code> การันตีไม่ซ้ำ และคืนมาทั้ง <code>booking_code</code> กับ <code>qr_payload</code> ใน response ครับ"</p>
+<p><strong>หลักฐานในโค้ด:</strong> <code>server/routes/bookings.ts</code> 104 (<code>const bookingCode = \</code>SB-${randomBytes(16).toString('hex')}\`<code>), 185–191 (INSERT + SELECT คืน </code>BOOKING_ID<code>), 222–229 (response), </code>database.sql<code> </code>UQ_BOOKING_CODE`</p>
+<p><strong>คำถามต่อยอด:</strong> ถ้าสุ่มแล้วชน (unique constraint) ระบบจะยังไง?<br><strong>คำตอบต่อยอด:</strong> "จะ errorNum = 1 แล้วถูกจับใน <code>catch</code> บรรทัด 215–218 คืน 409 ครับ โอกาสเกิดน้อยมากเพราะ entropy 16 bytes"</p>
+<h3 id="ข้อ-5-3-ระดับ-2-ดูรอบที่กำลังจะมาถึง-กรองอย่างไร">ข้อ 5.3 (ระดับ 2) "ดูรอบที่กำลังจะมาถึง" กรองอย่างไร?</h3>
+<p><strong>คำตอบแบบพูดตอบอาจารย์:</strong> "หน้าตั๋วเรียก <code>GET /api/bookings/me?filter=upcoming</code> แล้วเซิร์ฟเวอร์ต่อเงื่อนไข SQL ว่า <code>BD.STATUS_CODE IN (1,2)</code> และ <code>T.STATUS IN (1,2)</code> และเวลาถึงจุดขึ้นของผู้โดยสารยังไม่ผ่าน <code>SYSDATE</code> ครับ โดยเวลาถึงจุดขึ้นคำนวณจาก <code>T.DEPARTURE_AT + SUM(MINUTES_FROM_PREV)/1440</code> ของจุดจอดตั้งแต่ต้นทางถึงจุดขึ้น ครับ"</p>
+<p><strong>Relevant Code</strong> (<code>server/routes/bookings.ts</code> 35–46):</p>
+<pre><code>const statusFilter = filter === 'upcoming'
+  ? `AND BD.STATUS_CODE IN (1, 2)
+     AND T.STATUS IN (1, 2)
+     AND T.DEPARTURE_AT + (
+       SELECT NVL(SUM(RS.MINUTES_FROM_PREV), 0) / 1440
+       FROM ROUTE_STOP RS
+       JOIN ROUTE_STOP PICKUP_RS ON PICKUP_RS.ROUTE_ID = BD.ROUTE_ID
+         AND PICKUP_RS.ROUTE_STOP_ID = BD.PICKUP_ROUTE_STOP_ID
+       WHERE RS.ROUTE_ID = BD.ROUTE_ID AND RS.STOP_ORDER &lt;= PICKUP_RS.STOP_ORDER
+     ) &gt; SYSDATE`
+  : filter === 'completed' ? 'AND BD.STATUS_CODE IN (3, 4)'
+  : filter === 'cancelled' ? 'AND BD.STATUS_CODE = 0' : '';</code></pre>
+<p><strong>คำถามต่อยอด:</strong> รายการที่ถูก "ซ่อนตั๋ว" ไป (<code>WEB_HIDDEN_RECORD</code>) จะยังแสดงไหม?<br><strong>คำตอบต่อยอด:</strong> "ไม่แสดงครับ query มี <code>AND NOT EXISTS (SELECT 1 FROM WEB_HIDDEN_RECORD H WHERE H.ENTITY_NAME='booking' AND H.RECORD_KEY=TO_CHAR(B.BOOKING_ID) AND H.OWNER_ID=TO_CHAR(B.USER_ID))</code> บรรทัด 90–95 ซึ่งเป็นการซ่อนเฉพาะผู้โดยสารคนนั้น ข้อมูลการจองยังอยู่ครบครับ"</p>
+<h3 id="ข้อ-5-4-ระดับ-3-ถ้ายกเลิกการจองไปแล้ว-qr-ใบนั้นยังใช้ได้ไหม">ข้อ 5.4 (ระดับ 3) ถ้ายกเลิกการจองไปแล้ว QR ใบนั้นยังใช้ได้ไหม?</h3>
+<p><strong>คำตอบแบบพูดตอบอาจารย์:</strong> "ใช้ไม่ได้ครับ เพราะการเช็กอินของคนขับจะ SELECT เฉพาะแถวที่ <code>BD.STATUS_CODE = 1</code> เท่านั้น รายการที่ยกเลิกมี <code>STATUS_CODE = 0</code> จึงไม่ถูกจับคู่ ระบบคืน 409 'QR booking does not match this trip or is no longer valid' ครับ"</p>
+<p><strong>หลักฐานในโค้ด:</strong> <code>server/routes/driver.ts</code> 241–254</p>
+<h2 id="สิ่งที่ต้องจำ-หัวข้อ-5">สิ่งที่ต้องจำ (หัวข้อ 5)</h2>
+<ol>
+<li>QR สร้างที่ frontend: <code>QrCodeSvg.tsx</code> ใช้ไลบรารี <code>qrcode</code> → <code>toDataURL</code></li>
+<li>Payload = <code>booking_code</code> (<code>SB-</code> + 32 hex) สุ่มด้วย <code>randomBytes(16)</code> ที่เซิร์ฟเวอร์</li>
+<li>Response คืนทั้ง <code>booking_code</code> และ <code>qr_payload</code> (ค่าเดียวกัน) ที่ <code>bookings.ts</code> 222–229</li>
+<li>"กำลังจะมาถึง" = <code>filter=upcoming</code> → <code>STATUS_CODE IN (1,2)</code> + <code>TRIP STATUS IN (1,2)</code> + ยังไม่ถึงเวลาถึงจุดขึ้น</li>
+<li><code>STATUS_CODE</code>: 0 ยกเลิก, 1 จองสำเร็จ, 2 เช็กอิน, 3 เสร็จสิ้น, 4 ไม่ขึ้นรถ</li>
+<li>ตั๋วที่ซ่อนด้วย <code>WEB_HIDDEN_RECORD</code> จะไม่ถูกคืนจาก <code>/bookings/me</code></li>
+</ol>
+<h1 class="topic-title" id="หัวข้อ-6-ยกเลิกการจองตามเงื่อนไขและคืนที่นั่ง-3-คะแนน">หัวข้อ 6: ยกเลิกการจองตามเงื่อนไขและคืนที่นั่ง (3 คะแนน)</h1>
+<h2 id="ภาพรวม">ภาพรวม</h2>
+<p>ผู้โดยสารกด "ยกเลิก" ในหน้าตั๋ว → modal ยืนยัน → <code>POST /api/bookings/:bookingId/cancel</code> ฝั่งเซิร์ฟเวอร์ทำใน transaction: ล็อกใบจอง (ต้องเป็นของตัวเอง) → เช็กทุก <code>BOOKING_DETAIL</code> ต้องยัง <code>STATUS_CODE = 1</code> → ล็อกทุก <code>TRIP</code> และต้องยังเปิดอยู่ (<code>STATUS = 1</code>) → <code>UPDATE BOOKING_DETAIL SET STATUS_CODE = 0</code> แล้ว<strong>คืนจำนวนที่นั่ง</strong>เป็นผลรวม <code>SEAT_COUNT</code> ของแถวที่ยกเลิก ที่นั่งถูก "คืน" โดยอัตโนมัติเพราะการจองใหม่จะนับเฉพาะ <code>STATUS_CODE &lt;&gt; 0</code></p>
+<h2 id="จุดสำคัญในโค้ด">จุดสำคัญในโค้ด</h2>
+<div class="tblwrap"><table><thead><tr><th>เรื่อง</th><th>ไฟล์</th><th>Function / Route</th><th>บรรทัด</th></tr></thead><tbody><tr><td>ปุ่มยกเลิก + modal</td><td><code>src/components/live/PassengerPortal.tsx</code></td><td><code>setCancelModalData</code>, ปุ่มยืนยัน</td><td>786–790, 1811–1849</td></tr><tr><td>เรียก API</td><td><code>src/context/BusContext.tsx</code></td><td><code>apiCancelBooking()</code></td><td>1902</td></tr><tr><td>ยกเลิก (เซิร์ฟ)</td><td><code>server/routes/bookings.ts</code></td><td><code>POST /api/bookings/:bookingId/cancel</code></td><td>232–272</td></tr><tr><td>นับที่นั่งตอนจอง</td><td><code>server/routes/bookings.ts</code></td><td>occupancy query (<code>STATUS_CODE &lt;&gt; 0</code>)</td><td>178</td></tr><tr><td>รีเฟรชยอดจอง</td><td><code>src/context/BusContext.tsx</code></td><td><code>apiRefreshBookings()</code></td><td>1880–1892</td></tr></tbody></table></div>
+<p><strong>Database:</strong> <code>BOOKING_DETAIL.STATUS_CODE</code> เปลี่ยน <code>1 → 0</code>, คอลัมน์ <code>SEAT_COUNT</code> ไม่ถูกแก้ ไม่มีตาราง counter ที่นั่ง — ที่นั่งถูกคำนวณใหม่จาก SUM เสมอ</p>
+<h2 id="คำถามและคำตอบ">คำถามและคำตอบ</h2>
+<h3 id="ข้อ-6-1-ระดับ-1-กด-ยกเลิกการจอง-ในหน้าเว็บ-แล้วเกิดอะไรขึ้น">ข้อ 6.1 (ระดับ 1) กด "ยกเลิกการจอง" ในหน้าเว็บ แล้วเกิดอะไรขึ้น?</h3>
+<p><strong>คำตอบแบบพูดตอบอาจารย์:</strong> "ปุ่มใน <code>PassengerPortal</code> จะเปิด modal เก็บ <code>bookingId</code>, <code>bookingCode</code>, <code>seatCount</code> ไว้ พอผู้ใช้ยืนยันจะเรียก <code>apiCancelBooking(bookingId)</code> ใน <code>BusContext</code> ซึ่งยิง <code>POST /api/bookings/:bookingId/cancel</code> แล้วเรียก <code>apiRefreshBookings()</code> เพื่อดึงรายการจองใหม่และคำนวณที่นั่งใหม่ครับ"</p>
+<p><strong>Flow:</strong> ปุ่มยกเลิก (<code>PassengerPortal.tsx</code> 786) → <code>setCancelModalData</code> → ยืนยัน (1847 <code>if (apiMode) void apiCancelBooking(...)</code>) → <code>api()</code> → <code>POST /api/bookings/:id/cancel</code> → <code>requireAuth('passenger')</code> → transaction ในเซิร์ฟเวอร์ → <code>200 { booking_id, status_code: 0, cancelled_seats }</code> → <code>apiRefreshBookings()</code></p>
+<p><strong>คำถามต่อยอด:</strong> ฝั่งเว็บมีหน้าที่คิดจำนวนที่นั่งคืนไหม?<br><strong>คำตอบต่อยอด:</strong> "ไม่มีครับ ฝั่งเว็บแค่ส่งคำขอ แล้วรีเฟรชข้อมูล ส่วนการ 'คืน' เกิดจากฝั่งฐานข้อมูลโดยเปลี่ยน <code>STATUS_CODE</code> เป็น 0 ครับ"</p>
+<h3 id="ข้อ-6-2-ระดับ-2-backend-ตรวจสอบเงื่อนไขอะไรบ้างก่อนยกเลิก">ข้อ 6.2 (ระดับ 2) Backend ตรวจสอบเงื่อนไขอะไรบ้างก่อนยกเลิก?</h3>
+<p><strong>คำตอบแบบพูดตอบอาจารย์:</strong> "4 เงื่อนไขครับ ใน <code>server/routes/bookings.ts</code> 232–272:</p>
+<ol>
+<li>ต้องเจอใบจองที่เป็น <strong>ของผู้ใช้คนนี้</strong> — <code>WHERE BOOKING_ID = :bookingId AND USER_ID = :userId FOR UPDATE</code> ไม่เจอ → 404 (236–241)</li>
+<li>ต้องมี <code>BOOKING_DETAIL</code> และ <strong>ทุกแถวต้อง <code>STATUS_CODE = 1</code></strong> — ไม่ใช่ → 409 'Only confirmed booking details can be cancelled' (243–252)</li>
+<li>ทุก <code>TRIP</code> ที่ผูกกับใบจองต้อง <strong>ยัง <code>STATUS = 1</code></strong> (ยังไม่ออกเดินทาง) — ไม่ใช่ → 409 'A booking can only be cancelled while its trip is open' (254–262)</li>
+<li>ถ้าผ่านหมดจึง <code>UPDATE BOOKING_DETAIL SET STATUS_CODE = 0 WHERE BOOKING_ID = :bookingId AND STATUS_CODE = 1</code> (264–268)"</li>
+</ol>
+<p><strong>Relevant Code:</strong></p>
+<pre><code>if (detailRows.some((row) =&gt; Number(row.STATUS_CODE) !== 1)) {
+  throw new HttpError(409, 'Only confirmed booking details can be cancelled');
+}
+// ...
+const trips = await queryRows&lt;DbRow&gt;(connection,
+  `SELECT TRIP_ID, STATUS FROM TRIP WHERE TRIP_ID = :tripId FOR UPDATE`, { tripId });
+if (!trips[0] || Number(trips[0].STATUS) !== 1) {
+  throw new HttpError(409, 'A booking can only be cancelled while its trip is open');
+}</code></pre>
+<p><strong>คำถามต่อยอด:</strong> ยกเลิกหลังรถออกแล้วได้ไหม?<br><strong>คำตอบต่อยอด:</strong> "ไม่ได้ครับ เพราะ <code>TRIP.STATUS</code> เป็น 2 (กำลังเดินทาง) แล้ว จะติดข้อ 3 แล้วได้ 409 ต้องให้แอดมินแก้สถานะรอบก่อน (มี <code>POST /api/admin/trips/:tripId/status</code> ที่อนุญาตเฉพาะ 0/1 และห้ามแก้รอบที่เริ่มแล้ว ที่ <code>admin.ts</code> 956–969) ครับ"</p>
+<h1 class="topic-title" id="หัวข้อ-6-ต่อ-คำถามระดับ-2-3">หัวข้อ 6 (ต่อ): คำถามระดับ 2–3</h1>
+<h3 id="ข้อ-6-3-ระดับ-2-คืนที่นั่ง-คำนวณอย่างไร-สูตรคืออะไร">ข้อ 6.3 (ระดับ 2) "คืนที่นั่ง" คำนวณอย่างไร สูตรคืออะไร?</h3>
+<p><strong>คำตอบแบบพูดตอบอาจารย์:</strong> "ระบบไม่ได้เก็บตัวเลขนั่งจองคงเหลือไว้ในตาราง แต่<strong>คำนวณใหม่เสมอจากการ SUM</strong> ครับ ตอนจองจะนับ <code>SUM(SEAT_COUNT)</code> เฉพาะที่ <code>STATUS_CODE &lt;&gt; 0</code> ดังนั้นการยกเลิกเพียงแค่เปลี่ยน <code>STATUS_CODE</code> 1 → 0 แถวของผู้โดยสารคนนั้นก็จะถูกตัดออกจากการนับโดยอัตโนมัติ เท่ากับคืนที่นั่งแล้ว ส่วนจำนวนที่คืนที่รายงานกลับไป คือผลรวม <code>SEAT_COUNT</code> ของแถวที่เพิ่งยกเลิกครับ"</p>
+<p><strong>Relevant Code:</strong></p>
+<pre><code>// ตอนจอง — server/routes/bookings.ts 178
+WHERE BD.TRIP_ID = :tripId AND BD.STATUS_CODE &lt;&gt; 0 ...
+
+// ตอนยกเลิก — server/routes/bookings.ts 264–269
+const update = await connection.execute(`
+  UPDATE BOOKING_DETAIL SET STATUS_CODE = 0
+  WHERE BOOKING_ID = :bookingId AND STATUS_CODE = 1
+`, { bookingId });
+return detailRows.reduce((sum, row) =&gt; sum + Number(row.SEAT_COUNT), 0);</code></pre>
+<pre><code>// response บรรทัด 271
+response.status(200).json({ booking_id: bookingId, status_code: 0, cancelled_seats: cancelled });</code></pre>
+<p><strong>Logic สำคัญ:</strong> "คืนที่นั่ง" = ไม่ใช่การบวกค่ากลับ แต่คือ <strong>การเลิกนับรายการนั้น</strong> — สูตรที่นั่งว่างจึงเป็น <code>capacity - SUM(SEAT_COUNT WHERE STATUS_CODE &lt;&gt; 0 AND overlap)</code></p>
+<p><strong>คำถามต่อยอด:</strong> ถ้ามีหลาย <code>BOOKING_DETAIL</code> ในใบจองเดียว (หลายรอบ) ยกเลิกหมดพร้อมกันไหม?<br><strong>คำตอบต่อยอด:</strong> "ยกเลิกครบทุกแถวใน transaction เดียวครับ เพราะ UPDATE ใช้ <code>WHERE BOOKING_ID = :bookingId AND STATUS_CODE = 1</code> ไม่ได้กรองทีละรอบ และผลรวมที่คืนมาจาก <code>detailRows.reduce(...)</code> ทุกแถว"</p>
+<h3 id="ข้อ-6-4-ระดับ-3-ถ้าผู้โดยสารกดยกเลิกซ้ำ-2-ครั้ง-ระบบคืนที่นั่งซ้ำหรือไม่">ข้อ 6.4 (ระดับ 3) ถ้าผู้โดยสารกดยกเลิกซ้ำ 2 ครั้ง ระบบคืนที่นั่งซ้ำหรือไม่?</h3>
+<p><strong>คำตอบแบบพูดตอบอาจารย์:</strong> "ไม่ซ้ำครับ ป้องกันด้วย 2 เงื่อนไข — ครั้งที่ 2 แถวมี <code>STATUS_CODE = 0</code> แล้วจึงติด <code>if (detailRows.some((row) =&gt; Number(row.STATUS_CODE) !== 1)) throw new HttpError(409, 'Only confirmed booking details can be cancelled')</code> ทันที และ <code>UPDATE ... WHERE STATUS_CODE = 1</code> ก็จะอัปเดต 0 แถว เพราะงั้น <code>rowsAffected</code> เป็น 0 แต่ผลรวมที่คืนมาจาก <code>detailRows</code> ที่ SELECT ก่อนหน้าซึ่งถูกเช็กไว้แล้ว จึงไม่มีทางคืนที่นั่งซ้ำครับ"</p>
+<p><strong>หลักฐานในโค้ด:</strong> <code>server/routes/bookings.ts</code> 250–252 (guard) และ 264–269 (UPDATE + sum)</p>
+<p><strong>คำถามต่อยอด:</strong> ถ้ากดพร้อมกัน 2 อุปกรณ์?<br><strong>คำตอบต่อยอด:</strong> "รายการจองถูก <code>SELECT ... FOR UPDATE</code> ตั้งแต่บรรทัด 236–240 คำขอที่ 2 ต้องรอ transaction แรก commit เมื่อเสร็จแล้ว <code>STATUS_CODE</code> เป็น 0 จึงเข้า guard ข้อ 2 และได้ 409 ครับ"</p>
+<h3 id="ข้อ-6-5-ระดับ-2-มีการลบแถว-booking-ไหม">ข้อ 6.5 (ระดับ 2) มีการลบแถว <code>BOOKING</code> ไหม?</h3>
+<p><strong>คำตอบแบบพูดตอบอาจารย์:</strong> "ไม่มีการลบเลยครับ ทั้งการยกเลิกและการซ่อนเป็นการเปลี่ยนสถานะ/เพิ่ม marker เท่านั้น — ยกเลิกเปลี่ยน <code>BOOKING_DETAIL.STATUS_CODE</code> 1 → 0 ส่วนการซ่อนตั๋ว (<code>POST /api/bookings/:bookingId/hide</code> บรรทัด 274–293) <code>MERGE</code> เข้า <code>WEB_HIDDEN_RECORD</code> ด้วย <code>ENTITY_NAME='booking'</code> และ <code>OWNER_ID=USER_ID</code> ของเจ้าของ ทำให้แค่คนนั้นไม่เห็นตั๋วในหน้า <code>me</code> ครับ"</p>
+<p><strong>หลักฐานในโค้ด:</strong> <code>server/routes/bookings.ts</code> 264–268 (UPDATE สถานะ), 274–293 (hide = MERGE <code>WEB_HIDDEN_RECORD</code>), 90–95 (กรอง hidden ออกจาก <code>/bookings/me</code>)</p>
+<p><strong>คำถามต่อยอด:</strong> ความต่างระหว่าง "ยกเลิก" กับ "ซ่อนตั๋ว"?<br><strong>คำตอบต่อยอด:</strong> "ยกเลิกเปลี่ยนสถานะการจองจริง (<code>STATUS_CODE = 0</code>) ปล่อยที่นั่งกลับและอาจารย์/ระบบเห็นประวัติสถานะ 'ยกเลิก' ส่วนซ่อนตั๋วเป็นแค่การแสดงผลบนหน้าผู้โดยสารคนนั้น สถานะการจองไม่เปลี่ยน ครับ"</p>
+<h3 id="ข้อ-6-6-ระดับ-3-ทำไมต้องใส่-transaction-for-update-ตอนยกเลิก">ข้อ 6.6 (ระดับ 3) ทำไมต้องใส่ transaction + <code>FOR UPDATE</code> ตอนยกเลิก?</h3>
+<p><strong>คำตอบแบบพูดตอบอาจารย์:</strong> "เพราะต้องเช็กและเปลี่ยนหลายตารางพร้อมกัน คือ <code>BOOKING</code> → <code>BOOKING_DETAIL</code> → ทุก <code>TRIP</code> ถ้าไม่ล็อก อาจเกิดกรณีที่คนขับกดเริ่มรอบ (<code>TRIP.STATUS 1→2</code>) ระหว่างที่เรากำลังเช็กอยู่ ทำให้การยกเลิกเกิดหลังรถออกโดยไม่รู้ตัว การ <code>FOR UPDATE</code> ทั้งใบจองและรอบรถ ทำให้สองเหตุการณ์นี้อ่าน/เขียนชนกันไม่ได้ครับ"</p>
+<p><strong>หลักฐานในโค้ด:</strong> <code>server/routes/bookings.ts</code> <code>withTransaction(pool, ...)</code> 235, <code>FOR UPDATE</code> ที่ <code>BOOKING</code> (239) และ <code>TRIP</code> (257)</p>
+<p><strong>คำถามต่อยอด:</strong> ถ้ามี error กลางทาง ระบบเป็นอย่างไร?<br><strong>คำตอบต่อยอด:</strong> "จะ rollback ทั้งหมดเพราะอยู่ใน <code>withTransaction</code> (<code>server/db/query.ts</code>) ทำให้ไม่มีการเปลี่ยนสถานะบางส่วนครับ"</p>
+<h2 id="สิ่งที่ต้องจำ-หัวข้อ-6">สิ่งที่ต้องจำ (หัวข้อ 6)</h2>
+<ol>
+<li><code>POST /api/bookings/:bookingId/cancel</code> = <code>server/routes/bookings.ts</code> 232–272</li>
+<li>เงื่อนไข 4 ข้อ: เป็นเจ้าของ → <code>STATUS_CODE = 1</code> ทุกแถว → <code>TRIP.STATUS = 1</code> ทุกรอบ → อยู่ใน transaction</li>
+<li>การคืนที่นั่ง = <code>UPDATE BOOKING_DETAIL SET STATUS_CODE = 0</code> (ไม่มี counter ให้บวก)</li>
+<li>ค่า <code>cancelled_seats</code> = <code>sum(SEAT_COUNT)</code> ของแถวที่ยกเลิก</li>
+<li>กดซ้ำ → 409 ที่ guard <code>STATUS_CODE !== 1</code> ไม่มีการคืนซ้ำ</li>
+<li>ไม่มี <code>DELETE FROM BOOKING</code> — เก็บประวัติไว้เสมอ</li>
+<li>ตั๋วที่ "ซ่อน" ≠ "ยกเลิก" (ซ่อนใช้ <code>WEB_HIDDEN_RECORD</code>)</li>
+</ol>
+<h1 class="topic-title" id="หัวข้อ-7-ระบบคนขับ-แสดงตารางงานรายวัน-1-คะแนน">หัวข้อ 7: ระบบคนขับ — แสดงตารางงานรายวัน (1 คะแนน)</h1>
+<h2 id="ภาพรวม">ภาพรวม</h2>
+<p>คนขับล็อกอินแล้วเห็นแท็บ "วันนี้" และ "พรุ่งนี้" ข้อมูลมาจาก <code>GET /api/driver/trips</code> ซึ่ง SELECT เฉพาะรอบที่ <code>DRIVER_ID = ของตัวเอง</code> ตามวันที่เลือก หน้าเว็บจะกรองเพิ่มว่ารอบนั้นยังแสดงได้ (ยกเลิก/เวลาออกผ่านไปแล้วไม่แสดง รอบที่กำลังวิ่ง/เสร็จแล้วต้องแสดงเพื่อให้เช็กอินและดูสรุปได้)</p>
+<h2 id="จุดสำคัญในโค้ด">จุดสำคัญในโค้ด</h2>
+<div class="tblwrap"><table><thead><tr><th>เรื่อง</th><th>ไฟล์</th><th>Function / Route</th><th>บรรทัด</th></tr></thead><tbody><tr><td>รายการรอบของคนขับ (เซิร์ฟ)</td><td><code>server/routes/driver.ts</code></td><td><code>GET /api/driver/trips</code></td><td>107–133</td></tr><tr><td>เช็กสิทธิ์หน้าจอคนขับ</td><td><code>server/routes/driver.ts</code></td><td><code>requireScreenPermission(pool, false)</code></td><td>19–39</td></tr><tr><td>นับที่นั่งจองแล้ว</td><td><code>server/routes/driver.ts</code></td><td>subquery <code>BOOKED_SEATS</code></td><td>122–123</td></tr><tr><td>เลือกวันนี้/พรุ่งนี้ (เว็บ)</td><td><code>src/components/live/DriverPortal.tsx</code></td><td><code>todayDate</code>, <code>tomorrowDate</code>, <code>scheduleDay</code></td><td>107–123</td></tr><tr><td>เงื่อนไขรอบที่แสดง</td><td><code>src/components/live/DriverPortal.tsx</code></td><td><code>isTripSelectable()</code>, <code>getMinutesUntilDeparture()</code></td><td>129–148</td></tr><tr><td>แบ่งรายการ</td><td><code>src/components/live/DriverPortal.tsx</code></td><td><code>driverTrips</code>, <code>todayTrips</code>, <code>tomorrowTrips</code></td><td>150–160</td></tr><tr><td>โหลดข้อมูลตอนล็อกอิน</td><td><code>src/context/BusContext.tsx</code></td><td><code>apiLoginComplete</code> (เรียก <code>/driver/trips</code>)</td><td>1419–1422</td></tr></tbody></table></div>
+<p><strong>Database:</strong> <code>TRIP</code> (PK <code>TRIP_ID</code>, FK <code>ROUTE_ID</code>, <code>DRIVER_ID</code>, <code>VEHICLE_ID</code>, <code>DEPARTURE_AT</code>, <code>STATUS</code>), <code>BOOKING_DETAIL</code> (<code>TRIP_ID</code>, <code>SEAT_COUNT</code>, <code>STATUS_CODE</code>)</p>
+<h2 id="คำถามและคำตอบ">คำถามและคำตอบ</h2>
+<h3 id="ข้อ-7-1-ระดับ-1-หน้าตารางงานคนขับดึงข้อมูลจาก-api-ตัวไหน-อยู่ไฟล์ไหน">ข้อ 7.1 (ระดับ 1) หน้าตารางงานคนขับดึงข้อมูลจาก API ตัวไหน อยู่ไฟล์ไหน?</h3>
+<p><strong>คำตอบแบบพูดตอบอาจารย์:</strong> "<code>GET /api/driver/trips</code> ครับ อยู่ที่ <code>server/routes/driver.ts</code> บรรทัด 107 และ mount ที่ <code>/api/driver</code> ใน <code>server/app.ts</code> บรรทัด 20 ครับ"</p>
+<p><strong>คำถามต่อยอด:</strong> ต้องผ่านอะไรบ้างก่อนถึง query?<br><strong>คำตอบต่อยอด:</strong> "2 ชั้นครับ <code>router.use(requireAuth('driver'))</code> บรรทัด 94 เช็ก Bearer token ว่าเป็น session ประเภท driver แล้ว <code>requireScreenPermission(pool, false)</code> บรรทัด 107 เช็กสิทธิ์หน้าจอ <code>8820</code> ใน <code>ROLE_PERMISSION</code> แบบ <code>CAN_VIEW</code> ถ้าไม่มีจะได้ 403 'Driver screen permission is not assigned' ครับ"</p>
+<h3 id="ข้อ-7-2-ระดับ-2-sql-กรองรอบอย่างไร">ข้อ 7.2 (ระดับ 2) SQL กรองรอบอย่างไร?</h3>
+<p><strong>คำตอบแบบพูดตอบอาจารย์:</strong> "กรอง 2 อย่างครับ <code>WHERE T.DRIVER_ID = :employeeId</code> ซึ่งค่ามาจาก <code>sessionFrom(response).userId</code> คือรหัสพนักงานตอนล็อกอิน ไม่ใช่ค่าที่ client ส่งมา และ <code>(:serviceDate IS NULL OR TRUNC(T.DEPARTURE_AT) = TO_DATE(:serviceDate,'YYYY-MM-DD'))</code> ถ้าไม่ส่งวันที่จะคืนทุกรอบ แล้ว <code>ORDER BY T.DEPARTURE_AT</code> ครับ"</p>
+<p><strong>Relevant Code</strong> (<code>server/routes/driver.ts</code> 110–131):</p>
+<pre><code>const trips = await withConnection(pool, (connection) =&gt; queryRows(connection, `
+  SELECT T.TRIP_ID, T.ROUTE_ID, T.DRIVER_ID, T.VEHICLE_ID,
+         TO_CHAR(T.DEPARTURE_AT, 'YYYY-MM-DD') AS SERVICE_DATE,
+         TO_CHAR(T.DEPARTURE_AT, 'HH24:MI') AS DEPARTURE_TIME,
+         T.STATUS, R.NAME AS ROUTE_NAME, V.LICENSE_PLATE, V.CAPACITY, VT.NAME AS VEHICLE_TYPE,
+         (SELECT NVL(SUM(BD.SEAT_COUNT), 0) FROM BOOKING_DETAIL BD
+          WHERE BD.TRIP_ID = T.TRIP_ID AND BD.STATUS_CODE &lt;&gt; 0) AS BOOKED_SEATS
+  FROM TRIP T
+  JOIN ROUTE R ON R.ROUTE_ID = T.ROUTE_ID
+  JOIN VEHICLE V ON V.VEHICLE_ID = T.VEHICLE_ID
+  JOIN VEHICLE_TYPE VT ON VT.VEHICLE_TYPE_ID = V.VEHICLE_TYPE_ID
+  WHERE T.DRIVER_ID = :employeeId
+    AND (:serviceDate IS NULL OR TRUNC(T.DEPARTURE_AT) = TO_DATE(:serviceDate, 'YYYY-MM-DD'))
+  ORDER BY T.DEPARTURE_AT
+`, { employeeId, serviceDate }));</code></pre>
+<p><strong>คำถามต่อยอด:</strong> <code>serviceDate</code> รูปแบบผิดจะเกิดอะไรขึ้น?<br><strong>คำตอบต่อยอด:</strong> "<code>dateFilter()</code> บรรทัด 41–51 เช็ก regex <code>^\d{4}-\d{2}-\d{2}$</code> และความถูกต้องของวันที่ ผิดจะได้ 400 'serviceDate must use YYYY-MM-DD' หรือ 'serviceDate must be a valid date' ครับ"</p>
+<h3 id="ข้อ-7-3-ระดับ-2-ฝั่งเว็บแบ่ง-วันนี้-พรุ่งนี้-และเลือกรอบที่จะแสดงอย่างไร">ข้อ 7.3 (ระดับ 2) ฝั่งเว็บแบ่ง "วันนี้/พรุ่งนี้" และเลือกรอบที่จะแสดงอย่างไร?</h3>
+<p><strong>คำตอบแบบพูดตอบอาจารย์:</strong> "คำนวณ <code>todayDate</code> จากวันที่เครื่องผู้ใช้ (<code>getLocalDateKey</code>) และ <code>tomorrowDate</code> จากการบวก 1 วัน แล้วแบ่งด้วย <code>trip.service_date</code> ส่วนรอบที่จะแสดงใช้ <code>isTripSelectable</code> — รอบที่ <code>status = 0</code> (ยกเลิก) ไม่แสดง รอบที่ไม่ใช่ 1 (กำลังวิ่ง/เสร็จแล้ว) แสดงเสมอ และรอบ <code>status = 1</code> แสดงเฉพาะเมื่อเวลาออกยังไม่ผ่าน (<code>DRIVER_DEPARTURE_GRACE_MINUTES = 0</code>) ครับ"</p>
+<p><strong>Relevant Code</strong> (<code>src/components/live/DriverPortal.tsx</code> 141–148):</p>
+<pre><code>// TRIP.STATUS: 0 = ยกเลิก, 1 = เปิด/พร้อม, 2 = กำลังเดินทาง, 3 = เสร็จสิ้น (database.sql CK_TRIP_STATUS)
+const isTripSelectable = (trip: Trip): boolean =&gt; {
+  if (trip.status === 0) return false;
+  if (trip.status !== 1) return true;
+  return getMinutesUntilDeparture(trip) &gt;= DRIVER_DEPARTURE_GRACE_MINUTES;
+};</code></pre>
+<p><strong>คำถามต่อยอด:</strong> ทำไม status 2/3 ต้องแสดง?<br><strong>คำตอบต่อยอด:</strong> "เพื่อให้คนขับยังเห็นรอบเพื่อเช็กอินผู้โดยสารและดูสรุปยอดได้ ถ้าซ่อนจะปิดงานต่อไม่ได้ครับ (มีคอมเมนต์ระบุไว้บรรทัด 142–143)"</p>
+<h3 id="ข้อ-7-4-ระดับ-3-ตัวเลข-จองแล้ว-x-ที่นั่ง-ในตารางมาจากไหน">ข้อ 7.4 (ระดับ 3) ตัวเลข "จองแล้ว X ที่นั่ง" ในตารางมาจากไหน?</h3>
+<p><strong>คำตอบแบบพูดตอบอาจารย์:</strong> "มาจาก subquery ใน SQL ครับ <code>SUM(BD.SEAT_COUNT)</code> เฉพาะ <code>STATUS_CODE &lt;&gt; 0</code> ของรอบนั้น ๆ ซึ่งสอดคล้องกับ logic ความจุตอนจอง คือรายการที่ยกเลิก (<code>STATUS_CODE = 0</code>) จะไม่ถูกนับด้วยครับ"</p>
+<p><strong>หลักฐานในโค้ด:</strong> <code>server/routes/driver.ts</code> 122–123, <code>server/routes/bookings.ts</code> 178 (ใช้เกณฑ์เดียวกัน)</p>
+<h2 id="สิ่งที่ต้องจำ-หัวข้อ-7">สิ่งที่ต้องจำ (หัวข้อ 7)</h2>
+<ol>
+<li><code>GET /api/driver/trips</code> = <code>server/routes/driver.ts</code> 107, ต้องผ่าน <code>requireAuth('driver')</code> + <code>requireScreenPermission('8820')</code></li>
+<li>กรองด้วย <code>DRIVER_ID = session.userId</code> (ไม่ใช่ client ส่งมา) + <code>serviceDate</code> optional</li>
+<li>หน้าเว็บแบ่ง <code>todayTrips</code> / <code>tomorrowTrips</code> และ <code>isTripSelectable</code> กรองรอบที่หมดเวลา/ยกเลิก</li>
+<li><code>BOOKED_SEATS</code> = <code>SUM(SEAT_COUNT)</code> ที่ <code>STATUS_CODE &lt;&gt; 0</code></li>
+<li><code>TRIP.STATUS</code>: 0 ยกเลิก, 1 เปิด, 2 กำลังวิ่ง, 3 เสร็จ</li>
+</ol>
+<h1 class="topic-title" id="หัวข้อ-8-ระบบคนขับ-เริ่มงานและดูผู้โดยสารตามจุดจอด-1-คะแนน">หัวข้อ 8: ระบบคนขับ — เริ่มงานและดูผู้โดยสารตามจุดจอด (1 คะแนน)</h1>
+<h2 id="ภาพรวม">ภาพรวม</h2>
+<p>คนขับกด "เริ่มออกรถ" ในหน้าตารางงาน → <code>POST /api/driver/trips/:tripId/start</code> เซิร์ฟเวอร์ล็อกแถวนรถ (ต้องเป็นรอบของตัวเอง) เช็กว่ายัง <code>STATUS = 1</code> และยังไม่เลยเวลาออก แล้วอัปเดต <code>STATUS = 2</code> พร้อมบันทึก <code>ACTUAL_STARTED_AT</code> หลังเริ่มแล้วคนขับเปิดหน้าผู้โดยสารได้จาก <code>GET /api/driver/trips/:tripId/passengers</code> ซึ่งจัดกลุ่มผู้โดยสารตามจุดจอด (ขึ้น/ลง) พร้อมจำนวนตามแผนและจำนวนที่เช็กอินจริง</p>
+<h2 id="จุดสำคัญในโค้ด">จุดสำคัญในโค้ด</h2>
+<div class="tblwrap"><table><thead><tr><th>เรื่อง</th><th>ไฟล์</th><th>Function / Route</th><th>บรรทัด</th></tr></thead><tbody><tr><td>ปุ่มเริ่มงาน (เว็บ)</td><td><code>src/components/live/DriverPortal.tsx</code></td><td><code>onClick</code> → <code>apiStartTrip</code></td><td>818</td></tr><tr><td>เรียก API เริ่ม</td><td><code>src/context/BusContext.tsx</code></td><td><code>apiStartTrip()</code></td><td>1903–1909</td></tr><tr><td>เริ่มรอบ (เซิร์ฟ)</td><td><code>server/routes/driver.ts</code></td><td><code>POST /api/driver/trips/:tripId/start</code></td><td>214–227</td></tr><tr><td>ล็อกแถวนรถ</td><td><code>server/routes/driver.ts</code></td><td><code>lockAssignedTrip()</code></td><td>53–66</td></tr><tr><td>เช็กเวลาก่อนออก</td><td><code>server/routes/driver.ts</code></td><td><code>requireStartableDeparture()</code></td><td>69–90</td></tr><tr><td>ผู้โดยสารตามจุดจอด</td><td><code>server/routes/driver.ts</code></td><td><code>GET /api/driver/trips/:tripId/passengers</code></td><td>135–212</td></tr><tr><td>แสดงผลฝั่งเว็บ</td><td><code>src/components/live/DriverPortal.tsx</code></td><td>กลุ่มขึ้น/ลงต่อป้าย</td><td>376–399</td></tr></tbody></table></div>
+<p><strong>Database:</strong> <code>TRIP.STATUS</code> (<code>1 → 2</code>), <code>TRIP.ACTUAL_STARTED_AT</code>, <code>BOOKING_DETAIL</code> (<code>STATUS_CODE</code>, <code>PICKUP_ROUTE_STOP_ID</code>, <code>DROPOFF_ROUTE_STOP_ID</code>, <code>CHECKED_IN_AT</code>)</p>
+<h2 id="คำถามและคำตอบ">คำถามและคำตอบ</h2>
+<h3 id="ข้อ-8-1-ระดับ-1-กดปุ่ม-เริ่มออกรถ-แล้วเกิดอะไรขึ้นบ้าง">ข้อ 8.1 (ระดับ 1) กดปุ่ม "เริ่มออกรถ" แล้วเกิดอะไรขึ้นบ้าง?</h3>
+<p><strong>คำตอบแบบพูดตอบอาจารย์:</strong> "หน้าเว็บเรียก <code>apiStartTrip(trip_id)</code> → <code>POST /api/driver/trips/:tripId/start</code> ฝั่งเซิร์ฟเวอร์เช็กสิทธิ์แก้ไขหน้าจอ 8820 แล้วเข้า transaction ล็อกแถวนรถด้วย <code>lockAssignedTrip</code> ซึ่ง <code>WHERE TRIP_ID = :tripId AND DRIVER_ID = :employeeId FOR UPDATE</code> ถ้าไม่ใช่รอบตัวเองคืน 404 เช็ก <code>STATUS = 1</code> ไม่ใช่ก็ 409 เช็กว่ายังไม่เลยเวลาออก แล้ว <code>UPDATE TRIP SET STATUS = 2, ACTUAL_STARTED_AT = SYSTIMESTAMP</code> ครับ"</p>
+<p><strong>Relevant Code</strong> (<code>server/routes/driver.ts</code> 214–227):</p>
+<pre><code>router.post('/trips/:tripId/start', requireScreenPermission(pool, true), asyncHandler(async (request, response) =&gt; {
+  const tripId = positiveId(request.params.tripId);
+  const employeeId = String(sessionFrom(response).userId);
+  await withTransaction(pool, async (connection) =&gt; {
+    const trip = await lockAssignedTrip(connection, tripId, employeeId);
+    if (Number(trip.STATUS) !== 1) throw new HttpError(409, 'Only an open trip can be started');
+    await requireStartableDeparture(connection, trip);
+    await connection.execute(`
+      UPDATE TRIP SET STATUS = 2, ACTUAL_STARTED_AT = SYSTIMESTAMP
+      WHERE TRIP_ID = :tripId AND DRIVER_ID = :employeeId AND STATUS = 1
+    `, { tripId, employeeId });
+  });
+  response.status(200).json({ trip_id: tripId, status: 2 });
+}));</code></pre>
+<p><strong>คำถามต่อยอด:</strong> กดเริ่มรอบของคนอื่นได้ไหม?<br><strong>คำตอบต่อยอด:</strong> "ไม่ได้ครับ <code>lockAssignedTrip</code> (53–66) มี <code>AND DRIVER_ID = :employeeId</code> ถ้าไม่ตรงได้ 404 'Assigned trip not found' แม้จะรู้ <code>trip_id</code> ก็ตาม และ <code>UPDATE</code> ก็มี <code>AND DRIVER_ID = :employeeId</code> + <code>AND STATUS = 1</code> ซ้ำอีกชั้นครับ"</p>
+<h1 class="topic-title" id="หัวข้อ-8-ต่อ-คำถามระดับ-2-3">หัวข้อ 8 (ต่อ): คำถามระดับ 2–3</h1>
+<h3 id="ข้อ-8-2-ระดับ-2-requirestartabledeparture-ตรวจอะไร-ทำไมถึงมี">ข้อ 8.2 (ระดับ 2) <code>requireStartableDeparture</code> ตรวจอะไร ทำไมถึงมี?</h3>
+<p><strong>คำตอบแบบพูดตอบอาจารย์:</strong> "ตรวจว่า 'เวลาที่รถถึงจุดจอดแรก' ยังไม่ผ่านไปครับ สูตรคือ <code>DEPARTURE_AT + SUM(MINUTES_FROM_PREV)</code> ของทุกป้ายจนถึงป้ายแรก แล้วเทียบกับเวลาปัจจุบัน ถ้า <code>minutesLeft &gt;= DRIVER_DEPARTURE_GRACE_MINUTES</code> (ค่า = 0) จึงเริ่มได้ ถ้าเลยแล้วได้ 409 'รอบรถนี้ออกเดินทางไปแล้ว กรุณาติดต่อผู้ดูแลระบบเพื่อปรับสถานะของรอบ' ครับ"</p>
+<p><strong>หลักฐานในโค้ด:</strong> <code>server/routes/driver.ts</code> 8–11 (คอมเมนต์อธิบายว่าทำไม <strong>ไม่</strong> ใช้กฎ 20 นาทีของผู้โดยสาร เพราะจะทำให้คนขับกดเริ่มไม่ได้ในช่วงก่อนออก) และ 69–90 (query <code>FIRST_STOP_AT</code> + check)</p>
+<p><strong>คำถามต่อยอด:</strong> ถ้าอยากยอมให้เริ่มสาย 5 นาที แก้ตรงไหน?<br><strong>คำตอบต่อยอด:</strong> "แก้ <code>DRIVER_DEPARTURE_GRACE_MINUTES = 0</code> เป็น <code>-5</code> ที่ <code>server/routes/driver.ts</code> บรรทัด 11 (ค่าติดลบแปลว่าเลยเวลาได้ 5 นาที) ครับ และต้องแก้ค่าเดียวกันที่ <code>DriverPortal.tsx</code> บรรทัด 127 ด้วยไม่งั้นหน้าเว็บกับเซิร์ฟเวอร์ไม่ตรงกัน"</p>
+<h3 id="ข้อ-8-3-ระดับ-2-แสดงผู้โดยสารตามจุดจอด-ข้อมูลมาจาก-api-ไหน-คำนวณอย่างไร">ข้อ 8.3 (ระดับ 2) แสดงผู้โดยสารตามจุดจอด ข้อมูลมาจาก API ไหน คำนวณอย่างไร?</h3>
+<p><strong>คำตอบแบบพูดตอบอาจารย์:</strong> "<code>GET /api/driver/trips/:tripId/passengers</code> ครับ ระบบ SELECT จุดจอดทั้งเส้นทาง (<code>ROUTE_STOP</code> JOIN <code>STOP</code> เรียง <code>STOP_ORDER</code>) และผู้โดยสารของรอบ (<code>BOOKING_DETAIL</code> ที่ <code>STATUS_CODE &lt;&gt; 0</code> JOIN <code>BOOKING</code> และ <code>SYSTEM_USER</code>) แล้วจัดกลุ่มใน JavaScript — ป้ายไหนมี <code>pickup_route_stop_id = ป้ายนั้น</code> เป็นกลุ่มขึ้นรถ ถ้า <code>dropoff_route_stop_id = ป้ายนั้น</code> เป็นกลุ่มลงรถ พร้อมนับ 3 ตัวเลขครับ"</p>
+<p><strong>Relevant Code</strong> (<code>server/routes/driver.ts</code> 183–199):</p>
+<pre><code>const validPassenger = (p) =&gt; [1, 2, 3].includes(p.status_code);
+const stops = stopRows.map((row) =&gt; {
+  const routeStopId = Number(row.ROUTE_STOP_ID);
+  const boarding = passengers.filter((p) =&gt; p.pickup_route_stop_id === routeStopId &amp;&amp; validPassenger(p));
+  const alighting = passengers.filter((p) =&gt; p.dropoff_route_stop_id === routeStopId &amp;&amp; validPassenger(p));
+  return {
+    route_stop_id: routeStopId, stop_name: ..., stop_order: ...,
+    scheduled_boardings: boarding.reduce((sum, p) =&gt; sum + p.seat_count, 0),
+    checked_in_boardings: boarding.filter((p) =&gt; [2, 3].includes(p.status_code))
+      .reduce((sum, p) =&gt; sum + p.seat_count, 0),
+    scheduled_alightings: alighting.reduce((sum, p) =&gt; sum + p.seat_count, 0),
+    passengers_boarding: boarding, passengers_alighting: alighting,
+  };
+});</code></pre>
+<p><strong>คำถามต่อยอด:</strong> ความต่าง <code>scheduled_boardings</code> กับ <code>checked_in_boardings</code>?<br><strong>คำตอบต่อยอด:</strong> "<code>scheduled</code> = ทุกใบที่สถานะ 1/2/3 (จองไว้) ส่วน <code>checked_in</code> = เฉพาะสถานะ 2 หรือ 3 (ขึ้นรถแล้ว) ส่วน <code>STATUS_CODE = 0</code> (ยกเลิก) ถูกกรองออกตั้งแต่ query บรรทัด 163 ครับ"</p>
+<h3 id="ข้อ-8-4-ระดับ-3-ป้องกันไม่ให้คนขับคนอื่นดูผู้โดยสารรอบเราได้อย่างไร">ข้อ 8.4 (ระดับ 3) ป้องกันไม่ให้คนขับคนอื่นดูผู้โดยสารรอบเราได้อย่างไร?</h3>
+<p><strong>คำตอบแบบพูดตอบอาจารย์:</strong> "ทั้ง 2 endpoint ใน <code>driver.ts</code> มี <code>WHERE ... AND DRIVER_ID = :employeeId</code> โดย <code>employeeId</code> มาจาก session ไม่ใช่จาก request body ครับ และทุกคำขอผ่าน <code>requireScreenPermission</code> หน้าจอ 8820 ดังนั้นถึงรู้ <code>trip_id</code> ก็จะได้ 404 'Assigned trip not found' ครับ"</p>
+<p><strong>หลักฐานในโค้ด:</strong> <code>server/routes/driver.ts</code> 139–144 (<code>WHERE T.TRIP_ID = :tripId AND T.DRIVER_ID = :employeeId</code> → 404), 53–66 (<code>lockAssignedTrip</code>), 19–39 (<code>requireScreenPermission</code>)</p>
+<h2 id="สิ่งที่ต้องจำ-หัวข้อ-8">สิ่งที่ต้องจำ (หัวข้อ 8)</h2>
+<ol>
+<li>เริ่มงาน: <code>POST /api/driver/trips/:tripId/start</code> (driver.ts 214) → <code>requireScreenPermission('8820', edit)</code> → <code>lockAssignedTrip</code> → เช็ก <code>STATUS=1</code> → <code>requireStartableDeparture</code> → <code>UPDATE TRIP SET STATUS=2, ACTUAL_STARTED_AT</code></li>
+<li>ผู้โดยสาร: <code>GET /api/driver/trips/:tripId/passengers</code> (driver.ts 135) → คืน <code>trip</code>, <code>passengers</code>, <code>stops[]</code> มี <code>scheduled_boardings</code>, <code>checked_in_boardings</code>, <code>scheduled_alightings</code></li>
+<li>กรอง <code>STATUS_CODE &lt;&gt; 0</code> และ <code>validPassenger</code> = สถานะ 1, 2, 3</li>
+<li>ทุก query ผูกกับ <code>DRIVER_ID</code> ของ session</li>
+<li><code>DRIVER_DEPARTURE_GRACE_MINUTES = 0</code> ต้องตรงกันทั้งเซิร์ฟเวอร์ (driver.ts 11) และเว็บ (DriverPortal.tsx 127)</li>
+</ol>
+<h1 class="topic-title" id="หัวข้อ-9-ระบบคนขับ-เช็ค-qr-code-ของผู้โดยสาร-1-คะแนน">หัวข้อ 9: ระบบคนขับ — เช็ค QR Code ของผู้โดยสาร (1 คะแนน)</h1>
+<h2 id="ภาพรวม">ภาพรวม</h2>
+<p>การเช็กอินทำผ่าน <code>POST /api/driver/trips/:tripId/check-in</code> รับ <code>qr_payload</code> (ค่าที่อ่านจาก QR = <code>BOOKING_CODE</code>) ระบบตรวจว่ารอบนี้เป็นของคนขับคนนี้ สถานะรอบเป็น 2 (กำลังวิ่ง) และหา <code>BOOKING_DETAIL</code> ของรอบนี้ที่ยัง <code>STATUS_CODE = 1</code> พร้อมล็อกแถว ถ้าเจอจึงเปลี่ยนเป็น 2 พร้อมบันทึกเวลาและรหัสคนขับที่เช็กอิน</p>
+<h2 id="จุดสำคัญในโค้ด">จุดสำคัญในโค้ด</h2>
+<div class="tblwrap"><table><thead><tr><th>เรื่อง</th><th>ไฟล์</th><th>Function / Route</th><th>บรรทัด</th></tr></thead><tbody><tr><td>เช็กอิน (เซิร์ฟ)</td><td><code>server/routes/driver.ts</code></td><td><code>POST /api/driver/trips/:tripId/check-in</code></td><td>229–272</td></tr><tr><td>ล็อกแถวนรถ</td><td><code>server/routes/driver.ts</code></td><td><code>lockAssignedTrip()</code></td><td>53–66</td></tr><tr><td>เรียกจากเว็บ</td><td><code>src/context/BusContext.tsx</code></td><td><code>apiCheckIn(tripId, qrPayload)</code></td><td>1910</td></tr><tr><td>ปุ่ม/ช่องกรอกรหัส</td><td><code>src/components/live/DriverPortal.tsx</code></td><td><code>handleScanTicket</code></td><td>238–278</td></tr><tr><td>หน้าเช็กอิน (โหมดจำลอง)</td><td><code>src/components/live/screens/CheckInScannerView.tsx</code></td><td><code>handleScanOrSubmit</code></td><td>88–107</td></tr></tbody></table></div>
+<p><strong>Database:</strong> <code>BOOKING_DETAIL.STATUS_CODE</code> (<code>1 → 2</code>), <code>CHECKED_IN_AT</code>, <code>CHECKED_IN_BY_EMPLOYEE_ID</code> (มี <code>CK_BD_CHECKIN_PAIR</code> บังคับให้มาเป็นคู่)</p>
+<h2 id="คำถามและคำตอบ">คำถามและคำตอบ</h2>
+<h3 id="ข้อ-9-1-ระดับ-1-api-เช็กอินอยู่ไฟล์ไหน-และรับข้อมูลอะไร">ข้อ 9.1 (ระดับ 1) API เช็กอินอยู่ไฟล์ไหน และรับข้อมูลอะไร?</h3>
+<p><strong>คำตอบแบบพูดตอบอาจารย์:</strong> "<code>POST /api/driver/trips/:tripId/check-in</code> อยู่ที่ <code>server/routes/driver.ts</code> บรรทัด 229 รับ <code>tripId</code> จาก path และ body 1 ฟิลด์คือ <code>qr_payload</code> ครับ"</p>
+<p><strong>Relevant Code</strong> (<code>server/routes/driver.ts</code> 232–236):</p>
+<pre><code>const body = typeof request.body === 'object' &amp;&amp; request.body !== null
+  ? request.body as Record&lt;string, unknown&gt; : {};
+const qrPayload = typeof body.qr_payload === 'string' ? body.qr_payload.trim() : '';
+if (!qrPayload || qrPayload.length &gt; 50) throw new HttpError(400, 'qr_payload is required');</code></pre>
+<p><strong>คำถามต่อยอด:</strong> validation ของ <code>qr_payload</code> มีอะไรบ้าง?<br><strong>คำตอบต่อยอด:</strong> "ต้องเป็น string, trim แล้วต้องไม่ว่าง และยาวไม่เกิน 50 อักขระ (<code>BOOKING_CODE</code> จริงยาว 34) ไม่ผ่านได้ 400 ครับ"</p>
+<h3 id="ข้อ-9-2-ระดับ-2-ระบบตรวจสอบ-qr-อย่างไร-ว่าเป็นของรอบนี้และยังใช้ได้">ข้อ 9.2 (ระดับ 2) ระบบตรวจสอบ QR อย่างไร ว่าเป็นของรอบนี้และยังใช้ได้?</h3>
+<p><strong>คำตอบแบบพูดตอบอาจารย์:</strong> "3 ขั้นครับ 1) <code>lockAssignedTrip</code> ตรวจว่าเป็นรอบของคนขับคนนี้ (ไม่ใช่ → 404) 2) ต้อง <code>TRIP.STATUS = 2</code> (ไม่ใช่ → 409 'Check-in is only available for a running trip') 3) SELECT จาก <code>BOOKING</code> JOIN <code>BOOKING_DETAIL</code> JOIN <code>SYSTEM_USER</code> เงื่อนไข <code>B.BOOKING_CODE = :bookingCode AND BD.TRIP_ID = :tripId AND BD.STATUS_CODE = 1</code> พร้อม <code>FOR UPDATE OF BD.STATUS_CODE</code> ไม่เจอแถว → 409 'QR booking does not match this trip or is no longer valid' ครับ"</p>
+<p><strong>Relevant Code</strong> (<code>server/routes/driver.ts</code> 238–254):</p>
+<pre><code>const trip = await lockAssignedTrip(connection, tripId, employeeId);
+if (Number(trip.STATUS) !== 2) throw new HttpError(409, 'Check-in is only available for a running trip');
+const details = await queryRows&lt;DbRow&gt;(connection, `
+  SELECT BD.DETAIL_ID, BD.SEAT_COUNT, B.BOOKING_ID, B.BOOKING_CODE, U.NAME AS PASSENGER_NAME
+  FROM BOOKING B
+  JOIN BOOKING_DETAIL BD ON BD.BOOKING_ID = B.BOOKING_ID
+  JOIN SYSTEM_USER U ON U.USER_ID = B.USER_ID
+  WHERE B.BOOKING_CODE = :bookingCode
+    AND BD.TRIP_ID = :tripId
+    AND BD.STATUS_CODE = 1
+  FOR UPDATE OF BD.STATUS_CODE
+`, { bookingCode: qrPayload, tripId });
+if (details.length === 0) {
+  throw new HttpError(409, 'QR booking does not match this trip or is no longer valid');
+}</code></pre>
+<p><strong>คำถามต่อยอด:</strong> ทำไมเซิร์ฟเวอร์เทียบ <code>BOOKING_CODE</code> ได้เลย ถอดรหัสอะไรเพิ่มไหม?<br><strong>คำตอบต่อยอด:</strong> "ไม่ได้ถอดรหัสเพิ่มครับ เพราะ QR ถูกสร้างจาก <code>booking_code</code> ตรง ๆ (<code>PassengerPortal.tsx</code> 1484) เครื่องอ่านจึงได้ข้อความ <code>SB-xxxx...</code> มาส่งเป็น <code>qr_payload</code> แล้วเซิร์ฟเวอร์เทียบกับ <code>BOOKING.BOOKING_CODE</code> ซึ่งเป็น unique constraint ครับ"</p>
+<h1 class="topic-title" id="หัวข้อ-9-ต่อ-คำถามระดับ-2-3">หัวข้อ 9 (ต่อ): คำถามระดับ 2–3</h1>
+<h3 id="ข้อ-9-3-ระดับ-2-ข้อมูลอะไรบ้างที่เปลี่ยนตอนเช็กอิน">ข้อ 9.3 (ระดับ 2) ข้อมูลอะไรบ้างที่เปลี่ยนตอนเช็กอิน?</h3>
+<p><strong>คำตอบแบบพูดตอบอาจารย์:</strong> "เปลี่ยน 3 คอลัมน์ใน <code>BOOKING_DETAIL</code> ครับ คือ <code>STATUS_CODE</code> 1 → 2, <code>CHECKED_IN_AT = SYSTIMESTAMP</code>, <code>CHECKED_IN_BY_EMPLOYEE_ID = :employeeId</code> โดย <code>WHERE ... AND STATUS_CODE = 1</code> ทำให้การกดซ้ำครั้งที่สองอัปเดต 0 แถว และ SELECT รอบแรกก็หาแถวที่ <code>STATUS_CODE = 1</code> ไม่เจอแล้ว จึงได้ 409 ครับ"</p>
+<p><strong>Relevant Code</strong> (<code>server/routes/driver.ts</code> 255–263):</p>
+<pre><code>await connection.execute(`
+  UPDATE BOOKING_DETAIL
+  SET STATUS_CODE = 2,
+      CHECKED_IN_AT = SYSTIMESTAMP,
+      CHECKED_IN_BY_EMPLOYEE_ID = :employeeId
+  WHERE TRIP_ID = :tripId
+    AND STATUS_CODE = 1
+    AND BOOKING_ID = :bookingId
+`, { employeeId, tripId, bookingId: Number(details[0].BOOKING_ID) });</code></pre>
+<p><strong>คำถามต่อยอด:</strong> constraint อะไรช่วยเรื่องนี้?<br><strong>คำตอบต่อยอด:</strong> "<code>CK_BD_CHECKIN_PAIR</code> ใน <code>database.sql</code> บังคับว่า <code>CHECKED_IN_AT</code> กับ <code>CHECKED_IN_BY_EMPLOYEE_ID</code> ต้องมีค่าพร้อมกันหรือว่างพร้อมกัน ระบบจึงบันทึกทั้งเวลาและคนกดใน statement เดียวครับ"</p>
+<h3 id="ข้อ-9-4-ระดับ-3-qr-ปลอม-ผิด-ของรอบอื่น-เคยเช็กอินแล้ว-จะเกิดอะไรขึ้น">ข้อ 9.4 (ระดับ 3) QR ปลอม/ผิด/ของรอบอื่น/เคยเช็กอินแล้ว จะเกิดอะไรขึ้น?</h3>
+<p><strong>คำตอบแบบพูดตอบอาจารย์:</strong> "ทุกกรณีได้ 409 ข้อความเดียวครับ เพราะ query กรองทั้ง <code>BD.TRIP_ID = :tripId</code> และ <code>BD.STATUS_CODE = 1</code> ถ้าเป็นของรอบอื่น ของรอบที่ยกเลิก (<code>STATUS_CODE = 0</code>) เคยเช็กอินแล้ว (<code>STATUS_CODE = 2</code>) หรือรหัสไม่มีจริง จะคืน 0 แถว ระบบตอบว่า 'QR booking does not match this trip or is no longer valid' ซึ่งใช้ข้อความเดียวเพื่อไม่ให้ข้อมูลรั่วครับ"</p>
+<p><strong>หลักฐานในโค้ด:</strong> <code>server/routes/driver.ts</code> 247–254</p>
+<p><strong>คำถามต่อยอด:</strong> ถ้าคนขับสแกนก่อนกดเริ่มรอบ?<br><strong>คำตอบต่อยอด:</strong> "ติด <code>TRIP.STATUS !== 2</code> ได้ 409 'Check-in is only available for a running trip' ครับ ลำดับงานจึงบังคับคือ เริ่มรอบ → เช็กอิน → จบเที่ยว"</p>
+<h3 id="ข้อ-9-5-ระดับ-3-qr-ปลอดภัยแค่ไหน-ใครสุ่มรหัสได้">ข้อ 9.5 (ระดับ 3) QR ปลอดภัยแค่ไหน ใครสุ่มรหัสได้?</h3>
+<p><strong>คำตอบแบบพูดตอบอาจารย์:</strong> "<code>booking_code</code> สุ่มด้วย <code>randomBytes(16)</code> เป็น hex 32 ตัว จึงเดาได้ยากและมี unique constraint ครับ อย่างไรก็ตาม QR เป็นแค่ตัวพาหะที่เทียบกับฐานข้อมูล ไม่มีลายเซ็นดิจิทัล ถ้ามีคนเห็น QR ของผู้อื่นก็ใช้ได้ แต่ถูกจำกัดด้วยเงื่อนไขว่าต้องเป็นรอบของคนขับคนนี้ รอบต้องกำลังวิ่ง และยังไม่เคยเช็กอิน จึงเป็นจุดที่ควรบอกอาจารย์ว่าระบบจริงควรเพิ่ม เช่น รหัสที่มีวันหมดอายุ ครับ"</p>
+<p><strong>หลักฐานในโค้ด:</strong> <code>server/routes/bookings.ts</code> 104 (<code>randomBytes(16)</code>), <code>server/routes/driver.ts</code> 241–254</p>
+<h2 id="สิ่งที่ต้องจำ-หัวข้อ-9">สิ่งที่ต้องจำ (หัวข้อ 9)</h2>
+<ol>
+<li><code>POST /api/driver/trips/:tripId/check-in</code> = <code>driver.ts</code> 229–272 ต้องผ่าน <code>requireScreenPermission(pool, true)</code></li>
+<li>รับ <code>qr_payload</code> (ยาวไม่เกิน 50) ซึ่งมีค่า = <code>BOOKING_CODE</code></li>
+<li>เช็ก 3 ชั้น: รอบของเรา → <code>TRIP.STATUS = 2</code> → มี <code>BOOKING_DETAIL</code> ของรอบนี้ที่ <code>STATUS_CODE = 1</code></li>
+<li>เปลี่ยน <code>STATUS_CODE 1→2</code> + <code>CHECKED_IN_AT</code> + <code>CHECKED_IN_BY_EMPLOYEE_ID</code> (lock <code>FOR UPDATE OF BD.STATUS_CODE</code>)</li>
+<li>ผิด/ซ้ำ/ของรอบอื่น → 409 ข้อความเดียว</li>
+<li><code>CK_BD_CHECKIN_PAIR</code> บังคับเวลา + คนกดต้องมาเป็นคู่</li>
+</ol>
+<h1 class="topic-title" id="หัวข้อ-10-ระบบคนขับ-แสดงและสแกน-qr-ผู้โดยสารที่มาใช้บริการจริง-3-คะแนน">หัวข้อ 10: ระบบคนขับ — แสดงและสแกน QR ผู้โดยสารที่มาใช้บริการจริง (3 คะแนน)</h1>
+<h2 id="ภาพรวม">ภาพรวม</h2>
+<p>ผู้โดยสารเห็น QR บนตั๋วใน <code>PassengerPortal</code> คนขับเปิดแท็บสแกนใน <code>DriverPortal</code> แล้วสแกนด้วยกล้องผ่านไลบรารี <code>html5-qrcode</code> (หรือพิมพ์รหัสเองถ้าไม่มีกล้อง) ข้อความที่อ่านได้ถูกส่งเป็น <code>qr_payload</code> เข้า <code>POST /api/driver/trips/:tripId/check-in</code> เมื่อสำเร็จ ระบบเปลี่ยน <code>STATUS_CODE</code> 1 → 2 ซึ่ง "ผู้โดยสารที่มาใช้จริง" คือแถวที่สถานะ 2/3 และเมื่อจบเที่ยว (<code>finish</code>) ระบบจะสรุปจำนวนขึ้นรถ/ไม่ขึ้นรถ/ลงแล้วให้</p>
+<h2 id="จุดสำคัญในโค้ด">จุดสำคัญในโค้ด</h2>
+<div class="tblwrap"><table><thead><tr><th>เรื่อง</th><th>ไฟล์</th><th>Function / Route</th><th>บรรทัด</th></tr></thead><tbody><tr><td>แสดง QR ผู้โดยสาร</td><td><code>src/components/live/PassengerPortal.tsx</code></td><td><code>&lt;QrCodeSvg value={booking_code}&gt;</code></td><td>1484, 1758</td></tr><tr><td>สร้าง QR</td><td><code>src/components/common/QrCodeSvg.tsx</code></td><td><code>QRCode.toDataURL</code></td><td>14–30</td></tr><tr><td>เปิดกล้องสแกน</td><td><code>src/components/live/DriverPortal.tsx</code></td><td>dynamic import <code>html5-qrcode</code>, <code>scanner.start</code></td><td>305–331</td></tr><tr><td>จัดการผลสแกน</td><td><code>src/components/live/DriverPortal.tsx</code></td><td><code>handleScanTicket</code></td><td>238–278</td></tr><tr><td>ช่องพิมพ์รหัส (manual)</td><td><code>src/components/live/DriverPortal.tsx</code></td><td><code>scanCodeInput</code> + Enter</td><td>1028–1031</td></tr><tr><td>เรียกเช็กอิน</td><td><code>src/context/BusContext.tsx</code></td><td><code>apiCheckIn()</code></td><td>1910</td></tr><tr><td>เช็กอิน (เซิร์ฟ)</td><td><code>server/routes/driver.ts</code></td><td><code>POST /trips/:tripId/check-in</code></td><td>229–272</td></tr><tr><td>ลงรถ</td><td><code>server/routes/driver.ts</code></td><td><code>POST /trips/:tripId/alight</code></td><td>278–366</td></tr><tr><td>จบเที่ยว + สรุปยอด</td><td><code>server/routes/driver.ts</code></td><td><code>POST /trips/:tripId/finish</code></td><td>368–421</td></tr></tbody></table></div>
+<p><strong>Database:</strong> <code>BOOKING_DETAIL.STATUS_CODE</code> (<code>1</code> จอง → <code>2</code> เช็กอิน → <code>3</code> จบเที่ยวขึ้นรถ, <code>4</code> ไม่ขึ้นรถ), <code>ALIGHTED_AT</code>, <code>ALIGHTED_ROUTE_STOP_ID</code>, <code>TRIP.STATUS</code> (<code>2 → 3</code>), <code>TRIP.ACTUAL_FINISHED_AT</code></p>
+<h2 id="คำถามและคำตอบ">คำถามและคำตอบ</h2>
+<h3 id="ข้อ-10-1-ระดับ-1-หน้าคนขับแสดง-qr-รายการสแกนอย่างไร">ข้อ 10.1 (ระดับ 1) หน้าคนขับแสดง QR/รายการสแกนอย่างไร?</h3>
+<p><strong>คำตอบแบบพูดตอบอาจารย์:</strong> "ผู้โดยสารเห็น QR ในหน้าตั๋วด้วย <code>&lt;QrCodeSvg value={booking_code}&gt;</code> ส่วนฝั่งคนขับเปิดแท็บ 'scan' (<code>useState&lt;DriverTab&gt;('trips' | 'scan' | 'passengers')</code>) ซึ่งมีทั้งหน้ากล้องสแกนและช่องพิมพ์รหัสสำรองครับ"</p>
+<p><strong>หลักฐานในโค้ด:</strong> <code>src/components/live/PassengerPortal.tsx</code> 1484/1758, <code>src/components/live/DriverPortal.tsx</code> 37, 963–1031</p>
+<p><strong>คำถามต่อยอด:</strong> ถ้าเปิดกล้องไม่ได้ (ไม่ใช่ localhost/HTTPS) ทำอย่างไร?<br><strong>คำตอบต่อยอด:</strong> "มี fallback ครับ <code>catch</code> ของ <code>scanner.start</code> ตั้ง <code>scanFeedback</code> ว่า 'Camera permission or device unavailable. Enter the booking code below instead.' (<code>DriverPortal.tsx</code> 330) แล้วให้พิมพ์รหัสเอง ซึ่งได้ผลลัพธ์เดียวกันเพราะส่งเข้า endpoint เดียวกัน"</p>
+<h3 id="ข้อ-10-2-ระดับ-2-ขั้นตอนตั้งแต่สแกนจนผู้โดยสารถูกนับว่า-มาใช้จริง">ข้อ 10.2 (ระดับ 2) ขั้นตอนตั้งแต่สแกนจนผู้โดยสารถูกนับว่า "มาใช้จริง"?</h3>
+<p><strong>คำตอบแบบพูดตอบอาจารย์:</strong> "5 ขั้นครับ 1) กล้องอ่าน QR สำเร็จ → callback รับ <code>decodedText</code> 2) กันซ้ำด้วย <code>scanInProgressRef</code> 3) เรียก <code>handleScanTicket(decodedText)</code> 4) ถ้า API mode เรียก <code>apiCheckIn(activeTrip.trip_id, qrPayload)</code> → <code>POST /driver/trips/:id/check-in</code> 5) เซิร์ฟเวอร์เปลี่ยน <code>STATUS_CODE</code> 1 → 2 พร้อมบันทึกเวลา แล้วหน้าเว็บโหลดข้อมูลผู้โดยสารใหม่เพื่อแสดงเป็น 'เช็กอินแล้ว' ครับ"</p>
+<p><strong>Relevant Code</strong> (<code>src/components/live/DriverPortal.tsx</code> 314–319):</p>
+<pre><code>async (decodedText) =&gt; {
+  if (scanInProgressRef.current) return;
+  scanInProgressRef.current = true;
+  try { await handleScanTicket(decodedText); }
+  finally { scanInProgressRef.current = false; }
+}</code></pre>
+<p><code>src/context/BusContext.tsx</code> 1910:</p>
+<pre><code>const apiCheckIn = async (tripId: number, qrPayload: string) =&gt; {
+  await api(`/driver/trips/${tripId}/check-in`, { method: 'POST', body: JSON.stringify({ qr_payload: qrPayload }) });
+  await apiLoginComplete('driver', { ... });
+};</code></pre>
+<p><strong>Flow:</strong> กล้อง <code>html5-qrcode</code> → <code>decodedText</code> → <code>handleScanTicket</code> → <code>apiCheckIn</code> → <code>POST /driver/trips/:id/check-in</code> → <code>lockAssignedTrip</code> + <code>TRIP.STATUS=2</code> + SELECT <code>BOOKING_CODE</code> ที่ <code>STATUS_CODE=1</code> (<code>FOR UPDATE</code>) → <code>UPDATE STATUS_CODE=2, CHECKED_IN_AT, CHECKED_IN_BY_EMPLOYEE_ID</code> → 200 → frontend reload ข้อมูลผู้โดยสาร</p>
+<h1 class="topic-title" id="หัวข้อ-10-ต่อ-คำถามระดับ-2">หัวข้อ 10 (ต่อ): คำถามระดับ 2</h1>
+<h3 id="ข้อ-10-3-ระดับ-2-ระบบป้องกันการสแกนซ้ำหรือสแกนผิดรอบอย่างไร">ข้อ 10.3 (ระดับ 2) ระบบป้องกันการสแกนซ้ำหรือสแกนผิดรอบอย่างไร?</h3>
+<p><strong>คำตอบแบบพูดตอบอาจารย์:</strong> "3 ชั้นครับ 1) ฝั่งเว็บมี <code>scanInProgressRef</code> กัน callback เรียกซ้ำขณะกำลัง process 2) เซิร์ฟเวอร์บังคับว่าต้องเป็นรอบของคนขับคนนี้และ <code>TRIP.STATUS = 2</code> 3) SELECT กรอง <code>BD.STATUS_CODE = 1</code> เฉพาะที่ยังไม่เช็กอิน ถ้าเช็กอินแล้วจะหาไม่เจอ → 409 ทำให้สแกนซ้ำไม่เพิ่มจำนวนครับ"</p>
+<p><strong>หลักฐานในโค้ด:</strong> <code>src/components/live/DriverPortal.tsx</code> 183 (<code>const scanInProgressRef = useRef(false)</code>), 315–316; <code>server/routes/driver.ts</code> 239–254 และ <code>UPDATE ... WHERE STATUS_CODE = 1</code> (261)</p>
+<p><strong>คำถามต่อยอด:</strong> ถ้าสแกน QR ของอีกรอบหนึ่งที่ตัวเองขับ?<br><strong>คำตอบต่อยอด:</strong> "ไม่เจอแถวเพราะ <code>AND BD.TRIP_ID = :tripId</code> ระบุรอบที่กำลังเช็กอินอยู่ ได้ 409 ครับ ระบบไม่ยอมใช้ QR ของรอบอื่นในรอบนี้"</p>
+<h3 id="ข้อ-10-4-ระดับ-2-ผู้โดยสารที่มาใช้บริการจริง-แสดงที่ไหน-คิดจากอะไร">ข้อ 10.4 (ระดับ 2) "ผู้โดยสารที่มาใช้บริการจริง" แสดงที่ไหน คิดจากอะไร?</h3>
+<p><strong>คำตอบแบบพูดตอบอาจารย์:</strong> "คิดจาก <code>BOOKING_DETAIL.STATUS_CODE</code> ครับ สถานะ 2 คือขึ้นรถแล้ว เมื่อกด 'จบเที่ยว' ระบบเปลี่ยน 2 → 3 (ขึ้นรถและจบเที่ยว) ส่วนที่ยังเป็น 1 อยู่จะเปลี่ยนเป็น 4 (ไม่ได้ขึ้นรถ) แล้วคืนสรุป <code>boarded_count</code>, <code>no_show_count</code>, <code>alighted_count</code>, <code>not_alighted_count</code> ให้หน้าเว็บแสดงครับ"</p>
+<p><strong>Relevant Code</strong> (<code>server/routes/driver.ts</code> 374–394):</p>
+<pre><code>UPDATE BOOKING_DETAIL SET STATUS_CODE = 3 WHERE TRIP_ID = :tripId AND STATUS_CODE = 2;
+UPDATE BOOKING_DETAIL SET STATUS_CODE = 4 WHERE TRIP_ID = :tripId AND STATUS_CODE = 1;
+UPDATE TRIP SET STATUS = 3, ACTUAL_FINISHED_AT = SYSTIMESTAMP
+WHERE TRIP_ID = :tripId AND DRIVER_ID = :employeeId AND STATUS = 2;
+
+SELECT SUM(CASE WHEN STATUS_CODE = 3 THEN SEAT_COUNT ELSE 0 END) AS BOARDED_COUNT,
+       SUM(CASE WHEN STATUS_CODE = 4 THEN SEAT_COUNT ELSE 0 END) AS NO_SHOW_COUNT,
+       SUM(CASE WHEN STATUS_CODE = 3 AND ALIGHTED_AT IS NOT NULL THEN SEAT_COUNT ELSE 0 END) AS ALIGHTED_COUNT,
+       SUM(CASE WHEN STATUS_CODE = 3 AND ALIGHTED_AT IS NULL THEN SEAT_COUNT ELSE 0 END) AS NOT_ALIGHTED_COUNT
+FROM BOOKING_DETAIL WHERE TRIP_ID = :tripId</code></pre>
+<p><strong>คำถามต่อยอด:</strong> ฝั่งเว็บแสดงรายการ no-show จาก state ในเบราว์เซอร์หรือเปล่า?<br><strong>คำตอบต่อยอด:</strong> "ไม่ใช่ครับ <code>apiFinishTrip</code> ใน <code>BusContext.tsx</code> 1917–1935 ใช้ <code>result.summary.no_shows</code> ที่เซิร์ฟเวอร์ query จาก Oracle โดยตรง (คอมเมนต์บรรทัด 1920–1921) เพื่อให้ตัวเลขตรงกับที่บันทึกลงฐานข้อมูลเสมอ"</p>
+<h3 id="ข้อ-10-5-ระดับ-2-การ-ลงรถ-alight-ทำอย่างไร-ต่างจากเช็กอินอย่างไร">ข้อ 10.5 (ระดับ 2) การ "ลงรถ" (<code>alight</code>) ทำอย่างไร ต่างจากเช็กอินอย่างไร?</h3>
+<p><strong>คำตอบแบบพูดตอบอาจารย์:</strong> "ต่างกันตรงที่ใช้ <code>booking_id</code> ไม่ใช่ QR และเป็นคนขับกดยืนยันทีละใบจองครับ <code>POST /api/driver/trips/:tripId/alight</code> จะล็อกแถว แล้วเช็ก 3 อย่าง: ต้องเป็นรอบที่กำลังวิ่ง (<code>STATUS=2</code>) ทุกแถวต้อง <code>STATUS_CODE = 2</code> (ขึ้นรถก่อนจึงลงได้) และยังไม่เคยลง (<code>ALIGHTED_AT IS NULL</code> → ถ้ามีแล้วได้ 409 'Booking already alighted') แล้ว <code>UPDATE ALIGHTED_AT = SYSTIMESTAMP, ALIGHTED_ROUTE_STOP_ID = :routeStopId</code> ครับ"</p>
+<p><strong>หลักฐานในโค้ด:</strong> <code>server/routes/driver.ts</code> 278–366 โดยเฉพาะ 297 (<code>STATUS !== 2</code> → 409), 311–316 (ต้องขึ้นก่อน/ห้ามลงซ้ำ), 332–343 (เช็กลำดับป้าย: ห้ามลงก่อนถึงป้ายลง — <code>alightOrder &lt; dropOrder</code> → 409 'Bus has not reached the drop-off stop yet'), 345–350 (<code>UPDATE</code>)</p>
+<p><strong>คำถามต่อยอด:</strong> ถ้าผู้โดยสารลงผิดป้าย (ลงก่อนป้ายที่จอง)?<br><strong>คำตอบต่อยอด:</strong> "ระบบเทียบ <code>STOP_ORDER</code> ของป้ายที่กดลงกับป้ายที่จอง ถ้าป้ายลงมีลำดับน้อยกว่าป้ายที่จองจะไม่ให้ลง (409) แต่ยอมลงที่ป้ายเลยมาได้ เพื่อรองรับกรณีรถเลยป้าย/ลงช้าครับ ที่บรรทัด 332–343"</p>
+<h3 id="ข้อ-10-6-ระดับ-3-ทำไมใช้-booking_code-เป็น-qr-ไม่ใช่ข้อมูลอื่น-เช่น-ชื่อหรือเลขที่นั่ง">ข้อ 10.6 (ระดับ 3) ทำไมใช้ <code>booking_code</code> เป็น QR ไม่ใช่ข้อมูลอื่น เช่น ชื่อหรือเลขที่นั่ง?</h3>
+<p><strong>คำตอบแบบพูดตอบอาจารย์:</strong> "เพราะ <code>booking_code</code> เป็น unique key ที่เชื่อมกลับ <code>BOOKING</code> และ <code>BOOKING_DETAIL</code> ได้ทันที ทำให้ query เดียวรู้ทั้งชื่อผู้โดยสาร จำนวนที่นั่ง และสถานะ ส่วนชื่อ/เลขที่นั่งซ้ำกันได้และไม่มีเลขที่นั่งจริงในระบบ (เก็บเป็น <code>SEAT_COUNT</code>) จึงใช้ระบุตัวตนไม่ได้ครับ นอกจากนี้ <code>qr_payload</code> ยาวไม่เกิน 50 ซึ่งรองรับ <code>SB-</code> + 32 hex พอดีครับ"</p>
+<p><strong>หลักฐานในโค้ด:</strong> <code>server/routes/bookings.ts</code> 104, 225 (<code>qr_payload: result.bookingCode</code>), <code>server/routes/driver.ts</code> 236, 241–251, <code>database.sql</code> <code>UQ_BOOKING_CODE</code></p>
+<h2 id="สิ่งที่ต้องจำ-หัวข้อ-10">สิ่งที่ต้องจำ (หัวข้อ 10)</h2>
+<ol>
+<li>QR แสดงที่ <code>PassengerPortal</code> (1484, 1758) สร้างด้วย <code>QrCodeSvg</code> (ไลบรารี <code>qrcode</code>)</li>
+<li>สแกนด้วย <code>html5-qrcode</code> (dynamic import ที่ <code>DriverPortal.tsx</code> 308) + fallback พิมพ์รหัสเอง</li>
+<li><code>apiCheckIn</code> → <code>POST /driver/trips/:id/check-in</code> → <code>STATUS_CODE 1→2</code></li>
+<li>กันซ้ำ: <code>scanInProgressRef</code> + <code>WHERE STATUS_CODE = 1</code> + ต้อง <code>TRIP.STATUS = 2</code></li>
+<li>"มาใช้จริง" = <code>STATUS_CODE</code> 2/3; สรุปยอดตอน <code>finish</code> เปลี่ยน 2→3, 1→4 แล้วนับ <code>SEAT_COUNT</code></li>
+<li><code>alight</code> ใช้ <code>booking_id</code> + บันทึก <code>ALIGHTED_AT</code>/<code>ALIGHTED_ROUTE_STOP_ID</code> และเช็กลำดับป้าย</li>
+<li><code>TRIP.STATUS</code> 2 → 3 ตอนจบเที่ยว พร้อม <code>ACTUAL_FINISHED_AT</code></li>
+</ol>
+<h1 class="topic-title" id="ภาคผนวก-ก-สรุป-file-และ-function-สำคัญ">ภาคผนวก ก: สรุป File และ Function สำคัญ</h1>
+<h2 id="file-ฝั่ง-backend">File ฝั่ง Backend</h2>
+<div class="tblwrap"><table><thead><tr><th>ไฟล์</th><th>หน้าที่</th></tr></thead><tbody><tr><td><code>server/app.ts</code></td><td>ติดตั้ง Express + mount router ทั้งหมด (บรรทัด 16–22) + <code>errorHandler</code></td></tr><tr><td><code>server/routes/auth.ts</code></td><td>สมัคร/ล็อกอิน 3 บทบาท, logout, <code>/me</code></td></tr><tr><td><code>server/routes/catalog.ts</code></td><td><code>GET /routes</code>, <code>/routes/:id/stops</code>, <code>/trips</code>, <code>/trips/:id/seats</code></td></tr><tr><td><code>server/routes/bookings.ts</code></td><td>จอง/ดู/ยกเลิก/ซ่อนตั๋ว</td></tr><tr><td><code>server/routes/driver.ts</code></td><td>ตารางงาน, เริ่ม/จบเที่ยว, ผู้โดยสาร, เช็กอิน, ลงรถ</td></tr><tr><td><code>server/routes/admin.ts</code></td><td>master ทั้งหมด + permissions + visibility + trips</td></tr><tr><td><code>server/auth/password.ts</code></td><td><code>hashPassword</code>, <code>verifyPassword</code> (scrypt)</td></tr><tr><td><code>server/auth/sessions.ts</code></td><td><code>createSession</code>, <code>getSession</code>, <code>deleteSession</code>, <code>publicSession</code></td></tr><tr><td><code>server/middleware/requireAuth.ts</code></td><td><code>requireAuth(kind)</code>, <code>sessionFrom</code></td></tr><tr><td><code>server/middleware/errorHandler.ts</code></td><td>แปลง <code>HttpError</code> เป็น response JSON</td></tr><tr><td><code>server/db/query.ts</code></td><td><code>withConnection</code>, <code>withTransaction</code>, <code>queryRows</code>, <code>oracleErrorNumber</code></td></tr></tbody></table></div>
+<h2 id="file-ฝั่ง-frontend">File ฝั่ง Frontend</h2>
+<div class="tblwrap"><table><thead><tr><th>ไฟล์</th><th>หน้าที่</th></tr></thead><tbody><tr><td><code>src/api/client.ts</code></td><td><code>api()</code>, <code>apiLogin</code>, <code>apiRegisterPassenger</code>, <code>apiUpsertPermission</code>, <code>apiCreateEmployee</code>, <code>apiHideAdminRecord</code>, ...</td></tr><tr><td><code>src/context/BusContext.tsx</code></td><td>state กลาง + ฟังก์ชันทุกอย่าง (<code>addPermission</code>, <code>apiCreateBooking</code>, <code>apiCancelBooking</code>, <code>apiCheckIn</code>, <code>logout</code>, <code>canEditScreen</code>, ...)</td></tr><tr><td><code>src/components/auth/LoginScreen.tsx</code></td><td>ฟอร์มล็อกอิน/สมัครตามบทบาท</td></tr><tr><td><code>src/components/live/PassengerPortal.tsx</code></td><td>ค้นรอบ, จอง, ตั๋ว + QR, ยกเลิก</td></tr><tr><td><code>src/components/live/DriverPortal.tsx</code></td><td>ตารางงาน, สแกน, ผู้โดยสาร, เริ่ม/จบเที่ยว</td></tr><tr><td><code>src/components/live/AdminPortal.tsx</code></td><td>หน้าแอดมินรวม</td></tr><tr><td><code>src/components/live/screens/FleetStaffManagementView.tsx</code></td><td>พนักงาน + รถ (เพิ่ม/แก้/ค้นหา)</td></tr><tr><td><code>src/components/live/screens/RbacManagementView.tsx</code></td><td>กำหนดสิทธิ์ (เพิ่ม/แก้/ลบ/ค้นหา)</td></tr><tr><td><code>src/components/live/screens/PositionManagementView.tsx</code>, <code>DepartmentManagementView.tsx</code></td><td>ตำแหน่ง/ฝ่าย</td></tr><tr><td><code>src/components/common/QrCodeSvg.tsx</code></td><td>สร้าง QR</td></tr><tr><td><code>src/data/mockDatabase.ts</code></td><td><code>initialScreens</code> (70–78), <code>initialPermissions</code> (83–97), ข้อมูลจำลองโหมด non-API</td></tr><tr><td><code>database.sql</code></td><td>โครงสร้างตาราง + constraint ทั้งหมด</td></tr></tbody></table></div>
+<h2 id="function-สำคัญที่อาจารย์มักถาม">Function สำคัญที่อาจารย์มักถาม</h2>
+<div class="tblwrap"><table><thead><tr><th>Function</th><th>ไฟล์</th><th>บรรทัด</th><th>ทำอะไร</th></tr></thead><tbody><tr><td><code>hashPassword</code> / <code>verifyPassword</code></td><td><code>server/auth/password.ts</code></td><td>24 / 37</td><td>สร้างและตรวจ <code>PASSWORD_HASH</code></td></tr><tr><td><code>createSession</code> / <code>getSession</code> / <code>deleteSession</code></td><td><code>server/auth/sessions.ts</code></td><td>18 / 29 / 39</td><td>จัดการ token 12 ชั่วโมง</td></tr><tr><td><code>requireAuth(kind)</code></td><td><code>server/middleware/requireAuth.ts</code></td><td>9</td><td>ตรวจ Bearer + ประเภท session</td></tr><tr><td><code>requireScreenEdit(pool, code)</code></td><td><code>server/routes/admin.ts</code></td><td>16</td><td>ตรวจ <code>CAN_EDIT</code> + ไม่ถูกซ่อน</td></tr><tr><td><code>requireScreenPermission(pool, canEdit)</code></td><td><code>server/routes/driver.ts</code></td><td>19</td><td>ตรวจสิทธิ์หน้าจอ 8820 ของคนขับ</td></tr><tr><td><code>lockAssignedTrip</code></td><td><code>server/routes/driver.ts</code></td><td>53</td><td>ล็อกแถว <code>TRIP</code> + ยืนยันเป็นรอบเรา</td></tr><tr><td><code>requireStartableDeparture</code></td><td><code>server/routes/driver.ts</code></td><td>69</td><td>เช็กยังไม่เลยเวลาออก</td></tr><tr><td><code>bookingInput</code> / <code>positiveId</code></td><td><code>server/routes/bookings.ts</code></td><td>14 / 8</td><td>validate body การจอง</td></tr><tr><td><code>mapOracleError</code></td><td><code>server/routes/admin.ts</code></td><td>51</td><td>แปลง ORA-1 → 409</td></tr><tr><td><code>textField</code></td><td><code>server/routes/admin.ts</code></td><td>39</td><td>validate ข้อความ/ความยาว</td></tr><tr><td><code>canEditScreen</code> / <code>canViewScreen</code></td><td><code>src/context/BusContext.tsx</code></td><td>717 / 709</td><td>สิทธิ์ฝั่ง UI</td></tr><tr><td><code>addPermission</code> / <code>updatePermission</code> / <code>deletePermission</code></td><td><code>src/context/BusContext.tsx</code></td><td>743 / 805 / 800</td><td>CRUD สิทธิ์</td></tr><tr><td><code>apiCreateBooking</code> / <code>apiCancelBooking</code></td><td><code>src/context/BusContext.tsx</code></td><td>1894 / 1902</td><td>เรียก API จอง/ยกเลิก</td></tr><tr><td><code>apiCheckIn</code> / <code>apiStartTrip</code> / <code>apiFinishTrip</code></td><td><code>src/context/BusContext.tsx</code></td><td>1910 / 1903 / 1917</td><td>งานคนขับ</td></tr><tr><td><code>handleConfirmAllStagedBookings</code></td><td><code>src/components/live/PassengerPortal.tsx</code></td><td>500</td><td>ยืนยันจอง</td></tr><tr><td><code>handleScanTicket</code></td><td><code>src/components/live/DriverPortal.tsx</code></td><td>238</td><td>จัดการผลสแกน</td></tr></tbody></table></div>
+<h1 class="topic-title" id="ภาคผนวก-ข-สรุป-api-database-business-logic-flow">ภาคผนวก ข: สรุป API / Database / Business Logic / Flow</h1>
+<h2 id="api-ทั้งหมดที่ใช้งานจริง-mount-ใน-server-app-ts">API ทั้งหมดที่ใช้งานจริง (mount ใน <code>server/app.ts</code>)</h2>
+<div class="tblwrap"><table><thead><tr><th>Method + Path</th><th>ไฟล์</th><th>สิทธิ์ที่ตรวจ</th><th>ใช้ที่ไหน</th></tr></thead><tbody><tr><td><code>POST /api/auth/passenger/register</code></td><td>auth.ts 29</td><td>public</td><td>สมัคร</td></tr><tr><td><code>POST /api/auth/passenger/login</code></td><td>auth.ts 85</td><td>public + <code>IS_ACTIVE='Y'</code></td><td>ล็อกอิน</td></tr><tr><td><code>POST /api/auth/driver/login</code></td><td>auth.ts 120</td><td>+ สิทธิ์หน้าจอ 8820</td><td>ล็อกอินคนขับ</td></tr><tr><td><code>POST /api/auth/admin/login</code></td><td>auth.ts 171</td><td>+ สิทธิ์ 1101/1102/1103</td><td>ล็อกอินแอดมิน</td></tr><tr><td><code>GET /api/auth/me</code>, <code>POST /api/auth/logout</code></td><td>auth.ts 222, 226</td><td>session</td><td>ดู/ลบ session</td></tr><tr><td><code>GET /api/routes</code></td><td>catalog.ts 21</td><td>public</td><td>เลือกเส้นทาง</td></tr><tr><td><code>GET /api/routes/:routeId/stops</code></td><td>catalog.ts 37</td><td>public</td><td>จุดจอด</td></tr><tr><td><code>GET /api/trips</code></td><td>catalog.ts 59</td><td>public</td><td>รายการรอบ + ที่นั่งว่าง</td></tr><tr><td><code>GET /api/trips/:tripId/seats</code></td><td>catalog.ts 149</td><td>public</td><td>นั่งจองแล้ว</td></tr><tr><td><code>GET /api/bookings/me?filter=...</code></td><td>bookings.ts 29</td><td>passenger</td><td>ตั๋วของฉัน</td></tr><tr><td><code>POST /api/bookings</code></td><td>bookings.ts 101</td><td>passenger</td><td>จอง</td></tr><tr><td><code>POST /api/bookings/:bookingId/cancel</code></td><td>bookings.ts 232</td><td>passenger (เจ้าของ)</td><td>ยกเลิก</td></tr><tr><td><code>POST /api/bookings/:bookingId/hide</code></td><td>bookings.ts 274</td><td>passenger (เจ้าของ)</td><td>ซ่อนตั๋ว</td></tr><tr><td><code>GET /api/driver/me</code></td><td>driver.ts 96</td><td>driver</td><td>โปรไฟล์</td></tr><tr><td><code>GET /api/driver/trips</code></td><td>driver.ts 107</td><td>+ view 8820</td><td>ตารางงาน</td></tr><tr><td><code>GET /api/driver/trips/:tripId/passengers</code></td><td>driver.ts 135</td><td>+ view 8820</td><td>ผู้โดยสารตามป้าย</td></tr><tr><td><code>POST /api/driver/trips/:tripId/start</code></td><td>driver.ts 214</td><td>+ edit 8820</td><td>เริ่มรอบ</td></tr><tr><td><code>POST /api/driver/trips/:tripId/check-in</code></td><td>driver.ts 229</td><td>+ edit 8820</td><td>เช็กอิน</td></tr><tr><td><code>POST /api/driver/trips/:tripId/alight</code></td><td>driver.ts 278</td><td>+ edit 8820</td><td>ลงรถ</td></tr><tr><td><code>POST /api/driver/trips/:tripId/finish</code></td><td>driver.ts 368</td><td>+ edit 8820</td><td>จบเที่ยว</td></tr><tr><td><code>GET /api/admin/masters</code></td><td>admin.ts 64</td><td>admin</td><td>โหลด master ทั้งหมด</td></tr><tr><td><code>POST/PUT /api/admin/employees[/:id]</code></td><td>admin.ts 130, 167</td><td><code>requireScreenEdit('1101')</code></td><td>พนักงาน</td></tr><tr><td><code>POST /api/admin/employees/:id/hide</code></td><td>admin.ts 234</td><td><code>1101</code></td><td>ซ่อนพนักงาน</td></tr><tr><td><code>POST /api/admin/permissions</code></td><td>admin.ts 618</td><td><code>requireScreenEdit('9102')</code></td><td>upsert สิทธิ์</td></tr><tr><td><code>POST /api/admin/visibility/hide</code></td><td>admin.ts 910</td><td>เช็ก <code>CAN_EDIT</code> ตาม entity</td><td>ซ่อน position/department/permission/employee</td></tr><tr><td>`POST/PUT/DELETE /api/admin/routes</td><td>stops</td><td>...`</td><td>admin.ts 250+</td><td><code>6794</code> / <code>3456</code> / <code>1101</code>/<code>1102</code>/<code>1103</code></td><td>master อื่น</td></tr></tbody></table></div>
+<h2 id="ตาราง-database-และความสัมพันธ์">ตาราง Database และความสัมพันธ์</h2>
+<div class="tblwrap"><table><thead><tr><th>ตาราง</th><th>PK</th><th>FK / ความสัมพันธ์</th><th>คอลัมน์สำคัญ</th></tr></thead><tbody><tr><td><code>SYSTEM_USER</code></td><td><code>USER_ID</code></td><td>—</td><td><code>USERNAME</code> (unique), <code>PASSWORD_HASH</code>, <code>USER_TYPE</code>, <code>IS_ACTIVE</code></td></tr><tr><td><code>DEPARTMENT</code></td><td><code>DEPARTMENT_ID</code></td><td>—</td><td><code>DEPARTMENT_NAME</code></td></tr><tr><td><code>POSITION</code></td><td><code>POSITION_ID</code></td><td>—</td><td><code>POSITION_NAME</code></td></tr><tr><td><code>EMPLOYEE</code></td><td><code>EMPLOYEE_ID</code></td><td>FK → <code>DEPARTMENT</code>, <code>POSITION</code></td><td><code>USERNAME</code> (unique), <code>PASSWORD_HASH</code>, <code>IS_ACTIVE</code></td></tr><tr><td><code>SCREEN</code></td><td><code>SCREEN_ID</code></td><td>—</td><td><code>SCREEN_CODE</code> (unique)</td></tr><tr><td><code>ROLE_PERMISSION</code></td><td><code>PERMISSION_ID</code></td><td>FK → <code>POSITION</code>, <code>SCREEN</code></td><td><code>CAN_VIEW</code>, <code>CAN_EDIT</code> + <code>UQ_RP_POSITION_SCREEN</code></td></tr><tr><td><code>WEB_HIDDEN_RECORD</code></td><td><code>(ENTITY_NAME, RECORD_KEY, OWNER_ID)</code></td><td>—</td><td><code>HIDDEN_AT</code> (<code>OWNER_ID='*'</code> = ทุกคน)</td></tr><tr><td><code>ROUTE</code> / <code>STOP</code> / <code>ROUTE_STOP</code></td><td><code>ROUTE_ID</code> / <code>STOP_ID</code> / <code>ROUTE_STOP_ID</code></td><td>FK สาย</td><td><code>STOP_ORDER</code>, <code>MINUTES_FROM_PREV</code></td></tr><tr><td><code>VEHICLE</code> / <code>VEHICLE_TYPE</code></td><td><code>VEHICLE_ID</code></td><td>FK → type</td><td><code>CAPACITY</code>, <code>STATUS</code></td></tr><tr><td><code>TRIP</code></td><td><code>TRIP_ID</code> (+unique <code>TRIP_ID,ROUTE_ID</code>)</td><td>FK → <code>ROUTE</code>, <code>EMPLOYEE</code>, <code>VEHICLE</code></td><td><code>DEPARTURE_AT</code>, <code>STATUS</code> (0–3), <code>ACTUAL_STARTED_AT</code>, <code>ACTUAL_FINISHED_AT</code></td></tr><tr><td><code>BOOKING</code></td><td><code>BOOKING_ID</code></td><td>FK → <code>SYSTEM_USER</code></td><td><code>BOOKING_CODE</code> (unique), <code>BOOKING_TIME</code></td></tr><tr><td><code>BOOKING_DETAIL</code></td><td><code>DETAIL_ID</code></td><td>FK → <code>BOOKING</code>, <code>TRIP(TRIP_ID,ROUTE_ID)</code></td><td><code>SEAT_COUNT</code> (1–4), <code>STATUS_CODE</code> (0–4), <code>PICKUP/DROPOFF_ROUTE_STOP_ID</code>, <code>CHECKED_IN_AT</code>, <code>ALIGHTED_AT</code></td></tr></tbody></table></div>
+<h2 id="business-logic-สูตรและเงื่อนไข">Business Logic (สูตรและเงื่อนไข)</h2>
+<ol>
+<li><strong>รหัสผ่าน:</strong> <code>scrypt(N=16384, r=8, p=1, key=64)</code> + salt 16 → <code>scrypt$16384$8$1$salt$key</code>; เทียบด้วย <code>timingSafeEqual</code></li>
+<li><strong>Session:</strong> token = <code>randomBytes(32)</code> base64url, อายุ 12 ชั่วโมง, เก็บใน <code>Map</code> ของเซิร์ฟเวอร์</li>
+<li><strong>cutoff 20 นาที:</strong> <code>DEPARTURE_AT + SUM(MINUTES_FROM_PREV WHERE STOP_ORDER &lt;= จุดขึ้น) &gt;= SYSTIMESTAMP + 20 นาที</code></li>
+<li><strong>ความจุ:</strong> <code>SUM(SEAT_COUNT) WHERE STATUS_CODE &lt;&gt; 0 AND PICK_ORDER &lt; newDrop AND DROP_ORDER &gt; newPick</code> + <code>seat_count &lt;= CAPACITY</code></li>
+<li><strong>คืนที่นั่ง:</strong> <code>UPDATE BOOKING_DETAIL SET STATUS_CODE = 0</code> (ไม่แก้ <code>SEAT_COUNT</code>)</li>
+<li><strong>สถานะการจอง:</strong> <code>0</code> ยกเลิก, <code>1</code> จอง, <code>2</code> เช็กอิน, <code>3</code> จบเที่ยว, <code>4</code> ไม่ขึ้นรถ</li>
+<li><strong>สถานะรอบรถ:</strong> <code>0</code> ยกเลิก, <code>1</code> เปิด, <code>2</code> กำลังวิ่ง, <code>3</code> เสร็จ</li>
+<li><strong>สรุปยอดจบเที่ยว:</strong> <code>2→3</code>, <code>1→4</code>, <code>TRIP 2→3</code> แล้ว SUM <code>SEAT_COUNT</code> แยก CASE</li>
+<li><strong>เวลาถึงจุดขึ้น (upcoming):</strong> <code>DEPARTURE_AT + SUM(MINUTES_FROM_PREV)/1440 &gt; SYSDATE</code></li>
+</ol>
+<h2 id="flow-สำคัญ-พูดได้เป็นเรียงความ">Flow สำคัญ (พูดได้เป็นเรียงความ)</h2>
+<ol>
+<li><strong>ล็อกอิน:</strong> ฟอร์ม → <code>apiLogin</code> → <code>POST /api/auth/{role}/login</code> → SELECT ตารางตามบทบาท + <code>IS_ACTIVE='Y'</code> → <code>verifyPassword</code> → (คนขับ/แอดมินเช็ก <code>ROLE_PERMISSION</code>) → <code>createSession</code> → token → <code>sessionStorage</code> → ทุกคำขอแนบ <code>Authorization: Bearer</code></li>
+<li><strong>จอง:</strong> เลือกเส้นทาง/จุด/วัน/รอบ/ที่นั่ง → <code>POST /api/bookings</code> → <code>SELECT TRIP FOR UPDATE</code> → 5 เงื่อนไข → <code>INSERT BOOKING</code> + <code>INSERT BOOKING_DETAIL(STATUS_CODE=1)</code> → คืน <code>booking_code</code> → แสดง QR</li>
+<li><strong>สแกนเช็กอิน:</strong> กล้อง <code>html5-qrcode</code> → <code>qr_payload</code> → <code>POST /driver/trips/:id/check-in</code> → ล็อก + ตรวจรอบ/สถานะ → <code>UPDATE STATUS_CODE=2</code> → reload → แสดง "เช็กอินแล้ว"</li>
+<li><strong>ยกเลิก:</strong> ปุ่ม → modal → <code>POST /bookings/:id/cancel</code> → ล็อก + ตรวจนโยบาย → <code>STATUS_CODE=0</code> → คืน <code>cancelled_seats</code> → ที่นั่งว่างกลับมาเองเพราะนับจาก <code>STATUS_CODE&lt;&gt;0</code></li>
+<li><strong>จบเที่ยว:</strong> <code>POST /driver/trips/:id/finish</code> → <code>2→3</code>, <code>1→4</code>, <code>TRIP→3</code> → คืนสรุป (ขึ้นรถ/ไม่ขึ้น/ลงแล้ว)</li>
+</ol>
+<h1 class="topic-title" id="ภาคผนวก-ค-จุดที่อาจารย์มีโอกาสถามเป็นพิเศษ">ภาคผนวก ค: จุดที่อาจารย์มีโอกาสถามเป็นพิเศษ</h1>
+<h2 id="คำถามยอดฮิต-แนวตอบสั้น">คำถามยอดฮิต + แนวตอบสั้น</h2>
+<p><strong>ถาม: ระบบป้องกันไม่ให้คนทั่วไปเรียก API แก้ข้อมูลอย่างไร?</strong><br>ตอบ: ทุก endpoint ของแอดมิน/คนขับ/ผู้โดยสารมี <code>requireAuth(kind)</code> ตรวจ Bearer token และตรวจสิทธิ์หน้าจอซ้ำที่ <code>requireScreenEdit</code> / <code>requireScreenPermission</code> ถ้าไม่มีสิทธิ์ได้ 403 ไม่ใช่แค่ซ่อนปุ่มในหน้าเว็บครับ</p>
+<p><strong>ถาม: เก็บรหัสผ่านอย่างไร?</strong><br>ตอบ: scrypt + salt เก็บใน <code>PASSWORD_HASH</code> เท่านั้น ไม่มี plaintext และเทียบด้วย <code>timingSafeEqual</code></p>
+<p><strong>ถาม: จองเกินความจุพร้อมกันได้ไหม?</strong><br>ตอบ: ไม่ได้ เพราะล็อก <code>TRIP</code> ด้วย <code>FOR UPDATE</code> ใน transaction เดียวกับการตรวจความจุ และมีการจับ error ชนกันเป็น 409</p>
+<p><strong>ถาม: กดยกเลิกซ้ำได้ไหม?</strong><br>ตอบ: ไม่ได้ guard <code>STATUS_CODE = 1</code> จะคืน 409 ในครั้งที่สอง จึงไม่มีการคืนที่นั่งซ้ำ</p>
+<p><strong>ถาม: "dynamic" ตรงไหน?</strong><br>ตอบ: คู่ตำแหน่ง–หน้าจอและ <code>CAN_VIEW/CAN_EDIT</code> เป็นข้อมูลในตาราง <code>ROLE_PERMISSION</code> เพิ่ม/แก้/ลบได้จากหน้าเว็บ ไม่ต้องแก้โค้ด และเซิร์ฟเวอร์ตรวจจาก <code>SCREEN_CODE</code> ในฐานข้อมูล</p>
+<p><strong>ถาม: ทำไมหน้าเว็บมี <code>screen_id</code> เป็นเลข (10, 14, 16) แต่เซิร์ฟเวอร์ใช้ <code>screen_code</code> (3456, 8820, 9102)?</strong><br>ตอบ: หน้าเว็บใช้เลข <code>screen_id</code> จาก <code>initialScreens</code> ใน <code>src/data/mockDatabase.ts</code> ในการแสดงผล ส่วนเซิร์ฟเวอร์ใช้ <code>SCREEN_CODE</code> ที่ค้นจากตาราง <code>SCREEN</code> เพื่อไม่ผูกกับ id ที่อาจต่างกันในแต่ละ environment ครับ</p>
+<p><strong>ถาม: ถ้า restart API จะเกิดอะไรขึ้น?</strong><br>ตอบ: session ทั้งหมดหายเพราะเก็บใน <code>Map</code> หน่วยความจำ (<code>server/auth/sessions.ts</code> 16) ผู้ใช้ต้องล็อกอินใหม่ แต่ข้อมูลใน Oracle ไม่หาย</p>
+<p><strong>ถาม: QR ต่างจาก booking code อย่างไร?</strong><br>ตอบ: ค่าเดียวกัน QR เป็นแค่การเขียน <code>booking_code</code> ให้เครื่องอ่านอ่านได้ (<code>qr_payload = booking_code</code>)</p>
+<p><strong>ถาม: ระบบมีตารางไหนบ้างที่ไม่มีการ DELETE เลย?</strong><br>ตอบ: <code>EMPLOYEE</code>, <code>ROLE_PERMISSION</code>, <code>BOOKING</code> — ใช้ <code>WEB_HIDDEN_RECORD</code> (ซ่อน) หรือเปลี่ยนสถานะแทน เพื่อรักษาประวัติครับ</p>
+<p><strong>ถาม: สิทธิ์เปลี่ยนระหว่างที่ user ล็อกอินอยู่ มีผลเมื่อไหร่?</strong><br>ตอบ: ฝั่งเซิร์ฟเวอร์มีผลกับคำขอถัดไปทันทีเพราะ query <code>ROLE_PERMISSION</code> ทุกครั้ง แต่ฝั่งหน้าเว็บ state <code>permissions</code> ต้องโหลดใหม่ (เช่น ล็อกอินใหม่/รีเฟรช) ครับ</p>
+<p><strong>ถาม: ข้อจำกัดที่รู้ตัวของระบบนี้?</strong><br>ตอบ: (1) ซ่อนพนักงานไม่ได้ปิด login (2) session อยู่ในหน่วยความจำ (3) รายงานสถิติบางส่วนยังเป็นข้อมูลจำลอง (4) QR ไม่มีลายเซ็น/อายุ (5) การค้นหาเป็น client-side</p>
+<h2 id="ตารางสรุปสถานะที่ใช้บ่อย">ตารางสรุปสถานะที่ใช้บ่อย</h2>
+<div class="tblwrap"><table><thead><tr><th>ตาราง</th><th>คอลัมน์</th><th>ค่า</th><th>ความหมาย</th><th>เปลี่ยนที่</th></tr></thead><tbody><tr><td><code>TRIP</code></td><td><code>STATUS</code></td><td>0 → ยกเลิก</td><td>แอดมิน (<code>POST /admin/trips/:id/status</code>)</td></tr><tr><td><code>TRIP</code></td><td><code>STATUS</code></td><td>1 → เปิด</td><td>ตอนสร้างรอบ</td></tr><tr><td><code>TRIP</code></td><td><code>STATUS</code></td><td>1 → 2</td><td><code>POST /driver/trips/:id/start</code></td></tr><tr><td><code>TRIP</code></td><td><code>STATUS</code></td><td>2 → 3</td><td><code>POST /driver/trips/:id/finish</code></td></tr><tr><td><code>BOOKING_DETAIL</code></td><td><code>STATUS_CODE</code></td><td>1</td><td><code>POST /bookings</code> (ตอนจอง)</td></tr><tr><td><code>BOOKING_DETAIL</code></td><td><code>STATUS_CODE</code></td><td>1 → 2</td><td><code>POST /driver/trips/:id/check-in</code></td></tr><tr><td><code>BOOKING_DETAIL</code></td><td><code>STATUS_CODE</code></td><td>1 → 0</td><td><code>POST /bookings/:id/cancel</code></td></tr><tr><td><code>BOOKING_DETAIL</code></td><td><code>STATUS_CODE</code></td><td>2 → 3, 1 → 4</td><td><code>POST /driver/trips/:id/finish</code></td></tr></tbody></table></div>
+<h2 id="คำเตือนก่อนเข้าสอบ">คำเตือนก่อนเข้าสอบ</h2>
+<ol>
+<li>อย่าบอกว่า "ลบข้อมูล" ถ้าเป็น <code>WEB_HIDDEN_RECORD</code> — ให้บอกว่า "ซ่อน ไม่ลบแถว"</li>
+<li>อย่าบอกว่ารหัสผ่านถูกเข้ารหัส — ให้บอกว่า "แฮชด้วย scrypt ไม่สามารถแปลงกลับได้"</li>
+<li>ถ้าถูกถามเรื่องที่ไม่มีในโค้ด ให้ตอบตรง ๆ ว่า "ไม่พบในโปรเจกต์" แล้วอธิบายว่าถ้าจะทำต้องเพิ่มส่วนไหน</li>
+<li>เลขบรรทัดที่อ้างในเอกสารนี้มาจากโค้ดปัจจุบันของโปรเจกต์ ถ้ามีการแก้ไฟล์ภายหลังเลขอาจเปลี่ยน ให้ยึดชื่อ function/route เป็นหลัก</li>
+</ol>
+</body>
+</html>

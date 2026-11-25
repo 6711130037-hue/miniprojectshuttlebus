@@ -1,0 +1,230 @@
+@import "tailwindcss";
+
+/* Shared MUT brand palette: warm amber/orange accents across every portal. */
+@theme {
+  --color-blue-50: #fffbeb;
+  --color-blue-100: #fef3c7;
+  --color-blue-200: #fde68a;
+  --color-blue-300: #fcd34d;
+  --color-blue-400: #fbbf24;
+  --color-blue-500: #f59e0b;
+  --color-blue-600: #d97706;
+  --color-blue-700: #b45309;
+  --color-blue-800: #92400e;
+  --color-blue-900: #78350f;
+  --color-blue-950: #451a03;
+
+  --color-indigo-50: #fff7ed;
+  --color-indigo-100: #ffedd5;
+  --color-indigo-200: #fed7aa;
+  --color-indigo-300: #fdba74;
+  --color-indigo-400: #fb923c;
+  --color-indigo-500: #f97316;
+  --color-indigo-600: #ea580c;
+  --color-indigo-700: #c2410c;
+  --color-indigo-800: #9a3412;
+  --color-indigo-900: #7c2d12;
+  --color-indigo-950: #431407;
+
+  --color-purple-50: #fff7ed;
+  --color-purple-100: #ffedd5;
+  --color-purple-200: #fed7aa;
+  --color-purple-300: #fdba74;
+  --color-purple-400: #fb923c;
+  --color-purple-500: #f97316;
+  --color-purple-600: #ea580c;
+  --color-purple-700: #c2410c;
+  --color-purple-800: #9a3412;
+  --color-purple-900: #7c2d12;
+  --color-purple-950: #431407;
+
+  --color-violet-50: #fff7ed;
+  --color-violet-100: #ffedd5;
+  --color-violet-200: #fed7aa;
+  --color-violet-300: #fdba74;
+  --color-violet-400: #fb923c;
+  --color-violet-500: #f97316;
+  --color-violet-600: #ea580c;
+  --color-violet-700: #c2410c;
+  --color-violet-800: #9a3412;
+  --color-violet-900: #7c2d12;
+  --color-violet-950: #431407;
+
+  --color-fuchsia-50: #fff7ed;
+  --color-fuchsia-100: #ffedd5;
+  --color-fuchsia-200: #fed7aa;
+  --color-fuchsia-300: #fdba74;
+  --color-fuchsia-400: #fb923c;
+  --color-fuchsia-500: #f97316;
+  --color-fuchsia-600: #ea580c;
+  --color-fuchsia-700: #c2410c;
+  --color-fuchsia-800: #9a3412;
+  --color-fuchsia-900: #7c2d12;
+  --color-fuchsia-950: #431407;
+
+  --color-cyan-50: #fffbeb;
+  --color-cyan-100: #fef3c7;
+  --color-cyan-200: #fde68a;
+  --color-cyan-300: #fcd34d;
+  --color-cyan-400: #fbbf24;
+  --color-cyan-500: #f59e0b;
+  --color-cyan-600: #d97706;
+  --color-cyan-700: #b45309;
+  --color-cyan-800: #92400e;
+  --color-cyan-900: #78350f;
+  --color-cyan-950: #451a03;
+
+  --color-teal-50: #fff7ed;
+  --color-teal-100: #ffedd5;
+  --color-teal-200: #fed7aa;
+  --color-teal-300: #fdba74;
+  --color-teal-400: #fb923c;
+  --color-teal-500: #f97316;
+  --color-teal-600: #ea580c;
+  --color-teal-700: #c2410c;
+  --color-teal-800: #9a3412;
+  --color-teal-900: #7c2d12;
+  --color-teal-950: #431407;
+}
+
+@layer base {
+  body {
+    font-family: 'Prompt', 'Plus Jakarta Sans', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+  }
+}
+
+/* Custom scrollbars for clean light UI */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+::-webkit-scrollbar-track {
+  background: #f1f5f9;
+}
+::-webkit-scrollbar-thumb {
+  background: #cbd5e1;
+  border-radius: 4px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #94a3b8;
+}
+
+/* ============================================================
+ * SCANLINE (สำหรับหน้าจอคนขับสแกน QR)
+ * ============================================================ */
+@keyframes scanline {
+  0% {
+    top: 5%;
+    opacity: 0.9;
+  }
+  50% {
+    top: 85%;
+    opacity: 1;
+  }
+  100% {
+    top: 5%;
+    opacity: 0.9;
+  }
+}
+.animate-scanline {
+  animation: scanline 2.4s ease-in-out infinite;
+}
+
+/* ============================================================
+ * FADE IN UP (ใช้กับ LoginScreen hero + card + footer)
+ * ============================================================ */
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(16px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+.animate-fade-in-up {
+  animation: fadeInUp 0.6s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+/* ============================================================
+ * SHAKE (ใช้กับ error banner ตอน login ผิด)
+ * ============================================================ */
+@keyframes shake {
+  0%, 100% {
+    transform: translateX(0);
+  }
+  15% {
+    transform: translateX(-6px);
+  }
+  30% {
+    transform: translateX(6px);
+  }
+  45% {
+    transform: translateX(-4px);
+  }
+  60% {
+    transform: translateX(4px);
+  }
+  75% {
+    transform: translateX(-2px);
+  }
+}
+.animate-shake {
+  animation: shake 0.5s cubic-bezier(0.36, 0.07, 0.19, 0.97) both;
+}
+
+/* ============================================================
+ * BUTTON SHINE (แสงวิ่งผ่านปุ่ม login ตอน hover)
+ * ============================================================ */
+@keyframes shine {
+  0% {
+    transform: translateX(-120%) skewX(-12deg);
+  }
+  100% {
+    transform: translateX(220%) skewX(-12deg);
+  }
+}
+.btn-shine::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 40%;
+  height: 100%;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(255, 255, 255, 0.25),
+    transparent
+  );
+  transform: translateX(-120%) skewX(-12deg);
+  pointer-events: none;
+}
+.btn-shine:hover::before {
+  animation: shine 0.9s ease-out;
+}
+
+/* ============================================================
+ * FLOAT (background blobs เคลื่อนไหวช้า ๆ)
+ * ============================================================ */
+@keyframes float {
+  0%, 100% {
+    transform: translate(0, 0) scale(1);
+  }
+  33% {
+    transform: translate(30px, -20px) scale(1.05);
+  }
+  66% {
+    transform: translate(-20px, 20px) scale(0.95);
+  }
+}
+.animate-float-slow {
+  animation: float 14s ease-in-out infinite;
+}
+.animate-float-slower {
+  animation: float 18s ease-in-out infinite reverse;
+}
+.animate-float-slowest {
+  animation: float 22s ease-in-out infinite;
+}

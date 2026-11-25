@@ -1,0 +1,6 @@
+{
+  "name": "MUT Bus Booking - Figma & Live Prototype",
+  "description": "ระบบจองรถบัส (Miniproject) ออกแบบ Entity & Attributes ครบถ้วน พร้อม Figma Canvas, User Flow Interactive และระบบจองรถบัสใช้งานจริง",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}

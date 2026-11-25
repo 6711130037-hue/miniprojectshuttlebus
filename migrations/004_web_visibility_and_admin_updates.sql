@@ -1,0 +1,14 @@
+-- Store web-only hides separately from business records.
+-- Existing Oracle records remain intact; OWNER_ID='*' is a global admin hide,
+-- while passenger booking hides are scoped to that passenger's USER_ID.
+CREATE TABLE WEB_HIDDEN_RECORD (
+    ENTITY_NAME VARCHAR2(30 CHAR) NOT NULL,
+    RECORD_KEY  VARCHAR2(100 CHAR) NOT NULL,
+    OWNER_ID    VARCHAR2(100 CHAR) NOT NULL,
+    HIDDEN_AT   TIMESTAMP(6) DEFAULT SYSTIMESTAMP NOT NULL,
+    CONSTRAINT PK_WEB_HIDDEN_RECORD PRIMARY KEY (ENTITY_NAME, RECORD_KEY, OWNER_ID)
+);
+
+CREATE INDEX IX_WEB_HIDDEN_OWNER ON WEB_HIDDEN_RECORD (OWNER_ID, ENTITY_NAME);
+
+COMMIT;

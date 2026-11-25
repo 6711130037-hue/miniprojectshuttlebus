@@ -1,0 +1,148 @@
+<!doctype html>
+<html lang="th">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>แนวคำถามสอบปากเปล่า MUT Bus Booking</title>
+<style>
+  @page { size: A4; margin: 15mm 16mm 16mm; }
+  * { box-sizing: border-box; }
+  body { margin: 0; color: #172033; font-family: "Leelawadee UI", "Leelawadee", Tahoma, Arial, sans-serif; font-size: 10.5pt; line-height: 1.45; }
+  .cover { height: 265mm; display:flex; flex-direction:column; justify-content:center; page-break-after:always; padding: 15mm 8mm; }
+  .eyebrow { color:#147d75; font-size:11pt; font-weight:700; letter-spacing:.4px; }
+  h1 { font-size:30pt; line-height:1.2; margin:12px 0; color:#102448; }
+  .subtitle { font-size:15pt; color:#45617d; margin:0 0 24px; }
+  .coverbox { border-left:5px solid #159489; background:#f0f8f7; padding:16px 18px; border-radius:6px; }
+  .coverbox p { margin:5px 0; }
+  .covermeta { margin-top:28px; color:#607087; font-size:10pt; }
+  .topic { page-break-before:always; }
+  .topic:first-of-type { page-break-before:auto; }
+  .topic-head { border-bottom:2px solid #dce7f3; padding-bottom:8px; margin-bottom:12px; }
+  .topic-label { color:#13847a; font-size:9pt; font-weight:700; text-transform:uppercase; }
+  h2 { color:#102448; font-size:17pt; margin:2px 0 4px; }
+  .rubric { color:#63748b; font-size:9pt; }
+  .qa { border:1px solid #dce5ef; border-radius:8px; padding:9px 11px; margin:8px 0; break-inside:avoid; background:#fff; }
+  .q { font-weight:700; color:#173357; margin:0 0 4px; }
+  .q .num { color:#fff; background:#18385e; border-radius:50%; display:inline-flex; width:21px; height:21px; align-items:center; justify-content:center; margin-right:5px; font-size:9pt; }
+  .a { margin:0; padding-left:26px; color:#35465d; }
+  .answer { color:#128078; font-weight:700; }
+  .note { margin-top:11px; background:#fff8e9; border:1px solid #f2d99b; border-radius:7px; padding:8px 10px; font-size:9pt; break-inside:avoid; }
+  .closing { page-break-before:always; }
+  .closing li { margin:6px 0; }
+  .small { color:#63748b; font-size:9pt; }
+  .footer { margin-top:12px; border-top:1px solid #e3e9f0; padding-top:6px; color:#7c8999; font-size:8pt; }
+</style>
+</head>
+<body>
+<section class="cover">
+  <div class="eyebrow">MUT BUS BOOKING · ORAL DEFENSE PREPARATION</div>
+  <h1>แนวคำถามสอบปากเปล่า<br>พร้อมแนวคำตอบ</h1>
+  <p class="subtitle">40 ข้อ · 10 หัวข้อ · ระบบจองรถโดยสาร MUT</p>
+  <div class="coverbox">
+    <p><strong>ใช้ฝึกอย่างไร</strong></p>
+    <p>ลองตอบคำถามด้วยภาษาของตนเองก่อน แล้วเทียบกับแนวคำตอบและสาธิตหน้าจอหรือ API ประกอบ</p>
+    <p>คำตอบเน้นอธิบายเหตุผล การทำงานจริง และข้อจำกัด ไม่ใช่ท่องจำศัพท์</p>
+  </div>
+  <div class="covermeta">
+    <p><strong>แบ่งตามหัวข้อในตารางประเมิน</strong></p>
+    <p>ระบบจองและคนขับ 7 หัวข้อ · Login/Logout, Dynamic RBAC และพนักงาน 3 หัวข้อ</p>
+    <p>จัดทำจากโครงงาน MUT Bus Booking และสถานะระบบที่ตรวจสอบ ณ วันที่ 3 ตุลาคม 2026</p>
+  </div>
+</section>
+
+<section class="topic">
+  <div class="topic-head"><div class="topic-label">หัวข้อ 1 · ระบบการจอง</div><h2>ตรวจสอบเงื่อนไขการจอง</h2><div class="rubric">การจองและตรวจสอบเงื่อนไขต่าง ๆ ในการจอง</div></div>
+  <article class="qa"><p class="q"><span class="num">1</span>ก่อนบันทึกการจอง ระบบตรวจสอบอะไรบ้าง?</p><p class="a"><span class="answer">แนวตอบ:</span> ตรวจว่ารอบยังเปิดจอง จุดขึ้นและจุดลงอยู่ในเส้นทางเดียวกันและจุดขึ้นมาก่อนจุดลง ตรวจเวลาถึงจุดขึ้นต้องเหลืออย่างน้อย 20 นาที จำนวนที่นั่งไม่เกิน 4 และความจุรถยังพอ</p></article>
+  <article class="qa"><p class="q"><span class="num">2</span>ทำไมต้องตรวจเวลาถึง “จุดขึ้น” ไม่ใช่ดูแค่เวลาออกรถ?</p><p class="a"><span class="answer">แนวตอบ:</span> ผู้โดยสารอาจขึ้นกลางเส้นทาง เวลาถึงจุดขึ้นจึงเท่ากับเวลาออกบวกเวลาสะสมจากจุดก่อนหน้า ระบบใช้เวลานี้ตรวจ cutoff 20 นาทีอย่างเหมาะสมกับผู้โดยสารแต่ละจุด</p></article>
+  <article class="qa"><p class="q"><span class="num">3</span>ป้องกันผู้โดยสารหลายคนจองจนเกินความจุพร้อมกันอย่างไร?</p><p class="a"><span class="answer">แนวตอบ:</span> API เปิด transaction และล็อกแถวรอบรถก่อนคำนวณยอดที่นั่งที่ยังไม่ยกเลิก แล้วตรวจยอดเดิมบวกจำนวนที่ขอเทียบกับความจุ จึงลด race condition จากการจองพร้อมกัน</p></article>
+  <article class="qa"><p class="q"><span class="num">4</span>ตอนนี้จองล่วงหน้าได้กี่วัน และถ้าเรียก API ข้ามหน้าจอจะเกิดอะไร?</p><p class="a"><span class="answer">แนวตอบ:</span> จองได้เฉพาะวันนี้หรือพรุ่งนี้ UI จำกัดวันที่และ API ตรวจซ้ำจากวันที่ให้บริการแบบเวลาไทย (Asia/Bangkok) คำขอวันที่อื่นถูกปฏิเสธ แม้พยายามข้าม UI</p></article>
+</section>
+
+<section class="topic">
+  <div class="topic-head"><div class="topic-label">หัวข้อ 2 · ระบบการจอง</div><h2>ออก QR Code และดูรอบที่จะเดินทาง</h2><div class="rubric">สร้าง QR หลังจองสำเร็จและใช้งานกับรอบรถ</div></div>
+  <article class="qa"><p class="q"><span class="num">5</span>เมื่อจองสำเร็จ QR Code บรรจุข้อมูลอะไร?</p><p class="a"><span class="answer">แนวตอบ:</span> ใน API mode QR บรรจุ booking code ที่ API ออกให้ ไม่ใช่ข้อมูลส่วนตัวทั้งหมด คนขับส่งค่านี้กลับไปตรวจรายการจองกับรอบรถในฐานข้อมูล</p></article>
+  <article class="qa"><p class="q"><span class="num">6</span>ถ้ามีหลายเที่ยวหรือจองหลายที่นั่ง จัดการ QR อย่างไร?</p><p class="a"><span class="answer">แนวตอบ:</span> แต่ละ booking/รายละเอียดเที่ยวมีตัวระบุที่ผูกกับ booking code และ trip จึงตรวจได้ว่า QR ใช้กับเที่ยวใด จำนวนที่นั่งเป็น seat_count ของรายการ ไม่ได้สร้างชื่อหรือ QR แยกให้ทุกที่นั่ง</p></article>
+  <article class="qa"><p class="q"><span class="num">7</span>ทำไม QR จึงไม่ควรเปิดเผยชื่อ เบอร์โทร หรือรายละเอียดผู้โดยสารไว้ตรง ๆ?</p><p class="a"><span class="answer">แนวตอบ:</span> ลดการเปิดเผยข้อมูลส่วนบุคคล QR ควรมีเพียงรหัสอ้างอิงที่คาดเดายาก แล้วให้ server ตรวจสิทธิ์และสถานะจากฐานข้อมูล</p></article>
+  <article class="qa"><p class="q"><span class="num">8</span>จะแสดง QR ของเที่ยวในอนาคตและจัดการ QR ที่ใช้แล้วอย่างไร?</p><p class="a"><span class="answer">แนวตอบ:</span> ผู้โดยสารเปิด boarding pass จากรายการจองที่ยังใช้ได้ รายการที่จะถึงคำนวณจากเวลาที่รถถึงจุดขึ้น ส่วน QR ที่เช็กอิน ยกเลิก หรือเที่ยวเสร็จแล้วแสดงสถานะและไม่ควรใช้เช็กอินซ้ำ</p></article>
+</section>
+
+<section class="topic">
+  <div class="topic-head"><div class="topic-label">หัวข้อ 3 · ระบบการจอง</div><h2>ยกเลิกและคืนที่นั่ง</h2><div class="rubric">ยกเลิกตามเงื่อนไขและคืนจำนวนที่นั่งให้รอบรถ</div></div>
+  <article class="qa"><p class="q"><span class="num">9</span>ยกเลิกการจองได้เมื่อใด?</p><p class="a"><span class="answer">แนวตอบ:</span> API อนุญาตให้ยกเลิกเฉพาะ booking ที่ยังยืนยันและรอบรถยังเปิด (สถานะ 1) ถ้ารอบเริ่มแล้วหรือรายการไม่อยู่สถานะที่ยกเลิกได้ ระบบตอบข้อผิดพลาด</p></article>
+  <article class="qa"><p class="q"><span class="num">10</span>ระบบ “คืนที่นั่ง” อย่างไรเมื่อยกเลิก?</p><p class="a"><span class="answer">แนวตอบ:</span> ไม่ลบ booking แต่เปลี่ยน STATUS_CODE เป็น 0 การคำนวณผู้โดยสาร/ความจุไม่นับรายการสถานะ 0 จึงนำที่นั่งกลับมาเปิดจอง</p></article>
+  <article class="qa"><p class="q"><span class="num">11</span>ทำไมเก็บรายการยกเลิกไว้ แทนการ DELETE?</p><p class="a"><span class="answer">แนวตอบ:</span> เพื่อรักษาประวัติการทำรายการ ตรวจสอบย้อนหลังและรองรับ audit ขณะเดียวกันสถานะยกเลิกแยกจากรายการที่ยังใช้งาน</p></article>
+  <article class="qa"><p class="q"><span class="num">12</span>ถ้าผู้โดยสารกดยกเลิกสองครั้งหรือมีการยกเลิกพร้อมกัน ระบบควรทำอย่างไร?</p><p class="a"><span class="answer">แนวตอบ:</span> endpoint เปลี่ยนเฉพาะรายการสถานะยืนยันและล็อกแถวที่เกี่ยวข้อง การเรียกซ้ำจึงไม่ควรคืนที่นั่งซ้ำหรือทำให้จำนวนว่างเกินจริง และควรแจ้งสถานะล่าสุดให้ผู้ใช้ทราบ</p></article>
+</section>
+
+<section class="topic">
+  <div class="topic-head"><div class="topic-label">หัวข้อ 4 · ระบบคนขับ</div><h2>ตารางงานรายวัน</h2><div class="rubric">แสดงเที่ยวที่ได้รับมอบหมายในแต่ละวัน</div></div>
+  <article class="qa"><p class="q"><span class="num">13</span>คนขับเห็นรอบรถใดบ้าง?</p><p class="a"><span class="answer">แนวตอบ:</span> เห็นรอบที่ DRIVER_ID ตรงกับบัญชีคนขับและตรงกับวันที่เลือก หน้าจอมีตัวเลือกดูวันนี้หรือพรุ่งนี้ และแสดงจำนวนรอบกับรายละเอียดเวลา เส้นทาง และรถ</p></article>
+  <article class="qa"><p class="q"><span class="num">14</span>การดูตารางพรุ่งนี้เปลี่ยนเที่ยวที่กำลังสแกนของวันนี้หรือไม่?</p><p class="a"><span class="answer">แนวตอบ:</span> ไม่เปลี่ยน ตารางพรุ่งนี้เป็นโหมดดูอย่างเดียว ส่วนเที่ยวปฏิบัติงานและการสแกนยังยึดเที่ยวของวันนี้ เพื่อป้องกันเริ่มงานหรือเช็กอินผิดวัน</p></article>
+  <article class="qa"><p class="q"><span class="num">15</span>ถ้าคนขับไม่เห็นรอบที่คิดว่าได้รับมอบหมาย จะตรวจอะไร?</p><p class="a"><span class="answer">แนวตอบ:</span> ตรวจวันให้บริการ รหัสพนักงานใน DRIVER_ID สถานะการมอบหมาย และบัญชีที่ล็อกอิน จากนั้นตรวจ API /driver/trips ซึ่งคืนเฉพาะเที่ยวของคนขับที่ยืนยันตัวตน</p></article>
+  <article class="qa"><p class="q"><span class="num">16</span>เหตุใดการแสดงวันที่ในงานขนส่งควรระวัง timezone?</p><p class="a"><span class="answer">แนวตอบ:</span> timestamp ของเที่ยวอาจถูกแปลงเป็นอีกวันหากตีความเป็น UTC แต่ตารางเดินรถเป็นเวลาท้องถิ่น จึงต้องใช้เขตเวลาให้สอดคล้องและสร้าง date key จากวันปฏิทินที่ต้องการ</p></article>
+</section>
+
+<section class="topic">
+  <div class="topic-head"><div class="topic-label">หัวข้อ 5 · ระบบคนขับ</div><h2>เริ่มเที่ยวและข้อมูลผู้โดยสารตามจุดจอด</h2><div class="rubric">เริ่มงานและดูข้อมูลผู้โดยสารขึ้น–ลงตามจุด</div></div>
+  <article class="qa"><p class="q"><span class="num">17</span>เมื่อคนขับกด “เริ่มออกรถ” ระบบเปลี่ยนอะไร?</p><p class="a"><span class="answer">แนวตอบ:</span> API ตรวจว่าคนขับได้รับมอบหมายและรอบยังเปิด จากนั้นเปลี่ยนสถานะเที่ยวเป็นกำลังเดินทางและบันทึกเวลาเริ่มจริง การทำรายการต้องผ่านสิทธิ์แก้ไขของหน้าจอคนขับ</p></article>
+  <article class="qa"><p class="q"><span class="num">18</span>ระบบรู้ได้อย่างไรว่าผู้โดยสารควรขึ้นหรือลงที่จุดใด?</p><p class="a"><span class="answer">แนวตอบ:</span> รายละเอียดการจองเก็บ pickup_route_stop_id และ dropoff_route_stop_id ซึ่งอ้างถึงจุดจอดตามลำดับในเส้นทาง จึงจัดกลุ่มรายการขึ้น/ลงแยกแต่ละจุดได้</p></article>
+  <article class="qa"><p class="q"><span class="num">19</span>ทำไมใช้ route_stop_id แทน stop_id อย่างเดียว?</p><p class="a"><span class="answer">แนวตอบ:</span> เส้นทางเดียวอาจผ่านสถานที่เดิมมากกว่าหนึ่งครั้ง เช่น ออกและกลับมหาวิทยาลัย route_stop_id ระบุครั้งและลำดับที่แน่นอน ส่วน stop_id ระบุเพียงสถานที่ทางกายภาพ</p></article>
+  <article class="qa"><p class="q"><span class="num">20</span>ถ้าจอง 3 ที่นั่ง ระบบรู้ชื่อผู้โดยสารทั้ง 3 คนหรือไม่?</p><p class="a"><span class="answer">แนวตอบ:</span> ไม่รู้จากข้อมูลปัจจุบัน เพราะเก็บหนึ่ง booking กับ seat_count 3 ไม่ได้เก็บตัวตนรายที่นั่ง ระบบจึงแสดงชื่อเจ้าของรายการและจำนวน 3 ที่นั่ง ไม่แต่งชื่อผู้โดยสารเพิ่ม</p></article>
+</section>
+
+<section class="topic">
+  <div class="topic-head"><div class="topic-label">หัวข้อ 6 · ระบบคนขับ</div><h2>สแกน QR และเช็กอิน</h2><div class="rubric">สแกน QR Code ของผู้โดยสาร</div></div>
+  <article class="qa"><p class="q"><span class="num">21</span>อธิบายขั้นตอนเช็กอินด้วย QR ตั้งแต่ต้นจนจบ</p><p class="a"><span class="answer">แนวตอบ:</span> คนขับเลือกรอบที่กำลังวิ่ง เปิดกล้องหรือป้อน booking code ระบบส่งค่าไป API ตรวจว่ารหัสตรงกับ booking ในเที่ยวนี้และยังยืนยัน ก่อนบันทึกสถานะเช็กอินพร้อมเวลาและผู้ตรวจ</p></article>
+  <article class="qa"><p class="q"><span class="num">22</span>ถ้านำ QR ของอีกเที่ยวมาสแกนจะเกิดอะไร?</p><p class="a"><span class="answer">แนวตอบ:</span> API ค้น booking code พร้อม trip_id และสถานะยืนยัน ถ้าไม่ตรงเที่ยวหรือไม่ถูกต้องจะปฏิเสธ จึงไม่ยอมรับเพียงเพราะ QR มีรูปแบบถูกต้อง</p></article>
+  <article class="qa"><p class="q"><span class="num">23</span>ระบบป้องกันการสแกน QR เดิมซ้ำอย่างไร?</p><p class="a"><span class="answer">แนวตอบ:</span> การเช็กอินเปลี่ยนสถานะจากยืนยันเป็นเช็กอินแล้ว คำขอถัดไปค้นเฉพาะสถานะยืนยัน จึงไม่พบรายการและตอบปฏิเสธการเช็กอินซ้ำ</p></article>
+  <article class="qa"><p class="q"><span class="num">24</span>ถ้ากล้องใช้ไม่ได้ คนขับยังเช็กอินได้หรือไม่?</p><p class="a"><span class="answer">แนวตอบ:</span> ได้ โดยป้อน booking code ด้วยตนเอง กล้องต้องใช้ secure context เช่น localhost/HTTPS และได้รับอนุญาตจาก browser ส่วน API ยังตรวจรหัสและเที่ยวเหมือนเดิม</p></article>
+</section>
+
+<section class="topic">
+  <div class="topic-head"><div class="topic-label">หัวข้อ 7 · ระบบคนขับ</div><h2>จบเที่ยวและสรุปยอด</h2><div class="rubric">จบงานและสรุปผู้โดยสารที่มาใช้บริการจริง</div></div>
+  <article class="qa"><p class="q"><span class="num">25</span>เมื่อกดปิดรอบ ระบบสรุปสถานะอย่างไร?</p><p class="a"><span class="answer">แนวตอบ:</span> เมื่อเที่ยวกำลังเดินทาง ระบบเปลี่ยนรายการที่เช็กอินแล้วเป็นเสร็จสิ้น และรายการยืนยันที่ยังไม่เช็กอินเป็น no-show จากนั้นเปลี่ยนสถานะเที่ยวเป็นเสร็จสิ้น</p></article>
+  <article class="qa"><p class="q"><span class="num">26</span>“จำนวนผู้โดยสารจริง” ในรายงานปัจจุบันคำนวณจากอะไร?</p><p class="a"><span class="answer">แนวตอบ:</span> คำนวณจากผลรวม seat_count ของ booking ที่เช็กอินแล้ว ไม่ใช่การนับ booking อย่างเดียว เพราะหนึ่ง booking อาจจองหลายที่นั่ง</p></article>
+  <article class="qa"><p class="q"><span class="num">27</span>ข้อจำกัดของคำว่า “มาใช้บริการจริง” ในระบบตอนนี้คืออะไร?</p><p class="a"><span class="answer">แนวตอบ:</span> ระบบยืนยันการขึ้นรถจาก check-in แต่ยังไม่มี event ยืนยันว่าลงรถจริงรายบุคคลหรือรายจุด สรุปจึงเป็นจำนวนที่เช็กอิน ไม่ใช่การติดตามขึ้น–ลงทางกายภาพครบทุกช่วง</p></article>
+  <article class="qa"><p class="q"><span class="num">28</span>ทำไมต้องแยกผู้เช็กอินกับ no-show ก่อนสรุปเที่ยว?</p><p class="a"><span class="answer">แนวตอบ:</span> เพื่อให้แยกผู้ที่ขึ้นรถตามการยืนยันออกจากผู้ที่จองแต่ไม่มา ช่วยสรุปจำนวนผู้ใช้บริการและรักษาสถานะ booking ให้ตรวจสอบย้อนหลังได้</p></article>
+</section>
+
+<section class="topic">
+  <div class="topic-head"><div class="topic-label">หัวข้อ 8 · ตารางเหลือง</div><h2>เข้าสู่ระบบและออกจากระบบตามสิทธิ์</h2><div class="rubric">Authentication, session และบทบาทผู้ใช้งาน</div></div>
+  <article class="qa"><p class="q"><span class="num">29</span>ระบบแยกผู้โดยสาร คนขับ และผู้ดูแลระบบอย่างไร?</p><p class="a"><span class="answer">แนวตอบ:</span> แยก endpoint login ตามบทบาทและตรวจบัญชี/รหัสผ่านใน Oracle ผู้โดยสารใช้ฟังก์ชันจอง คนขับใช้ฟังก์ชันปฏิบัติงาน และ admin จัดการข้อมูลตาม permission</p></article>
+  <article class="qa"><p class="q"><span class="num">30</span>ระบบเก็บรหัสผ่านอย่างไร และเพราะอะไร?</p><p class="a"><span class="answer">แนวตอบ:</span> เก็บ password hash ด้วย scrypt และ salt ไม่เก็บรหัสผ่าน plain text ตอน login นำค่าที่รับมา verify กับ hash แทนการเทียบข้อความที่เก็บตรง ๆ</p></article>
+  <article class="qa"><p class="q"><span class="num">31</span>หลังล็อกอิน token ถูกใช้อย่างไร และ logout ทำอะไร?</p><p class="a"><span class="answer">แนวตอบ:</span> API คืน bearer token เว็บเก็บใน sessionStorage และแนบ Authorization header กับคำขอที่ต้องยืนยันตัวตน logout เรียก API เพื่อลบ session และล้าง token ฝั่งเว็บ</p></article>
+  <article class="qa"><p class="q"><span class="num">32</span>หน้าเว็บซ่อนปุ่มแล้วเพียงพอสำหรับความปลอดภัยหรือไม่?</p><p class="a"><span class="answer">แนวตอบ:</span> ไม่พอ เพราะผู้ใช้เรียก API เองได้ Server จึงต้องตรวจ token บทบาท และสิทธิ์จากฐานข้อมูลอีกครั้งทุก endpoint ที่สำคัญ</p></article>
+</section>
+
+<section class="topic">
+  <div class="topic-head"><div class="topic-label">หัวข้อ 9 · ตารางเหลือง</div><h2>Dynamic RBAC: เพิ่ม ลบ แก้ไข และค้นหาสิทธิ์</h2><div class="rubric">กำหนดสิทธิ์ตามตำแหน่งและหน้าจอ</div></div>
+  <article class="qa"><p class="q"><span class="num">33</span>RBAC ในระบบนี้ผูกความสัมพันธ์กันอย่างไร?</p><p class="a"><span class="answer">แนวตอบ:</span> พนักงานมีตำแหน่ง ตำแหน่งเชื่อมกับหน้าจอผ่าน ROLE_PERMISSION แต่ละคู่กำหนด CAN_VIEW และ CAN_EDIT จึงจัดการสิทธิ์ตาม role แทนการกำหนดผู้ใช้ทีละคน</p></article>
+  <article class="qa"><p class="q"><span class="num">34</span>ความต่างระหว่าง CAN_VIEW กับ CAN_EDIT คืออะไร?</p><p class="a"><span class="answer">แนวตอบ:</span> CAN_VIEW อนุญาตให้เข้าดู ส่วน CAN_EDIT อนุญาตให้เปลี่ยนข้อมูล การแก้ไขควรต้องมีสิทธิ์ดูด้วย และ API ตรวจ CAN_EDIT ก่อนเขียนข้อมูล</p></article>
+  <article class="qa"><p class="q"><span class="num">35</span>ถ้าเพิ่มสิทธิ์คู่ตำแหน่ง–หน้าจอที่มีอยู่แล้ว ระบบจัดการอย่างไร?</p><p class="a"><span class="answer">แนวตอบ:</span> ใช้ upsert/MERGE ถ้ามีคู่เดิมจะอัปเดต ถ้าไม่มีจึง insert ช่วยไม่ให้เกิด permission ซ้ำสำหรับคู่เดียวกัน</p></article>
+  <article class="qa"><p class="q"><span class="num">36</span>การกดลบสิทธิ์ลบแถว ROLE_PERMISSION จริงหรือไม่ และค้นหาได้อย่างไร?</p><p class="a"><span class="answer">แนวตอบ:</span> ใน UI ปัจจุบันเป็นการซ่อนด้วย WEB_HIDDEN_RECORD ไม่ได้ DELETE แถวจริง การค้นหากรองชื่อ role ชื่อหน้าจอ หรือ screen code และ API ไม่นับ permission ที่ถูกซ่อน</p></article>
+</section>
+
+<section class="topic">
+  <div class="topic-head"><div class="topic-label">หัวข้อ 10 · ตารางเหลือง</div><h2>จัดการพนักงาน: เพิ่ม ลบ แก้ไข และค้นหา</h2><div class="rubric">Employee CRUD และข้อควรระวังเรื่องการลบ</div></div>
+  <article class="qa"><p class="q"><span class="num">37</span>เมื่อเพิ่มพนักงาน ระบบตรวจและบันทึกอะไร?</p><p class="a"><span class="answer">แนวตอบ:</span> ตรวจชื่อ username รหัสผ่านอย่างน้อย 8 ตัวอักษร รูปแบบอีเมล รวมถึงแผนกและตำแหน่ง จากนั้นสร้าง employee ID และ hash รหัสผ่านก่อน INSERT ลง Oracle</p></article>
+  <article class="qa"><p class="q"><span class="num">38</span>แก้ไขข้อมูลพนักงานโดยไม่เปลี่ยนรหัสผ่านได้ไหม?</p><p class="a"><span class="answer">แนวตอบ:</span> ได้ ถ้าไม่กรอกรหัสผ่านใหม่ ระบบคง hash เดิมไว้ ถ้ากรอกรหัสใหม่จะตรวจความยาวและสร้าง hash ใหม่ก่อนบันทึก</p></article>
+  <article class="qa"><p class="q"><span class="num">39</span>ปุ่มลบพนักงานลบข้อมูลถาวรหรือไม่?</p><p class="a"><span class="answer">แนวตอบ:</span> ปัจจุบันเป็นการซ่อนรายการจากหน้า admin ด้วย marker ไม่ได้ลบแถว EMPLOYEE และไม่ได้ปิด IS_ACTIVE อัตโนมัติ จึงต้องอธิบายตามจริงและถือเป็นจุดที่ควรปรับถ้าต้องการปิดบัญชี</p></article>
+  <article class="qa"><p class="q"><span class="num">40</span>ค้นหาพนักงานได้จากอะไร และจะสาธิตอย่างไร?</p><p class="a"><span class="answer">แนวตอบ:</span> ค้นจากรหัส ชื่อ username เบอร์โทร อีเมล ตำแหน่ง หรือฝ่ายได้ สาธิตโดยพิมพ์คำบางส่วน ตรวจผลลัพธ์ แล้วแก้ข้อมูลพนักงานและโหลดรายการใหม่ยืนยันการบันทึก</p></article>
+  <div class="note"><strong>จุดที่ควรตอบอย่างตรงไปตรงมา:</strong> “ลบ” พนักงาน/สิทธิ์ในบางหน้าคือซ่อนจากหน้าเว็บ ไม่ใช่ลบแถวจริง; จำนวนผู้โดยสารจริงอิงการเช็กอินและ seat_count; ข้อมูลชื่อหรือรถที่ติดคำว่า TEST/DEMO เป็นข้อมูลสาธิต ไม่ใช่ข้อมูลจริง</div>
+</section>
+
+<section class="closing">
+  <div class="topic-head"><div class="topic-label">ทบทวนก่อนสอบ</div><h2>โครงสร้างคำตอบที่ดี</h2></div>
+  <ol>
+    <li><strong>บอกสิ่งที่ผู้ใช้ทำ:</strong> เช่น เลือกเที่ยวและจุดขึ้น–ลง</li>
+    <li><strong>อธิบาย validation:</strong> เช่น cutoff 20 นาที ความจุ และลำดับจุดจอด</li>
+    <li><strong>บอกจุดที่ตรวจจริง:</strong> UI ช่วยใช้งาน แต่ API ตรวจซ้ำก่อนเขียน Oracle</li>
+    <li><strong>สาธิตผลลัพธ์:</strong> แสดงสถานะ รายการในฐานข้อมูล หรือ API response</li>
+    <li><strong>บอกข้อจำกัดโดยไม่กล่าวเกินจริง:</strong> เช่น การซ่อนข้อมูลไม่ได้แปลว่าลบถาวรหรือปิดบัญชี</li>
+  </ol>
+  <div class="note"><strong>ตัวอย่างประโยคปิด:</strong> “ระบบตรวจเงื่อนไขทั้งหน้าเว็บและ API โดย API เป็นจุดบังคับใช้จริงก่อนบันทึกฐานข้อมูล ส่วนจุดที่ยังไม่รองรับ เช่น การยืนยันการลงรถจริง จะแยกเป็นงานพัฒนาต่อไปครับ/ค่ะ”</div>
+  <p class="small">เอกสารนี้เป็นแนวฝึกซ้อม ไม่ใช่ข้อสอบจริงหรือการรับรองคะแนน ควรทดลองสาธิตกับฐานข้อมูลและบัญชีที่ใช้ส่งงานจริงก่อนวันสอบ</p>
+  <div class="footer">MUT Bus Booking · เอกสารเตรียมสอบปากเปล่า · 40 คำถาม / 10 หัวข้อ</div>
+</section>
+</body>
+</html>
